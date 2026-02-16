@@ -11,10 +11,7 @@
   <p><strong>Lead Author:</strong> Aaryan Samanta • Legend College Preparatory, Cupertino, CA</p>
 
 <p><strong>Authors:</strong><br>
-  Aaryan Samanta<sup>1,*</sup>, Mansi Mandal<sup>2</sup>, Mohammed Yasar Meeran<sup>3</sup><br>
-  <sup>1</sup>Legend College Preparatory School<br>
-  <sup>2</sup>Mountain House High School<br>
-  <sup>3</sup>Lebanon Trail High School
+  Aaryan Samanta, Mansi Mandal, Mohammed Yasar Meeran
   </p>
 
   <p>
