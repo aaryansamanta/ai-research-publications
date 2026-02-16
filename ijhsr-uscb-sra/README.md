@@ -10,6 +10,13 @@
 
   <p><strong>Lead Author:</strong> Aaryan Samanta • Legend College Preparatory, Cupertino, CA</p>
 
+<p><strong>Authors:</strong><br>
+  Aaryan Samanta<sup>1,*</sup>, Mansi Mandal<sup>2</sup>, Mohammed Yasar Meeran<sup>3</sup><br>
+  <sup>1</sup>Legend College Preparatory School, Cupertino, CA • aaryan.samanta@gmail.com<br>
+  <sup>2</sup>Mountain House High School • mansimandal999@gmail.com<br>
+  <sup>3</sup>Lebanon Trail High School • yasar.meeran@gmail.com
+  </p>
+
   <p>
     <a href="https://github.com/aaryansamanta/ai-publications/blob/main/ijhsr-uscb-sra/paper/paper.pdf"> <!-- Replace with actual IJHSR / journal link if available -->
       <strong>📄 Full Paper (IJHSR)</strong>
