@@ -11,12 +11,16 @@
   <p><strong>Lead Author:</strong> Aaryan Samanta • Legend College Preparatory, Cupertino, CA</p>
 
   <p>
-    <a href="https://example.com/ijhsr-paper-link"> <!-- Replace with actual IJHSR / journal link if available -->
+    <a href="https://github.com/aaryansamanta/ai-publications/blob/main/ijhsr-uscb-sra/paper/paper.pdf"> <!-- Replace with actual IJHSR / journal link if available -->
       <strong>📄 Full Paper (IJHSR)</strong>
     </a>
      • 
-    <a href="https://github.com/aaryansamanta/ai-publications/blob/main/ijhsr-uscb-sra/docs/acceptance_or_certificate.pdf"> <!-- Add if you have one -->
+    <a href="https://github.com/aaryansamanta/ai-publications/blob/main/ijhsr-uscb-sra/docs/ucsb_sra_2025_acceptance.png"> <!-- Add if you have one -->
       <strong>UCSB SRA Certificate</strong>
+    </a>
+     • 
+    <a href="https://github.com/aaryansamanta/ai-publications/blob/main/ijhsr-uscb-sra/docs/ijhsr_acceptance_email.png"> <!-- Add if you have one -->
+      <strong>IJHSR Acceptance Email</strong>
     </a>
   </p>
 
@@ -43,11 +47,10 @@
 
 ### 📁 Repository Contents
 
-- `paper/` → Final IJHSR PDF + LaTeX source (or manuscript draft)
+- `paper/`→ Final IJHSR PDF + LaTeX source (or manuscript draft)
 - `code/` → Python bioinformatics pipeline (variant analysis, gene annotation, statistical tests)
 - `data/` → Processed *C. elegans* genomic/variant data (anonymized subsets; raw from public repositories or simulated)
-- `figures/` → Plots: Manhattan plots, pathway diagrams, gene expression heatmaps
-- `docs/` → UCSB SRA acceptance / certificate + any supplementary materials
+- `docs/` → IJHSR Acceptance + UCSB SRA Acceptance / Certificate 
 
 ### 📖 Citation
 
