@@ -14,11 +14,11 @@
       <strong>📄 IEEE Xplore Paper</strong>
     </a>
      • 
-    <a href="https://github.com/aaryansamanta/ai-publications/blob/main/ieee-aiam-2025-ga-gnn/paper/acceptance_certificate.pdf">
+    <a href="https://github.com/aaryansamanta/ai-publications/blob/main/ieee-aiam-2025-ga-gnn/docs/acceptance_certificate.pdf">
       <strong>Acceptance Certificate</strong>
     </a>
      • 
-    <a href="https://github.com/aaryansamanta/ai-publications/blob/main/ieee-aiam-2025-ga-gnn/paper/ieee_copyright.pdf">
+    <a href="https://github.com/aaryansamanta/ai-publications/blob/main/ieee-aiam-2025-ga-gnn/docs/ieee_copyright.pdf">
       <strong>IEEE Copyright</strong>
     </a>
 
@@ -58,6 +58,7 @@ Modest but consistent gains over strong baselines on synthetic multimodal biomed
 - `paper/` → Final IEEE PDF + LaTeX source  
 - `code/` → Full PyTorch implementation (QIHGA + GNN + fusion)  
 - `docs/` → Acceptance certificate + Copyright transfer
+- `data/` → Synthetic dataset
 
 ### 📖 Citation
 
@@ -69,4 +70,5 @@ Modest but consistent gains over strong baselines on synthetic multimodal biomed
   year      = {2025},
   publisher = {IEEE}
 }
+
 
