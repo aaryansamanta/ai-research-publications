@@ -64,7 +64,7 @@
 ```bibtex
 @article{samanta2025ijhsr,
   title     = {Natural Genetic Variation in Mitochondrial Health-Regulating Genes: Resilience in C. elegans Strains CX11314 and EG4725},
-  author    = {Samanta, Aaryan},
+  author    = {Samanta, Aaryan and Mandal, Mansi and Meeran, Mohammed Yasar},
   journal   = {International Journal of High School Research (IJHSR)},
   year      = {2025},
   note      = {Capstone from UCSB Summer Research Academy}
