@@ -6,7 +6,7 @@
   <img src="https://img.shields.io/badge/USACO_Dual_Perfect-2025-FF6B00?style=for-the-badge" alt="USACO">
   <img src="https://img.shields.io/badge/AMC_10/12_National_Perfect-2×_AIME-6366F1?style=for-the-badge" alt="Math">
 
-  <h1>Aaryan Samanta's Peer-Reviewed Publications</h1>
+  <h1>Aaryan Samanta's AI Research & Peer-Reviewed Publications</h1>
 
   <p><strong>10th Grader • Legend College Preparatory, Cupertino, CA</strong><br>
   Lead author of two publications as a high-school student: one in IEEE conference proceedings, one in IJHSR (comp bio).<br>
