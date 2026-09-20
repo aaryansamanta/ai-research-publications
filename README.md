@@ -20,7 +20,7 @@
 <h1>🔬 AI Research & Peer-Reviewed Publications</h1>
 
 <p>
-<strong>Aaryan Samanta</strong> — 10th Grader, Legend College Preparatory, Cupertino, CA<br>
+<strong>Aaryan Samanta</strong> — 11th Grader, Legend College Preparatory, Cupertino, CA<br>
 Lead author of two peer-reviewed publications (IEEE · IJHSR) as a high-school sophomore, plus three
 active research programs spanning <strong>quantum-inspired ML, computational biology, biomedical
 imaging, science-education research, and reinforcement learning for wildfire response.</strong>
