@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use this repository, please cite the associated article."
+title: "Natural Genetic Variation in Mitochondrial Health-Regulating Genes in the C. elegans Strains CX11314 and EG4725 Leads to Increased Mitochondrial Resilience"
+type: article
+authors:
+  - family-names: Samanta
+    given-names: Aaryan
+  - family-names: Mandal
+    given-names: Mansi
+  - family-names: Meeran
+    given-names: Mohammed Yasar
+journal: "International Journal of High School Research"
+year: 2026
+doi: "10.36838/IJHSR816.1"
+keywords:
+  - C. elegans
+  - mitochondrial dysfunction
+  - mitophagy
+  - mitochondrial morphology
+  - mitochondrial resilience
+license: MIT
