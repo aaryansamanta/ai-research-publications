@@ -1,0 +1,30 @@
+{
+  "layer_names": [
+    "elevation",
+    "slope",
+    "building_density",
+    "building_height",
+    "road_mask",
+    "fuel_density",
+    "water_mask",
+    "population_density"
+  ],
+  "cell_size_m": 30.0,
+  "width": 595,
+  "height": 316,
+  "crs": "EPSG:5070",
+  "transform": [
+    30.0,
+    0.0,
+    -2052459.0846437614,
+    0.0,
+    -30.0,
+    1473079.609574836
+  ],
+  "bounds": [
+    -2052459.0846437614,
+    1463599.609574836,
+    -2034609.0846437614,
+    1473079.609574836
+  ]
+}
