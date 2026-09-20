@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="340" viewBox="0 0 1200 340" role="img" aria-labelledby="t d">
+  <title id="t">Functional Imaging of Pelvic Floor Muscles</title>
+  <desc id="d">Banner with an ultrasound fan and an animated waveform</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%"  stop-color="#0f172a"/>
+      <stop offset="38%" stop-color="#312e81"/>
+      <stop offset="72%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#ec4899"/>
+    </linearGradient>
+    <linearGradient id="wave" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%"  stop-color="#22d3ee"/>
+      <stop offset="50%" stop-color="#a3e635"/>
+      <stop offset="100%" stop-color="#fbbf24"/>
+    </linearGradient>
+    <linearGradient id="fan" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"  stop-color="#ffffff" stop-opacity="0.32"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.04"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#22d3ee" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#22d3ee" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="round"><rect width="1200" height="340" rx="22"/></clipPath>
+  </defs>
+
+  <g clip-path="url(#round)">
+    <rect width="1200" height="340" fill="url(#bg)"/>
+    <circle cx="1010" cy="120" r="230" fill="url(#glow)"/>
+
+    <!-- ultrasound sector (fan) -->
+    <g transform="translate(1010 30)">
+      <path d="M0 0 L-190 250 A320 320 0 0 0 190 250 Z" fill="url(#fan)"/>
+      <path d="M0 0 L-190 250 A320 320 0 0 0 190 250 Z" fill="none" stroke="#ffffff" stroke-opacity="0.55" stroke-width="2"/>
+      <g fill="none" stroke="#ffffff" stroke-opacity="0.35" stroke-width="1.5">
+        <path d="M-95 125 A160 160 0 0 0 95 125"/>
+        <path d="M-142 187 A240 240 0 0 0 142 187"/>
+        <path d="M-165 218 A280 280 0 0 0 165 218"/>
+      </g>
+      <!-- scanning beam -->
+      <line x1="0" y1="0" x2="0" y2="285" stroke="#22d3ee" stroke-width="3" stroke-linecap="round" opacity="0.9">
+        <animateTransform attributeName="transform" type="rotate" values="-32 0 0; 32 0 0; -32 0 0" dur="5s" repeatCount="indefinite"/>
+      </line>
+      <!-- tracked-structure dots -->
+      <g fill="#fbbf24">
+        <circle cx="-38" cy="150" r="6"><animate attributeName="cy" values="150;132;150" dur="2.4s" repeatCount="indefinite"/></circle>
+        <circle cx="34"  cy="172" r="5"><animate attributeName="cy" values="172;150;172" dur="2.4s" begin="0.4s" repeatCount="indefinite"/></circle>
+        <circle cx="4"   cy="206" r="4.5"><animate attributeName="cy" values="206;190;206" dur="2.4s" begin="0.8s" repeatCount="indefinite"/></circle>
+      </g>
+    </g>
+
+    <!-- waveform -->
+    <path d="M0 292 C 60 292, 80 250, 130 250 S 200 316, 250 292 S 330 236, 390 262 S 470 314, 540 286 S 620 242, 690 268 S 780 312, 850 288 S 930 250, 1000 270 S 1120 300, 1200 280"
+          fill="none" stroke="url(#wave)" stroke-width="5" stroke-linecap="round" stroke-dasharray="14 10">
+      <animate attributeName="stroke-dashoffset" from="0" to="-96" dur="3s" repeatCount="indefinite"/>
+    </path>
+
+    <!-- text -->
+    <g font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" fill="#ffffff">
+      <text x="60" y="78" font-size="17" font-weight="700" letter-spacing="4" fill="#67e8f9">BIOMEDICAL IMAGING RESEARCH</text>
+      <text x="60" y="140" font-size="54" font-weight="800">Functional Imaging of</text>
+      <text x="60" y="200" font-size="54" font-weight="800">Pelvic Floor Muscles</text>
+      <text x="60" y="238" font-size="21" fill="#e0e7ff">Perineal ultrasound  ·  displacement → velocity → acceleration</text>
+    </g>
+  </g>
+</svg>
