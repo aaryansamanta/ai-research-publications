@@ -1,0 +1,52 @@
+{
+  "episodes": 3,
+  "device": "cpu",
+  "traffic_mode": "synthetic",
+  "delay_config": {
+    "water_team": {
+      "dispatch_delay_ticks": 1,
+      "arrival_setup_delay_ticks": 1,
+      "post_effect_busy_ticks": 5
+    },
+    "trench_crew": {
+      "dispatch_delay_ticks": 1,
+      "arrival_setup_delay_ticks": 2,
+      "post_effect_busy_ticks": 5
+    },
+    "rescue_vehicle": {
+      "dispatch_delay_ticks": 2,
+      "arrival_setup_delay_ticks": 2,
+      "post_effect_busy_ticks": 5
+    },
+    "helicopter": {
+      "dispatch_delay_ticks": 2,
+      "arrival_setup_delay_ticks": 1,
+      "post_effect_busy_ticks": 12
+    }
+  },
+  "max_dispatch_slots": 10,
+  "learning_rate": 0.0001,
+  "gamma": 0.99,
+  "scalar_keys": [
+    "wind_speed_mph",
+    "wind_direction_deg",
+    "humidity_pct",
+    "water_team_available",
+    "trench_crew_available",
+    "rescue_vehicle_available",
+    "helicopter_available",
+    "time_elapsed_ticks",
+    "traffic_mean_load",
+    "traffic_max_load",
+    "active_ground_resources"
+  ],
+  "resource_counts": {
+    "water_team": 3,
+    "trench_crew": 4,
+    "rescue_vehicle": 3,
+    "helicopter": 5
+  },
+  "run_tag": "progress_smoke2",
+  "started_at": "2026-07-30T21:46:36.814240+00:00",
+  "git_commit": "262219b41dfc8a5cb147cfcf63d660756f578da7"
+}

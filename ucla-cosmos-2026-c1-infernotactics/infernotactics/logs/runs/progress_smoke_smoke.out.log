@@ -1,0 +1,3 @@
+C:\Users\neela\miniconda3\envs\cosmos-venv\python.exe: Error while finding module specification for 'src.train.train_relative' (ModuleNotFoundError: No module named 'src')
+
+ERROR conda.cli.main_run:execute(127): `conda run python -u -m src.train.train_relative` failed. (See above for error)

@@ -1,0 +1,902 @@
+{
+  "run_tag": "relative_v8",
+  "updated_at": 1785497604.6153595,
+  "n_episodes": 2000,
+  "last_episode": null,
+  "elapsed_s": 17276.952999999998,
+  "eps_per_sec": 0.0,
+  "eta_s": 0.0,
+  "env": {
+    "device": "cpu",
+    "traffic_mode": "synthetic",
+    "max_dispatch_slots": 10,
+    "learning_rate": 0.0001,
+    "gamma": 0.99
+  },
+  "rolling_window": 50,
+  "rolling": {
+    "reward_mean": -7384.32540521807,
+    "reward_min": -88915.59761859197,
+    "reward_max": -242.30025607636162,
+    "destroyed_mean": 19.28,
+    "containment_rate": 0.9,
+    "ticks_mean": 23.74,
+    "entropy_mean": 1.9312301877582925,
+    "grad_norm_mean": 0.0,
+    "policy_loss_mean": -0.11099868495392101,
+    "value_loss_mean": 0.08025922864049057,
+    "noop_ticks_mean": 13.92,
+    "trench_bonus_mean": 0.0
+  },
+  "spark_recent_rewards": [
+    -986.9693547358472,
+    -1780.5056264971292,
+    -52739.40618488337,
+    -283.07775896320044,
+    -689.6351773750469,
+    -709.3199752143408,
+    -1517.4998545794508,
+    -377.2419778562622,
+    -1798.857047918179,
+    -1541.3138411342607,
+    -325.78568240847204,
+    -1860.5270170386107,
+    -1423.7727045278214,
+    -404.8493783330817,
+    -2302.6575410006008,
+    -359.2947046035214,
+    -1334.688965276894,
+    -1138.2202981008936,
+    -3024.6186637584833,
+    -95836.86075741229,
+    -1933.6621572810056,
+    -2126.5351749623633,
+    -374.9265424298252,
+    -33455.35387675097,
+    -333.6493931032784,
+    -685.4179661409516,
+    -248.55918757163707,
+    -2028.6765053460367,
+    -301.78677325974377,
+    -893.5712854576389,
+    -1668.5515866216238,
+    -2444.2628900264826,
+    -646.9614966043139,
+    -1712.696923300773,
+    -2504.7189871391824,
+    -3002.405732686588,
+    -971.3621263694527,
+    -2029.8831050619676,
+    -1642.7767946770928,
+    -707.3252052522736,
+    -270.35782097945867,
+    -334.9807419576111,
+    -382.7769552908473,
+    -242.30025607636162,
+    -2520.3951585440655,
+    -2020.700472636556,
+    -2224.1125770025938,
+    -432.07325923991294,
+    -1750.7857878845975,
+    -19109.885828264225,
+    -639.8071612462876,
+    -880.3723184680348,
+    -315.00181167981555,
+    -283.0792065827565,
+    -315.58251456887166,
+    -302.69076984803297,
+    -659.555594909801,
+    -1365.694884993426,
+    -1519.7434171471355,
+    -69365.37587475311,
+    -369.3876396455325,
+    -1607.656734207052,
+    -378.3268370377948,
+    -54935.538056922356,
+    -3986.461854768517,
+    -2764.814821402151,
+    -468.14728043320986,
+    -1536.0775116352982,
+    -487.8959481690893,
+    -1071.0574815712503,
+    -306.59100280885355,
+    -300.43022828151084,
+    -1955.0001406154115,
+    -1200.637581335303,
+    -69666.71256302927,
+    -931.3799097683718,
+    -88915.59761859197,
+    -2470.1447560099155,
+    -13271.742107223794,
+    -326.45292763362636
+  ],
+  "eval_history": [
+    {
+      "episode": 300,
+      "scenario": "anchor",
+      "reward": -109883.0087596406,
+      "destroyed": 337.5,
+      "containment": 0.0
+    },
+    {
+      "episode": 300,
+      "scenario": "mandeville_canyon",
+      "reward": -26245.44604284221,
+      "destroyed": 55.5,
+      "containment": 0.0
+    },
+    {
+      "episode": 300,
+      "scenario": "getty_view_park",
+      "reward": -129.67668818172223,
+      "destroyed": 0.0,
+      "containment": 1.0
+    },
+    {
+      "episode": 350,
+      "scenario": "anchor",
+      "reward": -110001.88617346689,
+      "destroyed": 339.0,
+      "containment": 0.0
+    },
+    {
+      "episode": 350,
+      "scenario": "mandeville_canyon",
+      "reward": -25109.955635440383,
+      "destroyed": 56.5,
+      "containment": 0.0
+    },
+    {
+      "episode": 350,
+      "scenario": "getty_view_park",
+      "reward": -129.67668818172223,
+      "destroyed": 0.0,
+      "containment": 1.0
+    },
+    {
+      "episode": 400,
+      "scenario": "anchor",
+      "reward": -109681.54064325971,
+      "destroyed": 338.0,
+      "containment": 0.0
+    },
+    {
+      "episode": 400,
+      "scenario": "mandeville_canyon",
+      "reward": -25109.955635440383,
+      "destroyed": 56.5,
+      "containment": 0.0
+    },
+    {
+      "episode": 400,
+      "scenario": "getty_view_park",
+      "reward": -129.67668818172223,
+      "destroyed": 0.0,
+      "containment": 1.0
+    },
+    {
+      "episode": 450,
+      "scenario": "anchor",
+      "reward": -123225.08960517086,
+      "destroyed": 379.5,
+      "containment": 0.0
+    },
+    {
+      "episode": 450,
+      "scenario": "mandeville_canyon",
+      "reward": -22784.123880023784,
+      "destroyed": 45.5,
+      "containment": 0.0
+    },
+    {
+      "episode": 450,
+      "scenario": "getty_view_park",
+      "reward": -126.2286470319539,
+      "destroyed": 0.0,
+      "containment": 1.0
+    },
+    {
+      "episode": 500,
+      "scenario": "anchor",
+      "reward": -120058.44884943156,
+      "destroyed": 367.0,
+      "containment": 0.0
+    },
+    {
+      "episode": 500,
+      "scenario": "mandeville_canyon",
+      "reward": -24520.182365414403,
+      "destroyed": 49.5,
+      "containment": 0.0
+    },
+    {
+      "episode": 500,
+      "scenario": "getty_view_park",
+      "reward": -196.30415342906485,
+      "destroyed": 0.0,
+      "containment": 1.0
+    },
+    {
+      "episode": 550,
+      "scenario": "anchor",
+      "reward": -118820.79551473282,
+      "destroyed": 363.0,
+      "containment": 0.0
+    },
+    {
+      "episode": 550,
+      "scenario": "mandeville_canyon",
+      "reward": -24934.875108552034,
+      "destroyed": 53.0,
+      "containment": 0.0
+    },
+    {
+      "episode": 550,
+      "scenario": "getty_view_park",
+      "reward": -196.30415342906485,
+      "destroyed": 0.0,
+      "containment": 1.0
+    },
+    {
+      "episode": 600,
+      "scenario": "anchor",
+      "reward": -111091.58941836996,
+      "destroyed": 338.5,
+      "containment": 0.0
+    },
+    {
+      "episode": 600,
+      "scenario": "mandeville_canyon",
+      "reward": -27336.967125606236,
+      "destroyed": 59.0,
+      "containment": 0.0
+    },
+    {
+      "episode": 600,
+      "scenario": "getty_view_park",
+      "reward": -171.58148438540778,
+      "destroyed": 0.0,
+      "containment": 1.0
+    },
+    {
+      "episode": 650,
+      "scenario": "anchor",
+      "reward": -111093.40601873782,
+      "destroyed": 338.5,
+      "containment": 0.0
+    },
+    {
+      "episode": 650,
+      "scenario": "mandeville_canyon",
+      "reward": -27336.216321128406,
+      "destroyed": 59.0,
+      "containment": 0.0
+    },
+    {
+      "episode": 650,
+      "scenario": "getty_view_park",
+      "reward": -171.58148438540778,
+      "destroyed": 0.0,
+      "containment": 1.0
+    },
+    {
+      "episode": 700,
+      "scenario": "anchor",
+      "reward": -119545.72626038961,
+      "destroyed": 364.0,
+      "containment": 0.0
+    },
+    {
+      "episode": 700,
+      "scenario": "mandeville_canyon",
+      "reward": -29132.169200554206,
+      "destroyed": 68.0,
+      "containment": 0.0
+    },
+    {
+      "episode": 700,
+      "scenario": "getty_view_park",
+      "reward": -196.30415342906485,
+      "destroyed": 0.0,
+      "containment": 1.0
+    },
+    {
+      "episode": 750,
+      "scenario": "anchor",
+      "reward": -111107.20054963745,
+      "destroyed": 338.5,
+      "containment": 0.0
+    },
+    {
+      "episode": 750,
+      "scenario": "mandeville_canyon",
+      "reward": -34632.3242582105,
+      "destroyed": 86.5,
+      "containment": 0.0
+    },
+    {
+      "episode": 750,
+      "scenario": "getty_view_park",
+      "reward": -171.58148438540778,
+      "destroyed": 0.0,
+      "containment": 1.0
+    },
+    {
+      "episode": 800,
+      "scenario": "anchor",
+      "reward": -114459.99896811863,
+      "destroyed": 349.0,
+      "containment": 0.0
+    },
+    {
+      "episode": 800,
+      "scenario": "mandeville_canyon",
+      "reward": -23230.80155481861,
+      "destroyed": 51.0,
+      "containment": 0.0
+    },
+    {
+      "episode": 800,
+      "scenario": "getty_view_park",
+      "reward": -35669.16772472969,
+      "destroyed": 114.0,
+      "containment": 0.5
+    },
+    {
+      "episode": 850,
+      "scenario": "anchor",
+      "reward": -120116.43543826735,
+      "destroyed": 368.0,
+      "containment": 0.0
+    },
+    {
+      "episode": 850,
+      "scenario": "mandeville_canyon",
+      "reward": -31209.588268108644,
+      "destroyed": 68.5,
+      "containment": 0.0
+    },
+    {
+      "episode": 850,
+      "scenario": "getty_view_park",
+      "reward": -126.2286470319539,
+      "destroyed": 0.0,
+      "containment": 1.0
+    },
+    {
+      "episode": 900,
+      "scenario": "anchor",
+      "reward": -116340.7732787475,
+      "destroyed": 357.5,
+      "containment": 0.0
+    },
+    {
+      "episode": 900,
+      "scenario": "mandeville_canyon",
+      "reward": -25292.247704718015,
+      "destroyed": 50.5,
+      "containment": 0.0
+    },
+    {
+      "episode": 900,
+      "scenario": "getty_view_park",
+      "reward": -126.2286470319539,
+      "destroyed": 0.0,
+      "containment": 1.0
+    },
+    {
+      "episode": 950,
+      "scenario": "anchor",
+      "reward": -119910.75005008969,
+      "destroyed": 369.5,
+      "containment": 0.0
+    },
+    {
+      "episode": 950,
+      "scenario": "mandeville_canyon",
+      "reward": -23828.218923930755,
+      "destroyed": 47.0,
+      "containment": 0.0
+    },
+    {
+      "episode": 950,
+      "scenario": "getty_view_park",
+      "reward": -196.30415342906485,
+      "destroyed": 0.0,
+      "containment": 1.0
+    },
+    {
+      "episode": 1000,
+      "scenario": "anchor",
+      "reward": -120058.44884943156,
+      "destroyed": 367.0,
+      "containment": 0.0
+    },
+    {
+      "episode": 1000,
+      "scenario": "mandeville_canyon",
+      "reward": -24520.182365414403,
+      "destroyed": 49.5,
+      "containment": 0.0
+    },
+    {
+      "episode": 1000,
+      "scenario": "getty_view_park",
+      "reward": -196.30415342906485,
+      "destroyed": 0.0,
+      "containment": 1.0
+    },
+    {
+      "episode": 1050,
+      "scenario": "anchor",
+      "reward": -117810.6688098654,
+      "destroyed": 358.0,
+      "containment": 0.0
+    },
+    {
+      "episode": 1050,
+      "scenario": "mandeville_canyon",
+      "reward": -30831.732953647126,
+      "destroyed": 69.5,
+      "containment": 0.0
+    },
+    {
+      "episode": 1050,
+      "scenario": "getty_view_park",
+      "reward": -171.58148438540778,
+      "destroyed": 0.0,
+      "containment": 1.0
+    },
+    {
+      "episode": 1100,
+      "scenario": "anchor",
+      "reward": -117927.03469736238,
+      "destroyed": 358.0,
+      "containment": 0.0
+    },
+    {
+      "episode": 1100,
+      "scenario": "mandeville_canyon",
+      "reward": -26881.08452640959,
+      "destroyed": 58.5,
+      "containment": 0.0
+    },
+    {
+      "episode": 1100,
+      "scenario": "getty_view_park",
+      "reward": -171.58148438540778,
+      "destroyed": 0.0,
+      "containment": 1.0
+    },
+    {
+      "episode": 1150,
+      "scenario": "anchor",
+      "reward": -120169.23111554778,
+      "destroyed": 369.0,
+      "containment": 0.0
+    },
+    {
+      "episode": 1150,
+      "scenario": "mandeville_canyon",
+      "reward": -30600.61401676933,
+      "destroyed": 70.5,
+      "containment": 0.0
+    },
+    {
+      "episode": 1150,
+      "scenario": "getty_view_park",
+      "reward": -171.58148438540778,
+      "destroyed": 0.0,
+      "containment": 1.0
+    },
+    {
+      "episode": 1200,
+      "scenario": "anchor",
+      "reward": -128187.66105656326,
+      "destroyed": 394.0,
+      "containment": 0.0
+    },
+    {
+      "episode": 1200,
+      "scenario": "mandeville_canyon",
+      "reward": -36078.995303116455,
+      "destroyed": 90.0,
+      "containment": 0.0
+    },
+    {
+      "episode": 1200,
+      "scenario": "getty_view_park",
+      "reward": -126.2286470319539,
+      "destroyed": 0.0,
+      "containment": 1.0
+    },
+    {
+      "episode": 1250,
+      "scenario": "anchor",
+      "reward": -126954.46069526022,
+      "destroyed": 388.5,
+      "containment": 0.0
+    },
+    {
+      "episode": 1250,
+      "scenario": "mandeville_canyon",
+      "reward": -32067.85458270752,
+      "destroyed": 73.0,
+      "containment": 0.0
+    },
+    {
+      "episode": 1250,
+      "scenario": "getty_view_park",
+      "reward": -126.2286470319539,
+      "destroyed": 0.0,
+      "containment": 1.0
+    },
+    {
+      "episode": 1300,
+      "scenario": "anchor",
+      "reward": -59382.1465963524,
+      "destroyed": 183.0,
+      "containment": 0.5
+    },
+    {
+      "episode": 1300,
+      "scenario": "mandeville_canyon",
+      "reward": -16470.508715161246,
+      "destroyed": 39.0,
+      "containment": 0.5
+    },
+    {
+      "episode": 1300,
+      "scenario": "getty_view_park",
+      "reward": -110.19225133019245,
+      "destroyed": 0.0,
+      "containment": 1.0
+    },
+    {
+      "episode": 1350,
+      "scenario": "anchor",
+      "reward": -59382.1465963524,
+      "destroyed": 183.0,
+      "containment": 0.5
+    },
+    {
+      "episode": 1350,
+      "scenario": "mandeville_canyon",
+      "reward": -16470.508715161246,
+      "destroyed": 39.0,
+      "containment": 0.5
+    },
+    {
+      "episode": 1350,
+      "scenario": "getty_view_park",
+      "reward": -110.19225133019245,
+      "destroyed": 0.0,
+      "containment": 1.0
+    },
+    {
+      "episode": 1400,
+      "scenario": "anchor",
+      "reward": -61309.335088907814,
+      "destroyed": 189.0,
+      "containment": 0.5
+    },
+    {
+      "episode": 1400,
+      "scenario": "mandeville_canyon",
+      "reward": -15917.792902514197,
+      "destroyed": 33.0,
+      "containment": 0.5
+    },
+    {
+      "episode": 1400,
+      "scenario": "getty_view_park",
+      "reward": -115.70032453331991,
+      "destroyed": 0.0,
+      "containment": 1.0
+    },
+    {
+      "episode": 1450,
+      "scenario": "anchor",
+      "reward": -50115.97245300025,
+      "destroyed": 155.0,
+      "containment": 0.5
+    },
+    {
+      "episode": 1450,
+      "scenario": "mandeville_canyon",
+      "reward": -17039.234413658927,
+      "destroyed": 37.5,
+      "containment": 0.5
+    },
+    {
+      "episode": 1450,
+      "scenario": "getty_view_park",
+      "reward": -115.70032453331991,
+      "destroyed": 0.0,
+      "containment": 1.0
+    },
+    {
+      "episode": 1500,
+      "scenario": "anchor",
+      "reward": -58481.88015853197,
+      "destroyed": 182.0,
+      "containment": 0.5
+    },
+    {
+      "episode": 1500,
+      "scenario": "mandeville_canyon",
+      "reward": -16734.84914908659,
+      "destroyed": 38.0,
+      "containment": 0.5
+    },
+    {
+      "episode": 1500,
+      "scenario": "getty_view_park",
+      "reward": -115.70032453331991,
+      "destroyed": 0.0,
+      "containment": 1.0
+    },
+    {
+      "episode": 1550,
+      "scenario": "anchor",
+      "reward": -70006.64102879862,
+      "destroyed": 219.5,
+      "containment": 0.5
+    },
+    {
+      "episode": 1550,
+      "scenario": "mandeville_canyon",
+      "reward": -16942.326440954294,
+      "destroyed": 36.0,
+      "containment": 0.5
+    },
+    {
+      "episode": 1550,
+      "scenario": "getty_view_park",
+      "reward": -115.70032453331991,
+      "destroyed": 0.0,
+      "containment": 1.0
+    },
+    {
+      "episode": 1600,
+      "scenario": "anchor",
+      "reward": -54662.83638371187,
+      "destroyed": 165.5,
+      "containment": 0.5
+    },
+    {
+      "episode": 1600,
+      "scenario": "mandeville_canyon",
+      "reward": -18256.182548598463,
+      "destroyed": 43.5,
+      "containment": 0.5
+    },
+    {
+      "episode": 1600,
+      "scenario": "getty_view_park",
+      "reward": -114.99307234265156,
+      "destroyed": 0.0,
+      "containment": 1.0
+    },
+    {
+      "episode": 1650,
+      "scenario": "anchor",
+      "reward": -59401.049152738604,
+      "destroyed": 180.0,
+      "containment": 0.5
+    },
+    {
+      "episode": 1650,
+      "scenario": "mandeville_canyon",
+      "reward": -13668.47967216089,
+      "destroyed": 29.0,
+      "containment": 0.5
+    },
+    {
+      "episode": 1650,
+      "scenario": "getty_view_park",
+      "reward": -114.99307234265156,
+      "destroyed": 0.0,
+      "containment": 1.0
+    },
+    {
+      "episode": 1700,
+      "scenario": "anchor",
+      "reward": -94719.0801943251,
+      "destroyed": 287.0,
+      "containment": 0.0
+    },
+    {
+      "episode": 1700,
+      "scenario": "mandeville_canyon",
+      "reward": -31512.177036270055,
+      "destroyed": 72.0,
+      "containment": 0.0
+    },
+    {
+      "episode": 1700,
+      "scenario": "getty_view_park",
+      "reward": -36874.64530771175,
+      "destroyed": 116.5,
+      "containment": 0.5
+    },
+    {
+      "episode": 1750,
+      "scenario": "anchor",
+      "reward": -94850.04232880211,
+      "destroyed": 287.0,
+      "containment": 0.0
+    },
+    {
+      "episode": 1750,
+      "scenario": "mandeville_canyon",
+      "reward": -29426.543289169185,
+      "destroyed": 70.5,
+      "containment": 0.0
+    },
+    {
+      "episode": 1750,
+      "scenario": "getty_view_park",
+      "reward": -29874.882410588056,
+      "destroyed": 93.5,
+      "containment": 0.5
+    },
+    {
+      "episode": 1800,
+      "scenario": "anchor",
+      "reward": -100948.40056026421,
+      "destroyed": 305.0,
+      "containment": 0.0
+    },
+    {
+      "episode": 1800,
+      "scenario": "mandeville_canyon",
+      "reward": -31507.81613813404,
+      "destroyed": 72.0,
+      "containment": 0.0
+    },
+    {
+      "episode": 1800,
+      "scenario": "getty_view_park",
+      "reward": -1188.9358531445582,
+      "destroyed": 0.0,
+      "containment": 1.0
+    },
+    {
+      "episode": 1850,
+      "scenario": "anchor",
+      "reward": -104196.38591200515,
+      "destroyed": 313.5,
+      "containment": 0.0
+    },
+    {
+      "episode": 1850,
+      "scenario": "mandeville_canyon",
+      "reward": -33959.34232420273,
+      "destroyed": 82.0,
+      "containment": 0.0
+    },
+    {
+      "episode": 1850,
+      "scenario": "getty_view_park",
+      "reward": -36874.64530771175,
+      "destroyed": 116.5,
+      "containment": 0.5
+    },
+    {
+      "episode": 1900,
+      "scenario": "anchor",
+      "reward": -104118.90470787621,
+      "destroyed": 313.5,
+      "containment": 0.0
+    },
+    {
+      "episode": 1900,
+      "scenario": "mandeville_canyon",
+      "reward": -31082.13407841666,
+      "destroyed": 69.5,
+      "containment": 0.0
+    },
+    {
+      "episode": 1900,
+      "scenario": "getty_view_park",
+      "reward": -33055.951632434066,
+      "destroyed": 105.0,
+      "containment": 0.5
+    },
+    {
+      "episode": 1950,
+      "scenario": "anchor",
+      "reward": -55846.329859559875,
+      "destroyed": 168.5,
+      "containment": 0.5
+    },
+    {
+      "episode": 1950,
+      "scenario": "mandeville_canyon",
+      "reward": -19124.63706049993,
+      "destroyed": 47.0,
+      "containment": 0.5
+    },
+    {
+      "episode": 1950,
+      "scenario": "getty_view_park",
+      "reward": -126.06465458617504,
+      "destroyed": 0.0,
+      "containment": 1.0
+    },
+    {
+      "episode": 2000,
+      "scenario": "anchor",
+      "reward": -44524.175251969726,
+      "destroyed": 134.0,
+      "containment": 0.5
+    },
+    {
+      "episode": 2000,
+      "scenario": "mandeville_canyon",
+      "reward": -12613.462887760492,
+      "destroyed": 21.0,
+      "containment": 0.5
+    },
+    {
+      "episode": 2000,
+      "scenario": "getty_view_park",
+      "reward": -126.06465458617504,
+      "destroyed": 0.0,
+      "containment": 1.0
+    }
+  ],
+  "last": {
+    "episode": 2000,
+    "ignition_row": 263,
+    "ignition_col": 538,
+    "device": "cpu",
+    "n_ticks": 7,
+    "total_reward": -326.45292763362636,
+    "mean_reward_per_tick": -46.63613251908948,
+    "buildings_destroyed": 0,
+    "contained": true,
+    "timeout": false,
+    "first_building_loss_tick": "",
+    "peak_active_fire": 18,
+    "final_active_fire": 0,
+    "peak_blaze": 12,
+    "policy_loss": 0.3373186843735831,
+    "value_loss": 0.007979523856192827,
+    "classification_loss": 0.0012998710070470615,
+    "aux_target_loss": 1.4853153909955705,
+    "entropy": 1.4853153909955705,
+    "resource_entropy": 2.1989542075565884,
+    "target_entropy": 1.4853153909955705,
+    "grad_norm": "",
+    "actions_per_tick": 2.142857142857143,
+    "max_actions_tick": 10,
+    "noop_ticks": 5,
+    "dispatch_attempts": 15,
+    "successful_dispatches": 15,
+    "wasted_dispatches": 0,
+    "unavailable_resource_attempts": 0,
+    "unreachable_zone_attempts": 0,
+    "mean_response_ticks": 6.866666666666666,
+    "mean_traffic_delay_s": 122.32906269367398,
+    "traffic_mean_load": "1.891817",
+    "traffic_max_load": "10.6",
+    "rc_fire_extinguished": 100.0,
+    "rc_fire_penalty": -33.0,
+    "rc_dispatch_cost": -131.0,
+    "rc_trench_bonus": 0.0,
+    "rc_buildings_destroyed": 0.0,
+    "rc_travel_delay": -222.4529276336264,
+    "rc_wasted": 0.0,
+    "trench_held_total": 0,
+    "water_team_dispatches": 3,
+    "trench_crew_dispatches": 4,
+    "rescue_vehicle_dispatches": 3,
+    "helicopter_dispatches": 5,
+    "water_team_effect_success": 2,
+    "trench_crew_effect_success": 0,
+    "rescue_vehicle_effect_success": 0,
+    "helicopter_effect_success": 0
+  }
+}
