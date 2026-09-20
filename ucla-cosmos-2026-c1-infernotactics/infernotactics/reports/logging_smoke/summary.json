@@ -1,0 +1,7 @@
+{
+  "run_tag": "logging_smoke",
+  "episodes_logged": 2,
+  "last_reward": -1817.7971652536276,
+  "last_buildings_destroyed": 5.0,
+  "dashboard": "A:\\AI\\InfernoTactics\\infernotactics\\reports\\logging_smoke\\training_dashboard.png"
+}

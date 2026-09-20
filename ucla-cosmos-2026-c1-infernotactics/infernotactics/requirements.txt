@@ -1,0 +1,14 @@
+osmnx
+pydeck
+streamlit
+numpy
+torch
+geopandas
+rasterio
+shapely
+requests
+matplotlib
+owslib
+pyproj
+fastapi
+uvicorn
