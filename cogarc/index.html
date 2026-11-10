@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>cogarc — autonomic coupling console</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F6F7F9; --panel:#FFFFFF; --panel-2:#FBFCFD;
+  --ink:#0F1A2B; --ink-2:#3A4759; --ink-3:#77839A;
+  --rule:#DCE1E8; --rule-2:#EDF0F4;
+  --eda:#C07316; --car:#B8332C; --res:#12796A; --vas:#5E46A8;
+  --grid:#E9EDF2; --shade:#F1F4F8;
+  --serif:"IBM Plex Serif",Georgia,serif;
+  --sans:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --rail:72px;
+}
+html[data-theme="dark"]{
+  --paper:#0C1017; --panel:#131922; --panel-2:#10161E;
+  --ink:#E8EDF4; --ink-2:#A9B6C7; --ink-3:#6C7B90;
+  --rule:#232C39; --rule-2:#1B222C;
+  --eda:#E39A3C; --car:#E4655C; --res:#3EAE99; --vas:#9384DB;
+  --grid:#1A222D; --shade:#182029;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+  font-size:16.5px;line-height:1.65;-webkit-font-smoothing:antialiased;
+  transition:background .3s,color .3s}
+
+/* rail */
+#rail{position:fixed;left:0;top:0;width:var(--rail);height:100vh;z-index:5;
+  border-right:1px solid var(--rule);background:var(--panel-2)}
+#rail canvas{display:block;width:100%;height:100%}
+.railtag{position:fixed;left:0;width:var(--rail);text-align:center;z-index:6;
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;color:var(--ink-3)}
+#railcap{top:0;padding:14px 0 10px;background:linear-gradient(180deg,var(--panel-2) 65%,transparent)}
+#railfoot{bottom:0;padding:10px 0 14px;background:linear-gradient(0deg,var(--panel-2) 65%,transparent)}
+
+.wrap{margin-left:var(--rail)}
+.inner{max-width:1060px;margin:0 auto;padding:0 40px}
+
+nav{position:sticky;top:0;z-index:4;background:var(--paper);
+  border-bottom:1px solid var(--rule)}
+nav .inner{display:flex;align-items:center;gap:26px;height:56px}
+.mark{font-family:var(--mono);font-weight:500;font-size:15px}
+.mark i{font-style:normal;color:var(--ink-3)}
+.navlinks{display:flex;gap:20px}
+nav a{font-family:var(--mono);font-size:11px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--ink-3);text-decoration:none;border-bottom:1px solid transparent;padding:3px 0}
+nav a:hover,nav a:focus-visible{color:var(--ink);border-bottom-color:var(--ink)}
+.sp{flex:1}
+#theme{appearance:none;border:1px solid var(--rule);background:var(--panel);color:var(--ink-3);
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;
+  padding:6px 11px;border-radius:2px;cursor:pointer}
+#theme:hover{color:var(--ink);border-color:var(--ink-3)}
+
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--ink-3);margin:0 0 18px}
+h1{font-family:var(--serif);font-weight:400;font-size:clamp(32px,4.8vw,54px);line-height:1.1;
+  letter-spacing:-.015em;margin:0 0 24px;max-width:16ch}
+h1 em{font-style:italic;color:var(--car)}
+h2{font-family:var(--serif);font-weight:500;font-size:clamp(24px,3vw,32px);line-height:1.2;
+  margin:0 0 14px}
+h3{font-family:var(--sans);font-weight:600;font-size:15.5px;margin:0 0 8px}
+p{margin:0 0 18px;color:var(--ink-2);max-width:66ch}
+.lede{font-size:19px;line-height:1.6;color:var(--ink);max-width:60ch}
+.sub{font-size:14px;color:var(--ink-3)}
+
+section{padding:88px 0;border-top:1px solid var(--rule)}
+#hero{border-top:none;padding:96px 0 60px}
+.secmark{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--ink-3);
+  text-transform:uppercase;display:flex;align-items:center;gap:12px;margin-bottom:26px}
+.secmark b{color:var(--car);font-weight:400}
+.secmark::after{content:"";flex:1;height:1px;background:var(--rule)}
+
+.status{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:11px;
+  letter-spacing:.09em;text-transform:uppercase;color:var(--ink-2);background:var(--panel);
+  border:1px solid var(--rule);border-radius:2px;padding:7px 12px;margin-bottom:30px}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--eda);animation:pulse 2.6s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(192,115,22,.35)}50%{box-shadow:0 0 0 5px rgba(192,115,22,0)}}
+
+/* panel */
+.panel{background:var(--panel);border:1px solid var(--rule);border-radius:3px;overflow:hidden;
+  margin-top:24px}
+.pbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:11px 16px;
+  border-bottom:1px solid var(--rule-2);background:var(--panel-2)}
+.plabel{font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3)}
+.pbody{padding:16px}
+.pcap{padding:11px 16px 13px;border-top:1px solid var(--rule-2);font-family:var(--mono);
+  font-size:11.5px;line-height:1.6;color:var(--ink-3)}
+
+.seg{display:flex;border:1px solid var(--rule);border-radius:2px;overflow:hidden}
+.seg button{appearance:none;border:0;background:var(--panel);cursor:pointer;font-family:var(--mono);
+  font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);padding:7px 13px;
+  border-right:1px solid var(--rule);transition:.15s}
+.seg button:last-child{border-right:0}
+.seg button:hover{color:var(--ink);background:var(--shade)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.seg button:focus-visible{outline:2px solid var(--car);outline-offset:-2px}
+
+input[type=range]{appearance:none;height:2px;background:var(--rule);border-radius:2px;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{appearance:none;width:13px;height:13px;border-radius:50%;
+  background:var(--ink);border:2px solid var(--panel);box-shadow:0 0 0 1px var(--ink)}
+input[type=range]::-moz-range-thumb{width:13px;height:13px;border-radius:50%;background:var(--ink);
+  border:2px solid var(--panel)}
+input[type=range]:focus-visible{outline:2px solid var(--car);outline-offset:4px}
+
+.readouts{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--rule-2)}
+.ro{padding:13px 16px;border-right:1px solid var(--rule-2)}
+.ro:last-child{border-right:0}
+.ro .k{font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3)}
+.ro .v{font-family:var(--mono);font-size:19px;color:var(--ink);margin-top:3px;font-variant-numeric:tabular-nums}
+.ro .u{font-size:11px;color:var(--ink-3);margin-left:3px}
+
+svg text{font-family:var(--mono);fill:var(--ink-2)}
+svg .edge{cursor:pointer}
+svg .edge.mute{stroke-dasharray:2 4}
+
+.labgrid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:0}
+.labgrid>div:first-child{border-right:1px solid var(--rule-2)}
+.labsplit{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.side{padding:16px}
+.side h4{margin:0 0 10px;font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--ink-3);font-weight:400}
+.pairline{font-family:var(--mono);font-size:13px;color:var(--ink);margin-bottom:2px}
+.pairsub{font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-bottom:12px}
+.kv{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11.5px;
+  padding:5px 0;border-bottom:1px solid var(--rule-2);color:var(--ink-3)}
+.kv b{color:var(--ink);font-weight:500;font-variant-numeric:tabular-nums}
+
+.mx{display:grid;gap:2px}
+.cellbtn{border:0;padding:0;cursor:pointer;border-radius:1px;transition:outline .12s}
+.cellbtn:focus-visible{outline:2px solid var(--car);outline-offset:1px}
+.mxlab{font-family:var(--mono);font-size:9px;color:var(--ink-3);display:grid;place-items:center}
+
+.gauge{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.rank{font-family:var(--mono);font-size:11.5px}
+.rank .row{display:grid;grid-template-columns:78px 1fr 46px;gap:10px;align-items:center;padding:4px 0;
+  border-bottom:1px solid var(--rule-2);cursor:pointer}
+.rank .row:hover{background:var(--shade)}
+.rank .bar{height:5px;background:var(--car);border-radius:2px;opacity:.75}
+.rank .row.off{opacity:.35}
+.rank .v{text-align:right;color:var(--ink-3)}
+
+table{width:100%;border-collapse:collapse;margin:4px 0}
+th{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);
+  text-align:left;font-weight:400;padding:0 14px 9px 0;border-bottom:1px solid var(--ink)}
+td{padding:11px 14px 11px 0;border-bottom:1px solid var(--rule-2);font-size:14px;color:var(--ink-2);vertical-align:top}
+td.k{font-family:var(--mono);font-size:12px;color:var(--ink);white-space:nowrap}
+td .ch{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:8px}
+
+.blocks{display:flex;border:1px solid var(--rule);border-radius:3px;overflow:hidden}
+.blocks button{flex:1;appearance:none;border:0;border-right:1px solid var(--rule);background:var(--panel);
+  padding:14px 12px;text-align:left;cursor:pointer;transition:.15s;color:inherit}
+.blocks button:last-child{border-right:0}
+.blocks button:hover{background:var(--shade)}
+.blocks button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.blocks button[aria-pressed="true"] .t,.blocks button[aria-pressed="true"] .d{color:var(--paper);opacity:.72}
+.blocks .t{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.blocks .n{font-family:var(--serif);font-size:17px;margin:5px 0 3px}
+.blocks .d{font-size:12.5px;color:var(--ink-3);line-height:1.4}
+
+.claims{border-top:1px solid var(--ink);margin-top:6px}
+.claim{display:grid;grid-template-columns:58px 1fr;gap:18px;padding:18px 0;border-bottom:1px solid var(--rule)}
+.claim .h{font-family:var(--mono);font-size:12px;color:var(--car);padding-top:3px}
+.claim p{margin:0;font-size:15.5px}
+.claim .tag{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink-3);display:block;margin-top:6px}
+
+.tl{border-top:1px solid var(--ink);margin-top:6px}
+.tl .row{display:grid;grid-template-columns:96px 130px 1fr;gap:16px;padding:13px 0;
+  border-bottom:1px solid var(--rule-2);align-items:baseline}
+.tl .p{font-family:var(--mono);font-size:12px;color:var(--ink)}
+.tl .w{font-family:var(--mono);font-size:11px;color:var(--ink-3)}
+.tl .t{font-size:14px;color:var(--ink-2)}
+.tl .row.done .p,.tl .row.done .t{color:var(--ink-3)}
+.tl .row.here{background:var(--shade)}
+.tl .row.here .p{color:var(--car)}
+
+.note{border-left:2px solid var(--eda);padding:12px 0 12px 18px;margin:24px 0 0;font-size:14.5px;
+  color:var(--ink-2);max-width:66ch}
+.note b{color:var(--ink);font-weight:600}
+
+footer{border-top:1px solid var(--ink);padding:40px 0 66px}
+.fgrid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:34px}
+footer .lbl{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-3);margin-bottom:10px}
+footer li{list-style:none;font-size:13.5px;color:var(--ink-2);padding:4px 0}
+footer ul{margin:0;padding:0}
+.pending{color:var(--ink-3);font-family:var(--mono);font-size:10.5px}
+
+@media (max-width:960px){
+  :root{--rail:0px}
+  #rail,.railtag{display:none}
+  .inner{padding:0 20px}
+  .navlinks{display:none}
+  .labgrid{grid-template-columns:1fr}
+  .labgrid>div:first-child{border-right:0;border-bottom:1px solid var(--rule-2)}
+  .labsplit{grid-template-columns:1fr}
+  #mxwrap{justify-content:center}
+  .readouts{grid-template-columns:repeat(2,1fr)}
+  .ro{border-bottom:1px solid var(--rule-2)}
+  .blocks{flex-direction:column}
+  .blocks button{border-right:0;border-bottom:1px solid var(--rule)}
+  .fgrid{grid-template-columns:1fr}
+  section{padding:60px 0}
+  .tl .row{grid-template-columns:1fr;gap:2px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:.01ms!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<div id="rail" aria-hidden="true"><canvas id="railc"></canvas></div>
+<div class="railtag" id="railcap" aria-hidden="true">REC</div>
+<div class="railtag" id="railfoot" aria-hidden="true">32 Hz</div>
+
+<div class="wrap">
+<nav><div class="inner">
+  <span class="mark">cogarc<i>.ai</i></span>
+  <div class="navlinks">
+    <a href="#monitor">Monitor</a><a href="#problem">Problem</a><a href="#claim">Claim</a>
+    <a href="#lab">Lab</a><a href="#ablate">Ablate</a><a href="#session">Session</a><a href="#status">Status</a>
+  </div>
+  <span class="sp"></span>
+  <button id="theme" aria-label="Switch colour scheme">Night</button>
+</div></nav>
+
+<!-- ============ HERO ============ -->
+<section id="hero"><div class="inner">
+  <div class="status"><span class="dot"></span>Study in progress — no measured results yet</div>
+  <p class="eyebrow">A study of the autonomic nervous system</p>
+  <h1>Emotion may not be written in any one signal, but in how the signals <em>lock together</em>.</h1>
+  <p class="lede">Skin conductance tells you how strongly someone is reacting. It cannot tell you whether the reaction is pleasant or unpleasant. Neither can heart rate alone, or breathing, or skin temperature. This project asks whether the missing information lives in the coupling between them.</p>
+  <p class="sub">Everything below runs on simulated physiology generated in your browser. The signals are synthetic; the analysis performed on them is the same analysis the study will run on real recordings.</p>
+</div></section>
+
+<!-- ============ MONITOR ============ -->
+<section id="monitor"><div class="inner">
+  <p class="secmark"><b>01</b> Monitor</p>
+  <h2>Four channels, one clock.</h2>
+  <p>A wrist board carries every signal in the study. Change the state and the traces change character — but read any single channel and you still cannot say whether the person is enjoying themselves.</p>
+
+  <div class="panel">
+    <div class="pbar">
+      <span class="plabel">State</span>
+      <div class="seg" role="group" aria-label="Physiological state">
+        <button class="st" data-st="0" aria-pressed="true">Baseline</button>
+        <button class="st" data-st="1" aria-pressed="false">Stress</button>
+        <button class="st" data-st="2" aria-pressed="false">Amusement</button>
+      </div>
+      <span class="sp"></span>
+      <span class="plabel">Sweep</span>
+      <input id="speed" type="range" min="1" max="6" value="3" style="width:96px" aria-label="Sweep speed">
+    </div>
+    <div class="pbody" style="padding:10px 12px">
+      <canvas id="scope" height="260" style="width:100%;height:260px;display:block"></canvas>
+    </div>
+    <div class="readouts">
+      <div class="ro"><div class="k">Tonic level</div><div class="v" id="mSCL">—<span class="u">µS</span></div></div>
+      <div class="ro"><div class="k">Responses</div><div class="v" id="mSCR">—<span class="u">/min</span></div></div>
+      <div class="ro"><div class="k">Heart rate</div><div class="v" id="mHR">—<span class="u">bpm</span></div></div>
+      <div class="ro"><div class="k">Breath rate</div><div class="v" id="mRR">—<span class="u">/min</span></div></div>
+    </div>
+    <div class="pcap">Simulated. Amplitudes are scaled for display; the generator sets coupling strengths, and every coupling figure on this page is computed from these traces rather than typed in.</div>
+  </div>
+</div></section>
+
+<!-- ============ PROBLEM ============ -->
+<section id="problem"><div class="inner">
+  <p class="secmark"><b>02</b> The problem</p>
+  <h2>Move the two conditions and watch the comparison break.</h2>
+  <p>Fear against relaxation differs in two ways at once: more unpleasant <em>and</em> more activated. Drag either point. Whenever the two sit at different heights, any result could be activation rather than pleasantness.</p>
+
+  <div class="panel">
+    <div class="pbar">
+      <span class="plabel">Contrast quality</span>
+      <span class="plabel" id="qLab" style="color:var(--res)">valid — arousal matched</span>
+      <span class="sp"></span>
+      <div class="seg"><button id="snap">Snap to matched</button></div>
+    </div>
+    <div class="pbody">
+      <svg id="aff" viewBox="0 0 660 330" width="100%" role="img" aria-label="Draggable affect space">
+        <g id="affgrid"></g>
+        <line x1="90" y1="290" x2="620" y2="290" stroke="var(--rule)"/>
+        <line x1="90" y1="36" x2="90" y2="290" stroke="var(--rule)"/>
+        <text x="355" y="316" text-anchor="middle" style="font-size:11px">valence  →  pleasant</text>
+        <text x="98" y="48" style="font-size:11px">arousal ↑</text>
+        <line id="conn" stroke="var(--car)" stroke-width="2.4"/>
+        <g id="pA" style="cursor:grab"><circle r="9" fill="var(--ink)"/><text y="-16" text-anchor="middle" style="font-size:11.5px;fill:var(--ink)">condition A</text></g>
+        <g id="pB" style="cursor:grab"><circle r="9" fill="var(--ink)"/><text y="-16" text-anchor="middle" style="font-size:11.5px;fill:var(--ink)">condition B</text></g>
+      </svg>
+    </div>
+    <div class="readouts" style="grid-template-columns:repeat(3,1fr)">
+      <div class="ro"><div class="k">Valence difference</div><div class="v" id="dV">—</div></div>
+      <div class="ro"><div class="k">Arousal difference</div><div class="v" id="dA">—</div></div>
+      <div class="ro"><div class="k">Attributable to</div><div class="v" id="dAttr" style="font-size:14px">—</div></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- ============ CLAIM ============ -->
+<section id="claim"><div class="inner">
+  <p class="secmark"><b>03</b> What is being tested</p>
+  <h2>Four statements, sealed before any analysis.</h2>
+  <p>Two are primary and logically independent, so the study returns a finding whether or not coupling helps a classifier.</p>
+  <div class="claims">
+    <div class="claim"><div class="h">H1</div><div><p>Adding an explicit representation of coupling improves valence discrimination over a single-channel baseline.</p><span class="tag">Supporting</span></div></div>
+    <div class="claim"><div class="h">H2 ●</div><div><p>That improvement is larger for valence than for arousal. Arousal is carried well enough by single-channel intensity; valence depends on structure.</p><span class="tag">Primary · methodological</span></div></div>
+    <div class="claim"><div class="h">H3 ●</div><div><p>The learned connectivity differs systematically between states, and the direction of change agrees with established autonomic physiology.</p><span class="tag">Primary · physiological</span></div></div>
+    <div class="claim"><div class="h">H4</div><div><p>Pre-training on unlabelled recordings substantially reduces how much labelled data is needed for the same performance.</p><span class="tag">Supporting</span></div></div>
+  </div>
+  <div class="note"><b>Why two primaries.</b> If coupling turns out not to help the classifier, H3 can still hold — the wiring may reorganise without that reorganisation being useful for prediction. That is a physiological result, and it is reported either way.</div>
+</div></section>
+
+<!-- ============ LAB ============ -->
+<section id="lab"><div class="inner">
+  <p class="secmark"><b>04</b> Coupling lab</p>
+  <h2>The matrix and the network are the same object.</h2>
+  <p>Every cell is a pair of channels; every line is that same pair. Hover either one to light up the other. Click to open the pair and see the lagged cross-correlation computed from the traces above.</p>
+
+  <div class="panel">
+    <div class="pbar">
+      <span class="plabel">State</span>
+      <div class="seg" role="group" aria-label="Lab state">
+        <button class="lst" data-st="0" aria-pressed="true">Baseline</button>
+        <button class="lst" data-st="1" aria-pressed="false">Stress</button>
+        <button class="lst" data-st="2" aria-pressed="false">Amusement</button>
+      </div>
+      <span class="sp"></span>
+      <span class="plabel">Morph</span>
+      <input id="morph" type="range" min="0" max="200" value="0" style="width:150px" aria-label="Morph between states">
+      <span class="plabel" id="morphLab" style="width:96px">baseline</span>
+    </div>
+    <div class="labgrid">
+      <div>
+        <div class="labsplit">
+          <div style="padding:14px 8px 14px 14px">
+            <h4 style="margin:0 0 10px;font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);font-weight:400">Adjacency</h4>
+            <div id="mxwrap"></div>
+          </div>
+          <div style="padding:8px">
+            <svg id="net" viewBox="0 0 320 300" width="100%" role="img" aria-label="Coupling network"><g id="nEdges"></g><g id="nNodes"></g></svg>
+          </div>
+        </div>
+      </div>
+      <div class="side">
+        <h4>Pair inspector</h4>
+        <div class="pairline" id="pairName">select a pair</div>
+        <div class="pairsub" id="pairKind">—</div>
+        <svg id="xcorr" viewBox="0 0 260 120" width="100%" role="img" aria-label="Lagged cross-correlation"></svg>
+        <div class="kv"><span>peak |r|</span><b id="ppk">—</b></div>
+        <div class="kv"><span>at lag</span><b id="plag">—</b></div>
+        <div class="kv"><span>vs baseline</span><b id="pdel">—</b></div>
+        <div class="kv" style="border-bottom:0"><span>rank in state</span><b id="prank">—</b></div>
+      </div>
+    </div>
+    <div class="pcap">Coupling is the peak absolute lagged cross-correlation between the two feature series, searched over ±3 s. Computed live from the simulated traces, so the numbers move when the state does.</div>
+  </div>
+
+  <div class="note" style="border-left-color:var(--car)"><b>What to look for.</b> Under stress the electrodermal and cardiac pair tightens while heart and breath come apart. Under amusement it reverses and the vasomotor pair — skin temperature with perfusion — comes alive. If measured data does this too, the wiring carries valence.</div>
+</div></section>
+
+<!-- ============ ABLATE ============ -->
+<section id="ablate"><div class="inner">
+  <p class="secmark"><b>05</b> Ablation console</p>
+  <h2>Switch a connection off and see what it was worth.</h2>
+  <p>Ranking edges by how much performance drops when each is removed is how the study decides which connections matter. Click any edge to disable it. The score is a simulation of that procedure, not a measured result.</p>
+
+  <div class="panel">
+    <div class="pbar">
+      <span class="plabel">Task</span>
+      <div class="seg" role="group" aria-label="Task">
+        <button class="tsk" data-t="val" aria-pressed="true">Valence</button>
+        <button class="tsk" data-t="aro" aria-pressed="false">Arousal</button>
+      </div>
+      <span class="sp"></span>
+      <div class="seg"><button id="ablReset">Restore all edges</button></div>
+    </div>
+    <div class="labgrid">
+      <div style="padding:10px">
+        <svg id="abl" viewBox="0 0 320 300" width="100%" role="img" aria-label="Ablation network"><g id="aEdges"></g><g id="aNodes"></g></svg>
+      </div>
+      <div class="side">
+        <h4>Simulated performance</h4>
+        <div class="gauge" style="font-size:38px;line-height:1.1;color:var(--ink)" id="aucVal">—</div>
+        <div class="pairsub" id="aucSub">AUC, leave-one-subject-out</div>
+        <svg id="aucbar" viewBox="0 0 260 26" width="100%" style="margin-bottom:14px"></svg>
+        <h4>Edge importance</h4>
+        <div class="rank" id="rankList"></div>
+      </div>
+    </div>
+    <div class="pcap">The score is derived from how much each connection changes between the two conditions of the selected task. It illustrates the ablation procedure; no classifier has been trained on real data.</div>
+  </div>
+</div></section>
+
+<!-- ============ METHOD ============ -->
+<section id="method"><div class="inner">
+  <p class="secmark"><b>06</b> Method</p>
+  <h2>Nodes are channels. Edges are coupling. The model learns the edges.</h2>
+
+  <h3 style="margin-top:30px">Nodes</h3>
+  <table>
+    <tr><th>Quantity</th><th>Sensor and site</th><th>Rate</th></tr>
+    <tr><td class="k"><span class="ch" style="background:var(--eda)"></span>Tonic level, phasic responses</td><td>Dry electrodes, volar wrist, constant voltage</td><td class="k">128 Hz</td></tr>
+    <tr><td class="k"><span class="ch" style="background:var(--car)"></span>Heart rate, variability</td><td>Green and infrared photoplethysmography</td><td class="k">128 Hz</td></tr>
+    <tr><td class="k"><span class="ch" style="background:var(--res)"></span>Breath rate, depth</td><td>Derived from the pulse waveform</td><td class="k">derived</td></tr>
+    <tr><td class="k"><span class="ch" style="background:var(--vas)"></span>Skin temperature, perfusion</td><td>Thermally isolated digital sensor, infrared</td><td class="k">1 Hz</td></tr>
+  </table>
+
+  <h3 style="margin-top:34px">Edges</h3>
+  <table>
+    <tr><th>Measure</th><th>What it captures</th></tr>
+    <tr><td class="k">Lagged cross-correlation</td><td>Linear co-variation, and which channel leads</td></tr>
+    <tr><td class="k">Phase locking value</td><td>How tightly two rhythms hold their relative phase</td></tr>
+    <tr><td class="k">Transfer entropy</td><td>Directional information flow</td></tr>
+    <tr><td class="k">Envelope correlation</td><td>Shared slow modulation</td></tr>
+  </table>
+
+  <h3 style="margin-top:34px">Model</h3>
+  <p>A convolutional encoder turns each channel window into a node vector. The adjacency is initialised from the four measures above — a physiological prior — then refined by attention with a sparsity penalty, so the final structure stays readable. Two graph attention layers, pooled to a classification head.</p>
+  <div class="note"><b>The control that matters.</b> The comparison baseline uses the identical channel set, window length and preprocessing with no coupling terms. Anything the graph gains over it is attributable to structure and nothing else.</div>
+</div></section>
+
+<!-- ============ SESSION ============ -->
+<section id="session"><div class="inner">
+  <p class="secmark"><b>07</b> Session</p>
+  <h2>One recording, four blocks, two ways of inducing the same thing.</h2>
+  <p>Blocks B and D induce valence through completely different senses — a screen and a sheet of paper. If they disagree, the effect was never valence.</p>
+
+  <div class="blocks" role="group" aria-label="Session blocks">
+    <button class="blk" data-b="0" aria-pressed="true"><div class="t">Block A · 18 min</div><div class="n">Arousal</div><div class="d">Serial mental arithmetic against quiet rest</div></button>
+    <button class="blk" data-b="1" aria-pressed="false"><div class="t">Block B · 20 min</div><div class="n">Valence, on screen</div><div class="d">Film clips matched for activation, opposite in pleasantness</div></button>
+    <button class="blk" data-b="2" aria-pressed="false"><div class="t">Block C · 3 min</div><div class="n">Perturbation</div><div class="d">Paced breathing, a manipulation of known direction</div></button>
+    <button class="blk" data-b="3" aria-pressed="false"><div class="t">Block D · 13 min</div><div class="n">Valence, on paper</div><div class="d">Recall and writing, with no sound or image</div></button>
+  </div>
+
+  <div class="panel">
+    <div class="pbar">
+      <span class="plabel">Elapsed</span>
+      <input id="scrub" type="range" min="0" max="100" value="0" style="flex:1;min-width:160px" aria-label="Scrub through the block">
+      <span class="plabel" id="scrubLab" style="width:120px">block A · 0%</span>
+    </div>
+    <div class="labgrid">
+      <div style="padding:10px">
+        <svg id="ses" viewBox="0 0 320 300" width="100%" role="img" aria-label="Network during the selected block"><g id="sEdges"></g><g id="sNodes"></g></svg>
+      </div>
+      <div class="side">
+        <h4>Self-report, 9-point</h4>
+        <div class="kv"><span>arousal</span><b id="sAro">—</b></div>
+        <div class="kv"><span>valence</span><b id="sVal">—</b></div>
+        <h4 style="margin-top:18px">What is being manipulated</h4>
+        <p id="sWhat" style="font-size:13.5px;margin:0;color:var(--ink-2)">—</p>
+        <h4 style="margin-top:18px">Expected edge to move</h4>
+        <div class="pairline" id="sEdge">—</div>
+      </div>
+    </div>
+    <div class="pcap">Simulated block dynamics. The purpose of the panel is to show which connection each block is designed to move, and why the design needs all four.</div>
+  </div>
+</div></section>
+
+<!-- ============ LABEL EFFICIENCY ============ -->
+<section id="eff"><div class="inner">
+  <p class="secmark"><b>08</b> Label efficiency</p>
+  <h2>Physiology is cheap to record. Labels are not.</h2>
+  <p>Every minute of signal costs nothing once the band is on a wrist. Every affect label costs a person stopping to rate how they feel. Pre-training on unlabelled recordings is how the study tries to trade one for the other.</p>
+
+  <div class="panel">
+    <div class="pbar">
+      <span class="plabel">Pre-training</span>
+      <div class="seg" role="group" aria-label="Pre-training">
+        <button class="pre" data-p="0" aria-pressed="false">Off</button>
+        <button class="pre" data-p="1" aria-pressed="true">Masked-channel</button>
+      </div>
+      <span class="sp"></span>
+      <span class="plabel" id="effLab">—</span>
+    </div>
+    <div class="pbody">
+      <svg id="effsvg" viewBox="0 0 660 260" width="100%" role="img" aria-label="Label efficiency curve"></svg>
+    </div>
+    <div class="pcap">Illustrative curve shape. The measured version of this figure is produced in January from the collected cohort.</div>
+  </div>
+</div></section>
+
+<!-- ============ STATUS ============ -->
+<section id="status"><div class="inner">
+  <p class="secmark"><b>09</b> Where it stands</p>
+  <h2>Nothing has been measured yet.</h2>
+  <p>The hardware exists and the question is fixed. Recording opens once the review board approves the protocol. Until then every figure here shows the format of a result, not a result.</p>
+
+  <div class="tl">
+    <div class="row done"><div class="p">Groundwork</div><div class="w">May – Aug 2026</div><div class="t">Wrist prototype, firmware, signal chain</div></div>
+    <div class="row here"><div class="p">Freeze</div><div class="w">August 2026</div><div class="t">Question, hypotheses and endpoints sealed with the analysis plan</div></div>
+    <div class="row"><div class="p">Baselines</div><div class="w">Aug – Sep 2026</div><div class="t">Single-channel controls; protocol filed with the review board</div></div>
+    <div class="row"><div class="p">Model</div><div class="w">Sep – Oct 2026</div><div class="t">Graph construction, ablations, instrument bench-tested</div></div>
+    <div class="row"><div class="p">Approval</div><div class="w">October 2026</div><div class="t">Review board decision, then a three-person pilot</div></div>
+    <div class="row"><div class="p">Recording</div><div class="w">Oct – Dec 2026</div><div class="t">Sixteen to twenty volunteers, four blocks each</div></div>
+    <div class="row"><div class="p">Analysis</div><div class="w">Dec – Jan</div><div class="t">Replication, label efficiency, the frozen set opened once</div></div>
+    <div class="row"><div class="p">Write-up</div><div class="w">Jan – Feb 2027</div><div class="t">Manuscript, figures, code release</div></div>
+  </div>
+
+  <div class="note" style="margin-top:30px"><b>On the earlier version of this site.</b> A previous build showed a live emotion readout running on simulated data and presented it as a product. It was a demonstration, not a study, and it is not part of this work.</div>
+</div></section>
+
+<footer><div class="inner">
+  <div class="fgrid">
+    <div><div class="lbl">cogarc</div>
+      <p style="font-size:13.5px;margin:0">A study of whether emotional valence is carried by the coupling between autonomic channels rather than by any channel alone.</p></div>
+    <div><div class="lbl">Opens on release</div>
+      <ul><li>Code repository <span class="pending">pending</span></li>
+          <li>De-identified dataset <span class="pending">pending</span></li>
+          <li>Analysis plan <span class="pending">sealed</span></li></ul></div>
+    <div><div class="lbl">Built on</div>
+      <ul><li>Network physiology</li><li>Graph representation learning</li><li>The circumplex model of affect</li></ul></div>
+  </div>
+  <p class="sub" style="margin:30px 0 0;font-family:var(--mono);font-size:11px">
+    Simulated throughout · no measured results · v6
+  </p>
+</div></footer>
+</div>
+
+<script>
+(function(){
+"use strict";
+var SVGNS='http://www.w3.org/2000/svg';
+var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function el(t,a){var e=document.createElementNS(SVGNS,t);for(var k in a)e.setAttribute(k,a[k]);return e;}
+function $(id){return document.getElementById(id);}
+function css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
+
+/* ================= theme ================= */
+var tbtn=$('theme');
+if(matchMedia('(prefers-color-scheme: dark)').matches){document.documentElement.dataset.theme='dark';}
+function syncTheme(){tbtn.textContent=document.documentElement.dataset.theme==='dark'?'Day':'Night';COL=chans();repaintAll();}
+tbtn.onclick=function(){
+  document.documentElement.dataset.theme=document.documentElement.dataset.theme==='dark'?'light':'dark';
+  syncTheme();
+};
+
+/* ================= physiology generator ================= */
+/* states: 0 baseline, 1 stress, 2 amusement.  Parameters set the true coupling. */
+var PAR=[
+ /* base */   {hr:72, hrsd:2.2, rsa:0.55, br:14, bd:1.0, scl:4.5, scr:3.2, edaHR:0.30, vaso:0.45, stTrend:0.0},
+ /* stress */ {hr:88, hrsd:1.4, rsa:0.18, br:18, bd:0.7, scl:9.0, scr:9.5, edaHR:0.80, vaso:0.18, stTrend:-0.5},
+ /* amuse */  {hr:82, hrsd:3.0, rsa:0.86, br:15, bd:1.3, scl:6.2, scr:5.5, edaHR:0.28, vaso:0.82, stTrend:0.35}
+];
+function lerpPar(a,b,t){var o={};for(var k in a)o[k]=a[k]+(b[k]-a[k])*t;return o;}
+function rnd(seed){var s=seed;return function(){s=(s*1664525+1013904223)%4294967296;return s/4294967296;};}
+
+var FS=32, SEC=48, N=FS*SEC;          /* display resolution           */
+var DS=4,  M=N/DS;                     /* 8 Hz feature series for coupling */
+var LAGS=24;                           /* ±3 s at 8 Hz                  */
+var CH=['EDAt','EDAp','HR','HRV','RR','RA','ST','PI'];
+var SHORT={EDAt:'EDt',EDAp:'EDp',HR:'HR',HRV:'HRV',RR:'RR',RA:'RA',ST:'ST',PI:'PI'};
+var CHLAB={EDAt:'tonic',EDAp:'phasic',HR:'rate',HRV:'variability',RR:'breath cycle',RA:'breath depth',ST:'skin temp',PI:'perfusion'};
+var GRP={EDAt:'eda',EDAp:'eda',HR:'car',HRV:'car',RR:'res',RA:'res',ST:'vas',PI:'vas'};
+function chans(){return{eda:css('--eda'),car:css('--car'),res:css('--res'),vas:css('--vas')};}
+var COL=chans();
+
+function generate(p,seed){
+  var r=rnd(seed||7), t, i;
+  var resp=new Float64Array(N), respEnv=new Float64Array(N);
+  var hr=new Float64Array(N), edaT=new Float64Array(N), edaP=new Float64Array(N),
+      st=new Float64Array(N), pi=new Float64Array(N);
+  var phase=0, envPhase=r()*6.28;
+  var arousalEvt=new Float64Array(N);
+  /* shared sympathetic burst process */
+  var nb=Math.max(1,Math.round(p.scr*SEC/60));
+  for(i=0;i<nb;i++){
+    var c=Math.floor(r()*N);
+    for(var j=0;j<FS*6;j++){var k=c+j;if(k<N){var x=j/FS;arousalEvt[k]+=Math.exp(-x/2.2)*(1-Math.exp(-x/0.35));}}
+  }
+  for(i=0;i<N;i++){
+    t=i/FS;
+    phase+=2*Math.PI*(p.br/60)/FS*(1+0.05*Math.sin(t*0.13));
+    var env=0.8+0.35*Math.sin(envPhase+t*0.09);
+    resp[i]=Math.sin(phase)*p.bd*env;
+    respEnv[i]=p.bd*env;
+    var noise=(r()-0.5)*p.hrsd;
+    hr[i]=p.hr + p.rsa*6*Math.sin(phase-0.5) + p.edaHR*7*arousalEvt[i] + noise;
+    edaT[i]=p.scl + 0.20*Math.sin(t*0.08) + 0.95*arousalEvt[i] + (r()-0.5)*0.05;
+    edaP[i]=arousalEvt[i]*1.1 + (r()-0.5)*0.03;
+    st[i]=33.6 + p.stTrend*(t/SEC) + p.vaso*0.42*Math.sin(t*0.09+1.1) + p.vaso*0.05*respEnv[i] + (r()-0.5)*0.004;
+    pi[i]=2.2 + p.vaso*1.9*Math.sin(t*0.09+1.22) + p.vaso*0.5*resp[i]*0.4 + (r()-0.5)*0.02;
+  }
+  /* derived slow series */
+  var hrv=new Float64Array(N);
+  for(i=0;i<N;i++){var a=Math.max(0,i-FS*4),s=0,n2=0;
+    for(var q=a+1;q<=i;q++){var d=hr[q]-hr[q-1];s+=d*d;n2++;}
+    hrv[i]=n2?Math.sqrt(s/n2)*18:0;}
+  return {trace:{eda:edaT,edaP:edaP,hr:hr,resp:resp,st:st,pi:pi},
+          series:{EDAt:edaT,EDAp:edaP,HR:hr,HRV:hrv,RR:resp,RA:respEnv,ST:st,PI:pi}, par:p};
+}
+function down(a){var o=new Float64Array(M);for(var i=0;i<M;i++){var s=0;for(var j=0;j<DS;j++)s+=a[i*DS+j];o[i]=s/DS;}return o;}
+function diff(a){var n=a.length,o=new Float64Array(n-1);for(var i=1;i<n;i++)o[i-1]=a[i]-a[i-1];return o;}
+function znorm(a){var n=a.length,m=0,v=0,i;for(i=0;i<n;i++)m+=a[i];m/=n;
+  for(i=0;i<n;i++)v+=(a[i]-m)*(a[i]-m);v=Math.sqrt(v/n)||1;
+  var o=new Float64Array(n);for(i=0;i<n;i++)o[i]=(a[i]-m)/v;return o;}
+function xcorr(a,b){/* returns {curve, peak, lag} over ±LAGS */
+  var n=a.length,out=[],best=0,bl=0;
+  for(var L=-LAGS;L<=LAGS;L++){
+    var s=0,c=0;
+    for(var i=0;i<n;i++){var j=i+L;if(j<0||j>=n)continue;s+=a[i]*b[j];c++;}
+    var r=c?s/c:0;out.push(r);
+    if(Math.abs(r)>Math.abs(best)){best=r;bl=L;}
+  }
+  return {curve:out,peak:Math.abs(best),signed:best,lag:bl/8};
+}
+var CACHE={};
+function analyse(p,key){
+  if(CACHE[key])return CACHE[key];
+  var g=generate(p, 7);
+  var z={}; CH.forEach(function(c){z[c]=znorm(diff(down(g.series[c])));});
+  var A={}, list=[];
+  for(var i=0;i<CH.length;i++)for(var j=i+1;j<CH.length;j++){
+    var x=xcorr(z[CH[i]],z[CH[j]]);
+    var id=CH[i]+'|'+CH[j];
+    A[id]=x; list.push({id:id,a:CH[i],b:CH[j],w:x.peak,lag:x.lag});
+  }
+  var res={g:g,A:A,list:list};
+  CACHE[key]=res; return res;
+}
+var BASE=analyse(PAR[0],'s0'), STRESS=analyse(PAR[1],'s1'), AMUSE=analyse(PAR[2],'s2');
+var STATES=[BASE,STRESS,AMUSE], SNAME=['baseline','stress','amusement'];
+
+/* ================= rail ================= */
+(function(){
+  var c=$('railc'); if(!c||reduce)return;
+  var ctx=c.getContext('2d'),t=0;
+  function size(){var r=c.parentNode.getBoundingClientRect();
+    c.width=Math.round(r.width*devicePixelRatio);c.height=Math.round(r.height*devicePixelRatio);
+    ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);}
+  size();addEventListener('resize',size);
+  function draw(){
+    var w=c.width/devicePixelRatio,h=c.height/devicePixelRatio;
+    ctx.clearRect(0,0,w,h);
+    var cs=[COL.eda,COL.car,COL.res,COL.vas];
+    for(var k=0;k<4;k++){
+      ctx.beginPath();ctx.strokeStyle=cs[k];ctx.globalAlpha=.4;ctx.lineWidth=1;
+      var x=w*(0.2+k*0.2);
+      for(var y=0;y<=h;y+=2){
+        var ph=(y+t*(0.35+k*0.12))*0.045;
+        var v=Math.sin(ph)*Math.sin(ph*0.31+k)*(4+k*1.4)+(k===0?Math.max(0,Math.sin(ph*0.17))*5:0)+(k===1?Math.sin(ph*3.1)*1.6:0);
+        y===0?ctx.moveTo(x+v,y):ctx.lineTo(x+v,y);
+      }
+      ctx.stroke();
+    }
+    ctx.globalAlpha=1;t++;requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ================= scope ================= */
+var scopeState=0, sweep=3;
+(function(){
+  var cv=$('scope'), ctx=cv.getContext('2d'), off=0;
+  function size(){var r=cv.getBoundingClientRect();cv.width=Math.round(r.width*devicePixelRatio);
+    cv.height=Math.round(260*devicePixelRatio);ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);}
+  size();addEventListener('resize',size);
+  var rows=[['eda',function(g){return g.trace.eda;},'--eda','EDA'],
+            ['hr', function(g){return g.trace.hr;},'--car','PPG · HR'],
+            ['rp', function(g){return g.trace.resp;},'--res','Respiration'],
+            ['pi', function(g){return g.trace.pi;},'--vas','Perfusion']];
+  var RANGE={};
+  function rangeFor(si,ri){
+    var key=si+'_'+ri; if(RANGE[key])return RANGE[key];
+    var a=rows[ri][1](STATES[si].g),lo=Infinity,hi=-Infinity;
+    for(var i=0;i<a.length;i++){if(a[i]<lo)lo=a[i];if(a[i]>hi)hi=a[i];}
+    var pad=(hi-lo)*0.12||1; RANGE[key]=[lo-pad,hi+pad]; return RANGE[key];
+  }
+  function draw(){
+    var w=cv.width/devicePixelRatio,h=cv.height/devicePixelRatio;
+    ctx.clearRect(0,0,w,h);
+    ctx.strokeStyle=css('--grid');ctx.lineWidth=1;
+    for(var gx=0;gx<w;gx+=w/12){ctx.beginPath();ctx.moveTo(gx,0);ctx.lineTo(gx,h);ctx.stroke();}
+    var g=STATES[scopeState].g, rh=h/4;
+    rows.forEach(function(rw,ri){
+      var arr=rw[1](g),rg=rangeFor(scopeState,ri),lo=rg[0],hi=rg[1],y0=ri*rh;
+      ctx.strokeStyle=css('--rule-2');ctx.beginPath();ctx.moveTo(0,y0);ctx.lineTo(w,y0);ctx.stroke();
+      ctx.fillStyle=css('--ink-3');ctx.font='9.5px "IBM Plex Mono",monospace';
+      ctx.fillText(rw[3],6,y0+13);
+      ctx.beginPath();ctx.strokeStyle=css(rw[2]);ctx.lineWidth=1.15;
+      for(var px=0;px<w;px++){
+        var idx=Math.floor((px/w)*N*0.55+off)%N;
+        var v=(arr[idx]-lo)/(hi-lo);v=Math.max(0,Math.min(1,v));
+        var y=y0+rh-8-v*(rh-20);
+        px===0?ctx.moveTo(px,y):ctx.lineTo(px,y);
+      }
+      ctx.stroke();
+    });
+    if(!reduce)off=(off+sweep*0.8)%N;
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+function scopeReadouts(){
+  var p=PAR[scopeState];
+  $('mSCL').innerHTML=p.scl.toFixed(1)+'<span class="u">µS</span>';
+  $('mSCR').innerHTML=p.scr.toFixed(1)+'<span class="u">/min</span>';
+  $('mHR').innerHTML=Math.round(p.hr)+'<span class="u">bpm</span>';
+  $('mRR').innerHTML=p.br.toFixed(0)+'<span class="u">/min</span>';
+}
+scopeReadouts();
+Array.prototype.forEach.call(document.querySelectorAll('.st'),function(b){
+  b.onclick=function(){document.querySelectorAll('.st').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false');});
+    scopeState=+b.dataset.st;scopeReadouts();};
+});
+$('speed').oninput=function(){sweep=+this.value;};
+
+/* ================= affect space ================= */
+(function(){
+  var svg=$('aff'),A={x:230,y:100},B={x:480,y:100},drag=null;
+  var g=$('affgrid');
+  for(var i=1;i<5;i++){g.appendChild(el('line',{x1:90,y1:36+i*50.8,x2:620,y2:36+i*50.8,stroke:'var(--rule-2)'}));}
+  for(i=1;i<6;i++){g.appendChild(el('line',{x1:90+i*88,y1:36,x2:90+i*88,y2:290,stroke:'var(--rule-2)'}));}
+  function place(){
+    $('pA').setAttribute('transform','translate('+A.x+','+A.y+')');
+    $('pB').setAttribute('transform','translate('+B.x+','+B.y+')');
+    var c=$('conn');c.setAttribute('x1',A.x);c.setAttribute('y1',A.y);c.setAttribute('x2',B.x);c.setAttribute('y2',B.y);
+    var dv=Math.abs(B.x-A.x)/530*2, da=Math.abs(B.y-A.y)/254*2;
+    $('dV').textContent=dv.toFixed(2);
+    $('dA').textContent=da.toFixed(2);
+    var ok=da<0.12;
+    c.setAttribute('stroke',ok?css('--res'):css('--ink-3'));
+    c.setAttribute('stroke-dasharray',ok?'none':'6 5');
+    $('qLab').textContent=ok?'valid — arousal matched':'confounded — heights differ';
+    $('qLab').style.color=ok?css('--res'):css('--car');
+    $('dAttr').textContent=ok?'valence only':(dv<0.08?'arousal only':'both — unresolvable');
+  }
+  function pt(e){var r=svg.getBoundingClientRect(),sx=660/r.width,sy=330/r.height;
+    var t=e.touches?e.touches[0]:e;return {x:(t.clientX-r.left)*sx,y:(t.clientY-r.top)*sy};}
+  function start(o){return function(e){drag=o;e.preventDefault();};}
+  $('pA').addEventListener('mousedown',start(A));$('pB').addEventListener('mousedown',start(B));
+  $('pA').addEventListener('touchstart',start(A),{passive:false});$('pB').addEventListener('touchstart',start(B),{passive:false});
+  function move(e){if(!drag)return;var q=pt(e);
+    drag.x=Math.max(100,Math.min(610,q.x));drag.y=Math.max(46,Math.min(280,q.y));place();e.preventDefault();}
+  addEventListener('mousemove',move);addEventListener('touchmove',move,{passive:false});
+  addEventListener('mouseup',function(){drag=null;});addEventListener('touchend',function(){drag=null;});
+  $('snap').onclick=function(){B.y=A.y;place();};
+  place();
+})();
+
+/* ================= network drawing ================= */
+function ringPos(cx,cy,r){var p={};CH.forEach(function(c,i){
+  var a=-Math.PI/2+i*2*Math.PI/CH.length;p[c]={x:cx+r*Math.cos(a),y:cy+r*Math.sin(a),a:a};});return p;}
+var PAIRS=[];for(var i=0;i<CH.length;i++)for(var j=i+1;j<CH.length;j++)PAIRS.push([CH[i],CH[j]]);
+
+function buildNet(egId,ndId,pos,rad,fs,onEdge){
+  var eg=$(egId),ng=$(ndId);eg.innerHTML='';ng.innerHTML='';
+  PAIRS.forEach(function(pr,k){
+    var a=pos[pr[0]],b=pos[pr[1]];
+    var ln=el('line',{x1:a.x,y1:a.y,x2:b.x,y2:b.y,stroke:css('--ink'),'stroke-linecap':'round','class':'edge','data-k':k});
+    if(onEdge){ln.addEventListener('click',function(){onEdge(k);});
+      ln.addEventListener('mouseenter',function(){onEdge(k,true);});}
+    eg.appendChild(ln);
+  });
+  CH.forEach(function(c){var p=pos[c];
+    ng.appendChild(el('circle',{cx:p.x,cy:p.y,r:rad,fill:css('--panel'),stroke:COL[GRP[c]],'stroke-width':1.3}));
+    var t=el('text',{x:p.x,y:p.y+3.2,'text-anchor':'middle',style:'font-size:'+fs+'px;fill:'+COL[GRP[c]]});
+    t.textContent=c;ng.appendChild(t);});
+}
+function paintNet(egId,weights,maxw,muted){
+  var ls=$(egId).childNodes;
+  for(var k=0;k<ls.length;k++){
+    var w=weights[k],offEdge=muted&&muted[k];
+    var e2=Math.pow(Math.max(0,Math.min(1,w)),1.35);
+    ls[k].setAttribute('stroke-width',(0.35+e2*maxw).toFixed(2));
+    ls[k].setAttribute('stroke-opacity',offEdge?0.09:(0.05+e2*0.80).toFixed(2));
+    ls[k].setAttribute('stroke',offEdge?css('--ink-3'):css('--ink'));
+    ls[k].setAttribute('class',offEdge?'edge mute':'edge');
+  }
+}
+function weightsOf(res){
+  var raw=PAIRS.map(function(p){return res.A[p[0]+'|'+p[1]].peak;});
+  var mx=Math.max.apply(null,raw)||1;
+  return raw.map(function(v){return v/mx;});
+}
+function rawOf(res){return PAIRS.map(function(p){return res.A[p[0]+'|'+p[1]].peak;});}
+
+/* ================= LAB ================= */
+var labState=0, selPair=0, labW=weightsOf(BASE);
+var labPos=ringPos(160,150,104);
+function mxRender(){
+  var wrap=$('mxwrap'),n=CH.length,cell=22;
+  wrap.style.display='grid';
+  wrap.style.gridTemplateColumns='26px repeat('+n+','+cell+'px)';
+  wrap.style.gap='2px';
+  wrap.innerHTML='';
+  var corner=document.createElement('div');wrap.appendChild(corner);
+  CH.forEach(function(c){var d=document.createElement('div');d.className='mxlab';d.textContent=SHORT[c];
+    d.style.height='16px';d.style.color=COL[GRP[c]];wrap.appendChild(d);});
+  CH.forEach(function(rc,ri){
+    var lab=document.createElement('div');lab.className='mxlab';lab.textContent=SHORT[rc];
+    lab.style.justifyContent='flex-end';lab.style.color=COL[GRP[rc]];wrap.appendChild(lab);
+    CH.forEach(function(cc,ci){
+      var b=document.createElement('button');b.className='cellbtn';
+      b.style.width=cell+'px';b.style.height=cell+'px';
+      if(ri===ci){b.style.background='transparent';b.disabled=true;b.style.cursor='default';
+        b.style.border='1px solid '+css('--rule-2');}
+      else{
+        var k=PAIRS.findIndex(function(p){return (p[0]===rc&&p[1]===cc)||(p[0]===cc&&p[1]===rc);});
+        b.dataset.k=k;
+        b.setAttribute('aria-label',rc+' with '+cc);
+        b.onclick=function(){selPair=k;refreshLab();};
+        b.onmouseenter=function(){highlight(k);};
+        b.onmouseleave=function(){highlight(selPair);};
+      }
+      wrap.appendChild(b);
+    });
+  });
+}
+function mxPaint(){
+  var btns=$('mxwrap').querySelectorAll('button[data-k]');
+  Array.prototype.forEach.call(btns,function(b){
+    var w=labW[+b.dataset.k];
+    var dark=document.documentElement.dataset.theme==='dark';
+    var g2=Math.pow(Math.max(0,Math.min(1,w)),1.25);
+    b.style.background=dark
+      ? 'rgba(120,170,235,'+(0.05+g2*0.90).toFixed(3)+')'
+      : 'rgba(15,26,43,'+(0.04+g2*0.86).toFixed(3)+')';
+    b.style.outline=(+b.dataset.k===selPair)?'2px solid '+css('--car'):'none';
+    b.style.outlineOffset='1px';
+  });
+}
+function highlight(k){
+  var ls=$('nEdges').childNodes;
+  for(var q=0;q<ls.length;q++) ls[q].setAttribute('stroke',q===k?css('--car'):css('--ink'));
+  var btns=$('mxwrap').querySelectorAll('button[data-k]');
+  Array.prototype.forEach.call(btns,function(b){
+    b.style.outline=(+b.dataset.k===k)?'2px solid '+css('--car'):'none';});
+}
+function xcorrPlot(curve,lag){
+  var s=$('xcorr');s.innerHTML='';
+  var W=260,H=120,n=curve.length,mid=(n-1)/2;
+  s.appendChild(el('line',{x1:0,y1:H/2,x2:W,y2:H/2,stroke:css('--rule-2')}));
+  s.appendChild(el('line',{x1:W/2,y1:6,x2:W/2,y2:H-14,stroke:css('--rule-2')}));
+  var d='',mx=1.0;
+  curve.forEach(function(v,q){
+    var x=q/(n-1)*W, y=H/2-(v/mx)*(H/2-12);
+    d+=(q?'L':'M')+x.toFixed(1)+' '+y.toFixed(1);
+  });
+  s.appendChild(el('path',{d:d,fill:'none',stroke:css('--ink'),'stroke-width':1.4}));
+  var px=(lag*8+mid)/(n-1)*W;
+  s.appendChild(el('line',{x1:px,y1:6,x2:px,y2:H-14,stroke:css('--car'),'stroke-width':1.2,'stroke-dasharray':'3 3'}));
+  var t1=el('text',{x:2,y:H-2,style:'font-size:9px'});t1.textContent='−3 s';s.appendChild(t1);
+  var t2=el('text',{x:W-2,y:H-2,'text-anchor':'end',style:'font-size:9px'});t2.textContent='+3 s';s.appendChild(t2);
+}
+function refreshLab(){
+  paintNet('nEdges',labW,7.2,null);
+  mxPaint();highlight(selPair);
+  var pr=PAIRS[selPair], id=pr[0]+'|'+pr[1];
+  var cur=labCache.A[id], base=BASE.A[id];
+  $('pairName').textContent=pr[0]+' — '+pr[1];
+  $('pairKind').textContent=CHLAB[pr[0]]+'  ·  '+CHLAB[pr[1]];
+  $('ppk').textContent=cur.peak.toFixed(3);
+  $('plag').textContent=(cur.lag>0?'+':'')+cur.lag.toFixed(2)+' s';
+  var d=cur.peak-base.peak;
+  $('pdel').textContent=(d>=0?'+':'−')+Math.abs(d).toFixed(3);
+  var sorted=labW.map(function(w,k){return{w:w,k:k};}).sort(function(a,b){return b.w-a.w;});
+  var rank=sorted.findIndex(function(o){return o.k===selPair;})+1;
+  $('prank').textContent=rank+' of '+PAIRS.length;
+  xcorrPlot(cur.curve,cur.lag);
+}
+var labCache=BASE;
+function setLabState(s,morphVal){
+  labState=s;
+  if(morphVal===undefined){
+    labCache=STATES[s];labW=weightsOf(labCache);
+    $('morphLab').textContent=SNAME[s];
+    $('morph').value=s*100;
+  }
+  refreshLab();
+}
+buildNet('nEdges','nNodes',labPos,19,10,function(k,hover){ if(hover){highlight(k);}else{selPair=k;refreshLab();} });
+mxRender();setLabState(0);
+Array.prototype.forEach.call(document.querySelectorAll('.lst'),function(b){
+  b.onclick=function(){document.querySelectorAll('.lst').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false');});
+    setLabState(+b.dataset.st);};
+});
+$('morph').oninput=function(){
+  var v=+this.value/100;             /* 0..2 across the three states */
+  var i0=Math.min(1,Math.floor(v)), f=v-i0;
+  var p=lerpPar(PAR[i0],PAR[i0+1],f);
+  var key='m'+Math.round(v*20);
+  labCache=analyse(p,key);
+  labW=weightsOf(labCache);
+  labState=f<0.5?i0:i0+1;
+  document.querySelectorAll('.lst').forEach(function(x){x.setAttribute('aria-pressed',+x.dataset.st===labState?'true':'false');});
+  $('morphLab').textContent = f<0.06?SNAME[i0]:(f>0.94?SNAME[i0+1]:SNAME[i0]+' → '+SNAME[i0+1]);
+  refreshLab();
+};
+
+/* ================= ABLATION ================= */
+var task='val', ablOff={}, ablPos=ringPos(160,150,104);
+function contrastW(){
+  /* per-edge |difference| between the two conditions of the task */
+  var A=task==='val'?STRESS:BASE, B=task==='val'?AMUSE:STRESS;
+  return PAIRS.map(function(p){var id=p[0]+'|'+p[1];return Math.abs(A.A[id].peak-B.A[id].peak);});
+}
+function ablPaint(){
+  var d=contrastW(), mx=Math.max.apply(null,d)||1;
+  var shown=d.map(function(v){return v/mx;});
+  var muted=PAIRS.map(function(_,k){return !!ablOff[k];});
+  paintNet('aEdges',shown,6.6,muted);
+  /* simulated AUC: floor + contribution of retained discriminative edges */
+  var tot=0,kept=0;
+  d.forEach(function(v,k){tot+=v;if(!ablOff[k])kept+=v;});
+  var frac=tot?kept/tot:0;
+  var ceil=task==='val'?0.79:0.93, floor=task==='val'?0.53:0.71;
+  var auc=floor+(ceil-floor)*Math.pow(frac,0.75);
+  $('aucVal').textContent=auc.toFixed(3);
+  $('aucSub').textContent=(task==='val'?'valence':'arousal')+' · AUC, leave-one-subject-out · simulated';
+  var bar=$('aucbar');bar.innerHTML='';
+  bar.appendChild(el('rect',{x:0,y:9,width:260,height:6,rx:3,fill:css('--rule')}));
+  bar.appendChild(el('rect',{x:0,y:9,width:(260*(auc-0.5)/0.5).toFixed(1),height:6,rx:3,fill:css('--car')}));
+  var t=el('text',{x:260,y:24,'text-anchor':'end',style:'font-size:9px'});t.textContent='chance 0.50 → 1.00';bar.appendChild(t);
+  /* ranking */
+  var order=d.map(function(v,k){return{v:v,k:k};}).sort(function(a,b){return b.v-a.v;}).slice(0,8);
+  var host=$('rankList');host.innerHTML='';
+  order.forEach(function(o){
+    var row=document.createElement('div');row.className='row'+(ablOff[o.k]?' off':'');
+    var nm=document.createElement('span');nm.textContent=PAIRS[o.k][0]+'–'+PAIRS[o.k][1];
+    var wrapb=document.createElement('span');
+    var bb=document.createElement('div');bb.className='bar';bb.style.width=Math.max(3,(o.v/mx)*100)+'%';
+    wrapb.appendChild(bb);
+    var vv=document.createElement('span');vv.className='v';vv.textContent=o.v.toFixed(3);
+    row.appendChild(nm);row.appendChild(wrapb);row.appendChild(vv);
+    row.onclick=function(){ablOff[o.k]=!ablOff[o.k];ablPaint();};
+    host.appendChild(row);
+  });
+}
+buildNet('aEdges','aNodes',ablPos,19,10,function(k,hover){ if(!hover){ablOff[k]=!ablOff[k];ablPaint();} });
+ablPaint();
+Array.prototype.forEach.call(document.querySelectorAll('.tsk'),function(b){
+  b.onclick=function(){document.querySelectorAll('.tsk').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false');});
+    task=b.dataset.t;ablOff={};ablPaint();};
+});
+$('ablReset').onclick=function(){ablOff={};ablPaint();};
+
+/* ================= SESSION ================= */
+var BLK=[
+ {n:'A',from:0,to:1,aro:[3,7],val:[5,4],what:'Serial subtraction under time pressure against quiet rest. Raises activation without making the experience pleasant or unpleasant in a controlled way.',edge:'EDAt — EDAp'},
+ {n:'B',from:0,to:2,aro:[4,7],val:[5,8],what:'Film clips matched on activation and opposite in pleasantness. This is the contrast the whole study rests on.',edge:'HR — RR'},
+ {n:'C',from:1,to:2,aro:[6,3],val:[5,6],what:'Paced breathing at six breaths per minute. A manipulation whose direction is known in advance, used to check that the learned edges behave.',edge:'HRV — RR'},
+ {n:'D',from:0,to:2,aro:[4,6],val:[5,7],what:'Recall and writing, no sound and no image. If this agrees with Block B, the effect was valence and not screen brightness.',edge:'ST — PI'}
+];
+var blk=0, sesPos=ringPos(160,150,104);
+buildNet('sEdges','sNodes',sesPos,19,10,null);
+function sesPaint(){
+  var b=BLK[blk], t=+$('scrub').value/100;
+  var p=lerpPar(PAR[b.from],PAR[b.to],t);
+  var res=analyse(p,'b'+blk+'_'+Math.round(t*10));
+  paintNet('sEdges',weightsOf(res),6.6,null);
+  $('scrubLab').textContent='block '+b.n+' · '+Math.round(t*100)+'%';
+  $('sAro').textContent=(b.aro[0]+(b.aro[1]-b.aro[0])*t).toFixed(1);
+  $('sVal').textContent=(b.val[0]+(b.val[1]-b.val[0])*t).toFixed(1);
+  $('sWhat').textContent=b.what;
+  $('sEdge').textContent=b.edge;
+}
+$('scrub').oninput=sesPaint;
+Array.prototype.forEach.call(document.querySelectorAll('.blk'),function(b){
+  b.onclick=function(){document.querySelectorAll('.blk').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false');});
+    blk=+b.dataset.b;$('scrub').value=0;sesPaint();};
+});
+sesPaint();
+
+/* ================= LABEL EFFICIENCY ================= */
+var pre=1;
+function effDraw(){
+  var s=$('effsvg');s.innerHTML='';
+  var W=660,H=260,L=64,R=24,T=18,B=42;
+  var x=function(v){return L+(v/100)*(W-L-R);}, y=function(v){return H-B-((v-0.5)/0.32)*(H-T-B);};
+  [0.5,0.6,0.7,0.8].forEach(function(v){
+    s.appendChild(el('line',{x1:L,y1:y(v),x2:W-R,y2:y(v),stroke:css('--rule-2')}));
+    var t=el('text',{x:L-10,y:y(v)+3,'text-anchor':'end',style:'font-size:9.5px'});t.textContent=v.toFixed(2);s.appendChild(t);});
+  [10,25,50,100].forEach(function(v){
+    var t=el('text',{x:x(v),y:H-B+16,'text-anchor':'middle',style:'font-size:9.5px'});t.textContent=v+'%';s.appendChild(t);});
+  var cap=el('text',{x:(L+W-R)/2,y:H-8,'text-anchor':'middle',style:'font-size:10px'});
+  cap.textContent='share of labels used';s.appendChild(cap);
+  function curve(a,b,col,dash){
+    var d='';for(var v=6;v<=100;v+=2){
+      var val=a+b*Math.log(1+v/12)/Math.log(1+100/12);
+      d+=(d?'L':'M')+x(v).toFixed(1)+' '+y(val).toFixed(1);}
+    s.appendChild(el('path',{d:d,fill:'none',stroke:col,'stroke-width':2,'stroke-dasharray':dash||'none'}));
+  }
+  curve(0.545,0.235,css('--ink-3'),'5 4');
+  if(pre) curve(0.618,0.165,css('--car'));
+  var ly=H-B-52;
+  function legend(col,dash,txt,yy){
+    s.appendChild(el('line',{x1:L+14,y1:yy,x2:L+40,y2:yy,stroke:col,'stroke-width':2,'stroke-dasharray':dash||'none'}));
+    var t=el('text',{x:L+48,y:yy+3.5,style:'font-size:10px;fill:'+col});t.textContent=txt;s.appendChild(t);
+  }
+  legend(css('--ink-3'),'5 4','no pre-training',ly);
+  if(pre) legend(css('--car'),null,'masked-channel pre-training',ly+17);
+  if(pre){
+    var target=0.72, need=function(a,b){for(var v=6;v<=100;v+=1){if(a+b*Math.log(1+v/12)/Math.log(1+100/12)>=target)return v;}return 100;};
+    var n1=need(0.545,0.235), n2=need(0.618,0.165);
+    s.appendChild(el('line',{x1:x(n2),y1:y(target),x2:x(n1),y2:y(target),stroke:css('--eda'),'stroke-width':1.4}));
+    s.appendChild(el('circle',{cx:x(n2),cy:y(target),r:3,fill:css('--eda')}));
+    s.appendChild(el('circle',{cx:x(n1),cy:y(target),r:3,fill:css('--eda')}));
+    $('effLab').textContent='same score at '+n2+'% instead of '+n1+'% of labels';
+  } else $('effLab').textContent='labels are the only source of supervision';
+}
+Array.prototype.forEach.call(document.querySelectorAll('.pre'),function(b){
+  b.onclick=function(){document.querySelectorAll('.pre').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false');});
+    pre=+b.dataset.p;effDraw();};
+});
+effDraw();
+
+/* ================= repaint on theme change ================= */
+function repaintAll(){
+  buildNet('nEdges','nNodes',labPos,19,10,function(k,hover){if(hover){highlight(k);}else{selPair=k;refreshLab();}});
+  buildNet('aEdges','aNodes',ablPos,19,10,function(k,hover){if(!hover){ablOff[k]=!ablOff[k];ablPaint();}});
+  buildNet('sEdges','sNodes',sesPos,19,10,null);
+  mxRender();refreshLab();ablPaint();sesPaint();effDraw();
+}
+syncTheme();
+})();
+</script>
+</body>
+</html>
