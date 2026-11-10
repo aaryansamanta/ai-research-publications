@@ -4,7 +4,7 @@
 
 <br>
 
-<img src="https://img.shields.io/badge/High_School_Researcher-10th_Grade-8B5CF6?style=for-the-badge&logo=python&logoColor=white" alt="High School Researcher">
+<img src="https://img.shields.io/badge/High_School_Researcher-11th_Grade-8B5CF6?style=for-the-badge&logo=python&logoColor=white" alt="High School Researcher">
 <img src="https://img.shields.io/badge/2_Peer--Reviewed_Pubs-2025--2026-22C55E?style=for-the-badge" alt="Publications">
 <img src="https://img.shields.io/badge/Research_Scholar-Stanford_Medicine-8C1515?style=for-the-badge" alt="Stanford">
 <img src="https://img.shields.io/badge/IEEE_&_IJHSR-Indexed-FFD700?style=for-the-badge" alt="Indexed">
@@ -14,16 +14,16 @@
 
 <img src="https://img.shields.io/badge/USACO_Dual_Perfect-2025-FF6B00?style=flat-square" alt="USACO">
 <img src="https://img.shields.io/badge/AMC_10%2F12_National_Perfect-2×_AIME-6366F1?style=flat-square" alt="Math">
-<img src="https://img.shields.io/badge/Repos-5_active_projects-0EA5E9?style=flat-square" alt="Repos">
+<img src="https://img.shields.io/badge/Projects-6_research_projects-0EA5E9?style=flat-square" alt="Repos">
 <img src="https://img.shields.io/badge/License-MIT_%2B_per--project-16A34A?style=flat-square" alt="License">
 
 <h1>🔬 AI Research & Peer-Reviewed Publications</h1>
 
 <p>
-<strong>Aaryan Samanta</strong> — 10th Grader, Legend College Preparatory, Cupertino, CA<br>
-Lead author of two peer-reviewed publications (IEEE · IJHSR) as a high-school sophomore, plus three
-active research programs spanning <strong>quantum-inspired ML, computational biology, biomedical
-imaging, science-education research, and reinforcement learning for wildfire response.</strong>
+<strong>Aaryan Samanta</strong> — 11th Grader, Legend College Preparatory, Cupertino, CA<br>
+Lead author of two peer-reviewed publications (IEEE · IJHSR) as a high-school sophomore, plus four
+active research projects spanning <strong>quantum-inspired ML, computational biology, biomedical
+imaging, science-education research, reinforcement learning for wildfire response, and computational neuroscience.</strong>
 </p>
 
 <p>
@@ -61,11 +61,12 @@ imaging, science-education research, and reinforcement learning for wildfire res
 | 3 | **[Functional Imaging of the Pelvic Floor](stanford-urology-2026/)** | Stanford University School of Medicine (Dept. of Urology) | Kinematic ultrasound analysis (displacement → velocity → acceleration) of pelvic floor muscle function, mentored by Prof. Emeritus Christos Constantinou | 🟡 Preliminary findings |
 | 4 | **[InfernoTactics — Wildfire RL Agent](ucla-cosmos-2026-c1-infernotactics/)** | UCLA COSMOS 2026, Cluster 1 | Actor-critic reinforcement learning (CNN + MLP) that dispatches firefighting resources on a real LA terrain model grounded in the Jan. 2025 Palisades Fire | ✅ Results + live 3D demo |
 | 5 | **[Diagrams That Mislead: Biology Visual Literacy](cbe-diagram-misconceptions/)** | *CBE—Life Sciences Education* (ASCB) — targeted submission | Empirical study on how simplified biology diagrams create systemic student misconceptions; instruments + analysis pipeline built | 🚧 In progress |
+| 6 | **[CogArc — Autonomic Coupling & Emotion Modeling](cogarc/)** | Independent prototype development · team computational-neuroscience research | Interactive physiological-signal coupling prototype; graph-attention research framework and planned public-dataset evaluation | 🧪 Interactive prototype |
 
 </div>
 
 - **< 1%** of U.S. high schoolers publish in AI/computational-biology venues — this repo holds **two** such papers from a single sophomore year.
-- Spans the full stack of research skill: **wet-lab-adjacent bioinformatics → clinical imaging analysis → deep RL simulation → human-subjects education research.**
+- Spans the full stack of research skill: **wet-lab-adjacent bioinformatics → clinical imaging analysis → deep RL simulation → human-subjects education research → computational neuroscience prototyping.**
 
 ---
 
@@ -117,9 +118,13 @@ ai-research-publications/
 │   ├── infernotactics/   integration/     demo/      docs/     archive/
 │   └── Actor-critic RL wildfire-response agent on real LA terrain
 │
-└── 📊 cbe-diagram-misconceptions/                 🚧 In progress · targeting CBE—LSE
-    ├── manuscript/        instruments/       analysis/        docs/
-    └── Study on simplified biology diagrams & student misconceptions
+├── 📊 cbe-diagram-misconceptions/                 🚧 In progress · targeting CBE—LSE
+│   ├── manuscript/        instruments/       analysis/        docs/
+│   └── Study on simplified biology diagrams & student misconceptions
+│
+└── 🧠 cogarc/                                    🧪 Interactive research prototype
+    ├── index.html        prototype/       assets/         docs/
+    └── Autonomic-signal coupling and emotion-modeling research
 ```
 
 | Go to… | What you'll find |
@@ -129,6 +134,7 @@ ai-research-publications/
 | [`stanford-urology-2026/`](stanford-urology-2026/) | Phase 1/2 READMEs, ultrasound clip previews, research deck, data-privacy notes |
 | [`ucla-cosmos-2026-c1-infernotactics/`](ucla-cosmos-2026-c1-infernotactics/) | RL package, live Cesium 3D demo, poster & write-up, honest limitations log |
 | [`cbe-diagram-misconceptions/`](cbe-diagram-misconceptions/) | Study instruments, synthetic-data analysis pipeline, IRB/budget/timeline docs |
+| [`cogarc/`](cogarc/) | [Live interactive demo](https://cogarc.ai/) · V7 browser prototype, source code, research status, and animated project banner |
 
 ---
 
@@ -244,6 +250,27 @@ against them across a 3-phase study (deconstruct → empirical test → synthesi
 </td></tr>
 </table>
 
+### 6️⃣ CogArc — Autonomic Coupling & Emotion Modeling — *Research Prototype, 2026*
+
+<table>
+<tr><td width="65%" valign="top">
+
+Can the **relationships among autonomic physiological signals** reveal emotional valence beyond what any single signal can show? CogArc explores this research question through physiological time-series representations and a proposed **graph-attention** approach. The repository contains a **working interactive HTML/CSS/JavaScript V7 prototype**, developed primarily by Aaryan Samanta as the modeling member of a six-person research team.
+
+The research plan calls for public-dataset evaluation using **WESAD and CASE**, with **DEAP reserved for held-out testing**, plus simpler baselines and ablations. These evaluations are **planned, not completed or validated results**. Any future volunteer study requires appropriate approval before data collection.
+
+</td><td width="35%" valign="top">
+
+**📌 At a glance**
+- 🖥️ [Live interactive demo — cogarc.ai](https://cogarc.ai/)
+- 💻 [Prototype code & README](cogarc/)
+- 🧠 Physiological coupling × graph-based modeling
+- 🧪 **Status:** interactive prototype; model validation pending
+- 👨‍💻 **Primary prototype developer:** Aaryan Samanta
+
+</td></tr>
+</table>
+
 ---
 
 ## 📖 Citations
@@ -280,6 +307,7 @@ Each publication folder also ships its own `CITATION.cff` / full `.bib` file for
 - `stanford-urology-2026/` contains **mentor-owned clinical data**; no license is granted — see [`docs/data-and-privacy.md`](stanford-urology-2026/docs/data-and-privacy.md).
 - `cbe-diagram-misconceptions/` license is **TBD** pending public release.
 - `ucla-cosmos-2026-c1-infernotactics/` third-party terrain/GLB assets retain their original licenses.
+- `cogarc/` is a research prototype; consult its own README and any license file before reusing code or research materials.
 
 ---
 
