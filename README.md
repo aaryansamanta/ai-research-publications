@@ -1,324 +1,207 @@
 <div align="center">
 
-<img src="banner.gif" alt="Aaryan Samanta — AI Research & Peer-Reviewed Publications" width="100%">
+<img src="assets/portfolio-banner.gif" alt="Animated abstract scientific signal traces with Aaryan Samanta computational research portfolio title" width="100%">
 
-<br>
+# Computational Research & Interactive Project Portfolio
 
-<img src="https://img.shields.io/badge/High_School_Researcher-11th_Grade-8B5CF6?style=for-the-badge&logo=python&logoColor=white" alt="High School Researcher">
-<img src="https://img.shields.io/badge/2_Peer--Reviewed_Pubs-2025--2026-22C55E?style=for-the-badge" alt="Publications">
-<img src="https://img.shields.io/badge/Research_Scholar-Stanford_Medicine-8C1515?style=for-the-badge" alt="Stanford">
-<img src="https://img.shields.io/badge/IEEE_&_IJHSR-Indexed-FFD700?style=for-the-badge" alt="Indexed">
-<img src="https://img.shields.io/badge/UCLA_COSMOS-Cluster_1-2774AE?style=for-the-badge" alt="UCLA COSMOS">
+**Aaryan Samanta · Grade 11 · 2025–2026**
 
-<br>
+A curated collection of research software, simulations, computational experiments, and interactive prototypes. **Start with a demo, then inspect the source code.**
 
-<img src="https://img.shields.io/badge/USACO_Dual_Perfect-2025-FF6B00?style=flat-square" alt="USACO">
-<img src="https://img.shields.io/badge/AMC_10%2F12_National_Perfect-2×_AIME-6366F1?style=flat-square" alt="Math">
-<img src="https://img.shields.io/badge/Projects-6_research_projects-0EA5E9?style=flat-square" alt="Repos">
-<img src="https://img.shields.io/badge/License-MIT_%2B_per--project-16A34A?style=flat-square" alt="License">
-
-<h1>🔬 AI Research & Peer-Reviewed Publications</h1>
-
-<p>
-<strong>Aaryan Samanta</strong> — 11th Grader, Legend College Preparatory, Cupertino, CA<br>
-Lead author of two peer-reviewed publications (IEEE · IJHSR) as a high-school sophomore, plus four
-active research projects spanning <strong>quantum-inspired ML, computational biology, biomedical
-imaging, science-education research, reinforcement learning for wildfire response, and computational neuroscience.</strong>
-</p>
-
-<p>
-  <a href="https://scholar.google.com/citations?user=TboJyScAAAAJ"><strong>🎓 Google Scholar</strong></a> ·
-  <a href="https://aaryansamanta.com"><strong>🌐 Personal Website</strong></a> ·
-  <a href="https://github.com/aaryansamanta"><strong>💻 GitHub</strong></a> ·
-  <a href="https://aiethos.org"><strong>🤝 AI Ethos (501(c)(3))</strong></a>
-</p>
-
-<sub>🪄 This README is the map — every project has its own deep-dive README with figures, pipelines, and results.</sub>
+[Explore demos](#-try-a-project-in-under-30-seconds) · [All 12 projects](#-complete-project-index) · [Research integrity](#-research-integrity--project-status) · [Other repositories](#-repository-directory)
 
 </div>
 
 ---
 
-## 🧭 Quick navigation
+## ⚡ Try a project in under 30 seconds
 
-[🌟 Portfolio](#-research-portfolio-20252026) ·
-[🏆 Highlights](#-highlights--achievements) ·
-[🗂️ Repository map](#️-repository-map) ·
-[🧬 Project deep dives](#-project-deep-dives) ·
-[📖 Citations](#-citations) ·
-[⚖️ License](#️-license--data-use)
+These projects have direct browser-accessible demonstrations. A demo may be an interactive visualization or project presentation rather than a deployed inference service.
 
----
+| Start here | What you can explore | Open demo | View code |
+|---|---|---|---|
+| **Biohub Cell Tracking** · top-ranked Kaggle result | Geometric fusion, cell tracking and multi-object association | **[Launch demo ↗](https://aaryansamanta.github.io/biohub-cell-tracking/)** | [Source ↗](https://github.com/aaryansamanta/usaco-kaggle/tree/main/kaggle/biohub-cell-tracking) |
+| **CogArc** · interactive research prototype | Browser-based physiological signal exploration and graph-attention research design | **[Launch demo ↗](https://cogarc.ai/)** | [Source ↗](https://github.com/aaryansamanta/ai-research-publications/tree/main/cogarc) |
+| **InfernoTactics** · wildfire simulation | Geospatial wildfire simulator and reinforcement-learning dispatch | **[Launch demo ↗](https://aaryansamanta.github.io/ucla-cosmos-c1)** | [Source ↗](https://github.com/aaryansamanta/ai-research-publications/tree/main/ucla-cosmos-2026-c1-infernotactics) |
+| **RNA 3D Folding** · molecular modeling | Template-based RNA structural modeling and Protenix pipeline | **[Launch demo ↗](https://aaryansamanta.github.io/stanford-rna-3d-folding-2)** | [Source ↗](https://github.com/aaryansamanta/usaco-kaggle/tree/main/kaggle/stanford-rna-3d-folding-2) |
 
-## 🌟 Research Portfolio (2025–2026)
-
-<div align="center">
-
-| # | Project | Venue / Program | Focus | Status |
-|:-:|---|---|---|:-:|
-| 1 | **[Quantum-Inspired Hybrid GA + GNN Ensemble](ieee-aiam-2025-ga-gnn/)** | IEEE 7th Intl. Conf. on AI & Advanced Manufacturing (AIAM) 2025 | Quantum-inspired genetic algorithm × Graph Neural Network fusion for multimodal classification, with SHAP interpretability | ✅ **Published** |
-| 2 | **[Mitochondrial Resilience in Wild *C. elegans*](ijhsr-2026-celegans-mito-resilience/)** | International Journal of High School Research (IJHSR) · UCSB SRA Capstone | Comparative genomics of six mito quality-control genes across CX11314 & EG4725 strains — selection, variant, and expression analysis | ✅ **Published** |
-| 3 | **[Functional Imaging of the Pelvic Floor](stanford-urology-2026/)** | Stanford University School of Medicine (Dept. of Urology) | Kinematic ultrasound analysis (displacement → velocity → acceleration) of pelvic floor muscle function, mentored by Prof. Emeritus Christos Constantinou | 🟡 Preliminary findings |
-| 4 | **[InfernoTactics — Wildfire RL Agent](ucla-cosmos-2026-c1-infernotactics/)** | UCLA COSMOS 2026, Cluster 1 | Actor-critic reinforcement learning (CNN + MLP) that dispatches firefighting resources on a real LA terrain model grounded in the Jan. 2025 Palisades Fire | ✅ Results + live 3D demo |
-| 5 | **[Diagrams That Mislead: Biology Visual Literacy](cbe-diagram-misconceptions/)** | *CBE—Life Sciences Education* (ASCB) — targeted submission | Empirical study on how simplified biology diagrams create systemic student misconceptions; instruments + analysis pipeline built | 🚧 In progress |
-| 6 | **[CogArc — Autonomic Coupling & Emotion Modeling](cogarc/)** | Independent prototype development · team computational-neuroscience research | Interactive physiological-signal coupling prototype; graph-attention research framework and planned public-dataset evaluation | 🧪 Interactive prototype |
-
-</div>
-
-- **< 1%** of U.S. high schoolers publish in AI/computational-biology venues — this repo holds **two** such papers from a single sophomore year.
-- Spans the full stack of research skill: **wet-lab-adjacent bioinformatics → clinical imaging analysis → deep RL simulation → human-subjects education research → computational neuroscience prototyping.**
+> **For RSI reviewers:** Every project below provides a direct demo and code link. Start with a project that interests you; the repository README explains methodology, limitations, and contributions.
 
 ---
 
-## 🏆 Highlights & Achievements
+## 🏅 Complete project index
 
-<table>
-<tr><td width="50%" valign="top">
+Ordered by a combination of externally evaluated research distinction, technical depth, and portfolio relevance—not by university name alone. The demo-first section above is intentionally ordered for quick exploration.
 
-**📜 Publications & Research**
-- 🥇 Lead author, IEEE AIAM 2025 (AIAM-6203) — quantum-inspired GA × GNN
-- 🥇 Lead author, IJHSR 2026 — *C. elegans* mitochondrial genetics (DOI: 10.36838/IJHSR816.1)
-- 🎓 Youngest accepted scholar, **UC Santa Barbara Summer Research Academy** (~top 10% acceptance)
-- 🏥 Research Scholar, **Stanford University School of Medicine**, Dept. of Urology
-- 🛰️ Selected for **UCLA COSMOS 2026**, Cluster 1 (wildfire ML/RL)
-
-</td><td width="50%" valign="top">
-
-**🧠 Academic & Leadership**
-- 🥈🥇 **USACO 2025 US Open** — dual perfect scores (Gold *and* Silver, 1000/1000); 1 of ~8 nationwide
-- 🔢 **AMC 10 & 12** — National 1st-place perfect scorer (150/150); 2× AIME qualifier
-- 🌍 Founder/President, **AI Ethos, Inc.** (501(c)(3)) & **NextGenAI International** — ethical-AI education for 75+ students across 3 countries
-
-</td></tr>
-</table>
+| # | Project and distinction | Built with | Demo | Code |
+|:--:|---|---|:--:|:--:|
+| 01 | **Biohub Cell Tracking**<br><sub>Kaggle Silver · #28 / 3,947 · 09/2026</sub> | Python · PyTorch · NumPy · SciPy · Polars · Zarr | [**Open ↗**](https://aaryansamanta.github.io/biohub-cell-tracking/) | [**GitHub ↗**](https://github.com/aaryansamanta/usaco-kaggle/tree/main/kaggle/biohub-cell-tracking) |
+| 02 | **Mitochondrial Resilience in C. elegans**<br><sub>UCSB SRA · IJHSR publication · 08/2025</sub> | Python · TensorFlow/Keras · PyDESeq2 · Ensembl VEP · Biopython | [**Open ↗**](https://aaryansamanta.github.io/ijhsr-uscb-sra) | [**GitHub ↗**](https://github.com/aaryansamanta/ai-research-publications/tree/main/ijhsr-2026-celegans-mito-resilience) |
+| 03 | **IEEE AIAM — Explainable Machine Learning**<br><sub>IEEE AIAM research · 10/2025</sub> | Python · XGBoost · scikit-learn · SHAP | [**Open ↗**](https://aaryansamanta.github.io/ieee-aiam) | [**GitHub ↗**](https://github.com/aaryansamanta/ai-research-publications/tree/main/ieee-aiam-2025-ga-gnn) |
+| 04 | **Stanford RNA 3D Folding Part 2**<br><sub>Kaggle Silver · #92 / 1,867 · 03/2026</sub> | Python · PyTorch · Protenix · Biopython | [**Open ↗**](https://aaryansamanta.github.io/stanford-rna-3d-folding-2) | [**GitHub ↗**](https://github.com/aaryansamanta/usaco-kaggle/tree/main/kaggle/stanford-rna-3d-folding-2) |
+| 05 | **InfernoTactics — Wildfire RL Dispatch**<br><sub>UCLA COSMOS · Five-student team · 08/2026</sub> | Python · PyTorch · CNN/MLP · Actor–critic RL | [**Open ↗**](https://aaryansamanta.github.io/ucla-cosmos-c1) | [**GitHub ↗**](https://github.com/aaryansamanta/ai-research-publications/tree/main/ucla-cosmos-2026-c1-infernotactics) |
+| 06 | **Pelvic-Floor Ultrasound Motion Analysis**<br><sub>Stanford Urology · Mentored research · 06/2026</sub> | Numerical differentiation · Time-series analysis · Visualization | [**Open ↗**](https://aaryansamanta.github.io/stanford-urology) | [**GitHub ↗**](https://github.com/aaryansamanta/ai-research-publications/tree/main/stanford-urology-2026) |
+| 07 | **CogArc — Autonomic Coupling & Emotion Modeling**<br><sub>Interactive research prototype · 11/2026</sub> | HTML · CSS · JavaScript | [**Open ↗**](https://cogarc.ai/) | [**GitHub ↗**](https://github.com/aaryansamanta/ai-research-publications/tree/main/cogarc) |
+| 08 | **Kaggriculture**<br><sub>Kaggle Silver · #254 / 10,148 · 10/2026</sub> | Python · Kaggle Environments · Matplotlib | [**Open ↗**](https://aaryansamanta.github.io/kaggriculture) | [**GitHub ↗**](https://github.com/aaryansamanta/usaco-kaggle/tree/main/kaggle/kaggriculture) |
+| 09 | **Pokémon TCG AI Battle**<br><sub>Kaggle Bronze · #466 / 6,807 · 08/2026</sub> | Python · Kaggle Game SDK · pandas | [**Open ↗**](https://aaryansamanta.github.io/pokemon-tcg-ai-battle) | [**GitHub ↗**](https://github.com/aaryansamanta/usaco-kaggle/tree/main/kaggle/pokemon-tcg-ai-battle) |
+| 10 | **Diabetes Risk Prediction**<br><sub>Machine Learning Honors capstone · 09/2026</sub> | Python · scikit-learn · pandas · NumPy | [**Open ↗**](https://aaryansamanta.github.io/machine-learning-honors) | [**GitHub ↗**](https://github.com/aaryansamanta/advanced-ai-curriculum/tree/main/machine_learning_honors) |
+| 11 | **Pneumonia Detection with CNNs**<br><sub>AI Internship Honors capstone · 08/2025</sub> | Python · TensorFlow/Keras · scikit-learn | [**Open ↗**](https://aaryansamanta.github.io/ai-internship-honors) | [**GitHub ↗**](https://github.com/aaryansamanta/advanced-ai-curriculum/tree/main/ai-internship-honors/00_aii_capstone_project) |
+| 12 | **Healthcare Data Analysis**<br><sub>Data Science Honors capstone · 09/2025</sub> | Python · pandas · NumPy · Matplotlib · Seaborn | [**Open ↗**](https://aaryansamanta.github.io/data-science-honors) | [**GitHub ↗**](https://github.com/aaryansamanta/advanced-ai-curriculum/tree/main/data-science-honors/00_ds_capstone_project) |
 
 ---
 
-## 🗂️ Repository map
+## 🔍 Project notes: what is implemented, and what is still being investigated
 
-```
-ai-research-publications/
-│
-├── 🖼️  banner.gif                                animated banner (this README)
-├── 📄  README.md                                  ← you are here
-│
-├── 🧬 ieee-aiam-2025-ga-gnn/                      ✅ Published · IEEE AIAM 2025
-│   ├── paper/            code/            asset/            docs/
-│   └── Quantum-inspired GA + GNN ensemble for multimodal classification
-│
-├── 🪱 ijhsr-2026-celegans-mito-resilience/        ✅ Published · IJHSR 2026
-│   ├── notebooks/        paper/           presentations/     private/
-│   └── C. elegans mitochondrial resilience — variant, selection & expression analysis
-│
-├── 🩻 stanford-urology-2026/                      🟡 Ongoing · Stanford Medicine
-│   ├── 01-phase-1-topic-and-data/    02-phase-2-imaging-analysis/    docs/
-│   └── Kinematic pelvic-floor ultrasound analysis (mentored research)
-│
-├── 🔥 ucla-cosmos-2026-c1-infernotactics/         ✅ Results · UCLA COSMOS 2026
-│   ├── infernotactics/   integration/     demo/      docs/     archive/
-│   └── Actor-critic RL wildfire-response agent on real LA terrain
-│
-├── 📊 cbe-diagram-misconceptions/                 🚧 In progress · targeting CBE—LSE
-│   ├── manuscript/        instruments/       analysis/        docs/
-│   └── Study on simplified biology diagrams & student misconceptions
-│
-└── 🧠 cogarc/                                    🧪 Interactive research prototype
-    ├── index.html        prototype/       assets/         docs/
-    └── Autonomic-signal coupling and emotion-modeling research
-```
+### 01 · Biohub Cell Tracking
 
-| Go to… | What you'll find |
+**Kaggle Silver · #28 / 3,947 · 09/2026** · Geometric fusion, cell tracking and multi-object association.
+
+**Tools:** Python · PyTorch · NumPy · SciPy · Polars · Zarr.
+
+**[▶ Open demo](https://aaryansamanta.github.io/biohub-cell-tracking/)** &nbsp; · &nbsp; **[⌘ Browse source](https://github.com/aaryansamanta/usaco-kaggle/tree/main/kaggle/biohub-cell-tracking)**
+
+**Scope and attribution:** Competition project; inspect the source for individual implementation details.
+
+### 02 · Mitochondrial Resilience in C. elegans
+
+**UCSB SRA · IJHSR publication · 08/2025** · Variant analysis, transcriptomics and expression prediction.
+
+**Tools:** Python · TensorFlow/Keras · PyDESeq2 · Ensembl VEP · Biopython.
+
+**[▶ Open demo](https://aaryansamanta.github.io/ijhsr-uscb-sra)** &nbsp; · &nbsp; **[⌘ Browse source](https://github.com/aaryansamanta/ai-research-publications/tree/main/ijhsr-2026-celegans-mito-resilience)**
+
+**Scope and attribution:** Collaborative research; prediction is not experimental confirmation.
+
+### 03 · IEEE AIAM — Explainable Machine Learning
+
+**IEEE AIAM research · 10/2025** · XGBoost, SHAP and perturbation analysis; related GA–GNN paper.
+
+**Tools:** Python · XGBoost · scikit-learn · SHAP.
+
+**[▶ Open demo](https://aaryansamanta.github.io/ieee-aiam)** &nbsp; · &nbsp; **[⌘ Browse source](https://github.com/aaryansamanta/ai-research-publications/tree/main/ieee-aiam-2025-ga-gnn)**
+
+**Scope and attribution:** Distinguish the implemented analysis from the proposed/published GA–GNN methodology.
+
+### 04 · Stanford RNA 3D Folding Part 2
+
+**Kaggle Silver · #92 / 1,867 · 03/2026** · Template-based RNA structural modeling and Protenix pipeline.
+
+**Tools:** Python · PyTorch · Protenix · Biopython.
+
+**[▶ Open demo](https://aaryansamanta.github.io/stanford-rna-3d-folding-2)** &nbsp; · &nbsp; **[⌘ Browse source](https://github.com/aaryansamanta/usaco-kaggle/tree/main/kaggle/stanford-rna-3d-folding-2)**
+
+**Scope and attribution:** Competition solution; refer to repository for reproducibility.
+
+### 05 · InfernoTactics — Wildfire RL Dispatch
+
+**UCLA COSMOS · Five-student team · 08/2026** · Geospatial wildfire simulator and reinforcement-learning dispatch.
+
+**Tools:** Python · PyTorch · CNN/MLP · Actor–critic RL.
+
+**[▶ Open demo](https://aaryansamanta.github.io/ucla-cosmos-c1)** &nbsp; · &nbsp; **[⌘ Browse source](https://github.com/aaryansamanta/ai-research-publications/tree/main/ucla-cosmos-2026-c1-infernotactics)**
+
+**Scope and attribution:** Team project; demo and evaluation limitations documented.
+
+### 06 · Pelvic-Floor Ultrasound Motion Analysis
+
+**Stanford Urology · Mentored research · 06/2026** · Displacement, velocity and acceleration from ultrasound-derived measurements.
+
+**Tools:** Numerical differentiation · Time-series analysis · Visualization.
+
+**[▶ Open demo](https://aaryansamanta.github.io/stanford-urology)** &nbsp; · &nbsp; **[⌘ Browse source](https://github.com/aaryansamanta/ai-research-publications/tree/main/stanford-urology-2026)**
+
+**Scope and attribution:** Preliminary research; patient data and privacy restrictions apply.
+
+### 07 · CogArc — Autonomic Coupling & Emotion Modeling
+
+**Interactive research prototype · 11/2026** · Browser-based physiological signal exploration and graph-attention research design.
+
+**Tools:** HTML · CSS · JavaScript.
+
+**[▶ Open demo](https://cogarc.ai/)** &nbsp; · &nbsp; **[⌘ Browse source](https://github.com/aaryansamanta/ai-research-publications/tree/main/cogarc)**
+
+**Scope and attribution:** Primary prototype developer; physiological model validation is planned, not completed.
+
+### 08 · Kaggriculture
+
+**Kaggle Silver · #254 / 10,148 · 10/2026** · Agricultural machine-learning experiments.
+
+**Tools:** Python · Kaggle Environments · Matplotlib.
+
+**[▶ Open demo](https://aaryansamanta.github.io/kaggriculture)** &nbsp; · &nbsp; **[⌘ Browse source](https://github.com/aaryansamanta/usaco-kaggle/tree/main/kaggle/kaggriculture)**
+
+**Scope and attribution:** Competition project.
+
+### 09 · Pokémon TCG AI Battle
+
+**Kaggle Bronze · #466 / 6,807 · 08/2026** · Game simulation and decision-making.
+
+**Tools:** Python · Kaggle Game SDK · pandas.
+
+**[▶ Open demo](https://aaryansamanta.github.io/pokemon-tcg-ai-battle)** &nbsp; · &nbsp; **[⌘ Browse source](https://github.com/aaryansamanta/usaco-kaggle/tree/main/kaggle/pokemon-tcg-ai-battle)**
+
+**Scope and attribution:** Competition project.
+
+### 10 · Diabetes Risk Prediction
+
+**Machine Learning Honors capstone · 09/2026** · Supervised classification and model comparison.
+
+**Tools:** Python · scikit-learn · pandas · NumPy.
+
+**[▶ Open demo](https://aaryansamanta.github.io/machine-learning-honors)** &nbsp; · &nbsp; **[⌘ Browse source](https://github.com/aaryansamanta/advanced-ai-curriculum/tree/main/machine_learning_honors)**
+
+**Scope and attribution:** Educational capstone, not a clinical diagnostic tool.
+
+### 11 · Pneumonia Detection with CNNs
+
+**AI Internship Honors capstone · 08/2025** · Chest X-ray image classification.
+
+**Tools:** Python · TensorFlow/Keras · scikit-learn.
+
+**[▶ Open demo](https://aaryansamanta.github.io/ai-internship-honors)** &nbsp; · &nbsp; **[⌘ Browse source](https://github.com/aaryansamanta/advanced-ai-curriculum/tree/main/ai-internship-honors/00_aii_capstone_project)**
+
+**Scope and attribution:** Educational model; not for medical use.
+
+### 12 · Healthcare Data Analysis
+
+**Data Science Honors capstone · 09/2025** · Statistical exploration and visualizations.
+
+**Tools:** Python · pandas · NumPy · Matplotlib · Seaborn.
+
+**[▶ Open demo](https://aaryansamanta.github.io/data-science-honors)** &nbsp; · &nbsp; **[⌘ Browse source](https://github.com/aaryansamanta/advanced-ai-curriculum/tree/main/data-science-honors/00_ds_capstone_project)**
+
+**Scope and attribution:** Educational data science capstone.
+
+---
+
+## 🗃️ Repository directory
+
+| Repository | Contents |
 |---|---|
-| [`ieee-aiam-2025-ga-gnn/`](ieee-aiam-2025-ga-gnn/) | Full QIHGA-GNN implementation, paper (PDF/TeX/arXiv), SHAP figures, acceptance certificate |
-| [`ijhsr-2026-celegans-mito-resilience/`](ijhsr-2026-celegans-mito-resilience/) | Annotation/variant notebook, published manuscript, SRA capstone slides, CITATION.cff |
-| [`stanford-urology-2026/`](stanford-urology-2026/) | Phase 1/2 READMEs, ultrasound clip previews, research deck, data-privacy notes |
-| [`ucla-cosmos-2026-c1-infernotactics/`](ucla-cosmos-2026-c1-infernotactics/) | RL package, live Cesium 3D demo, poster & write-up, honest limitations log |
-| [`cbe-diagram-misconceptions/`](cbe-diagram-misconceptions/) | Study instruments, synthetic-data analysis pipeline, IRB/budget/timeline docs |
-| [`cogarc/`](cogarc/) | [Live interactive demo](https://cogarc.ai/) · V7 browser prototype, source code, research status, and animated project banner |
+| [ai-research-publications](https://github.com/aaryansamanta/ai-research-publications) | Publications, UCSB genomics, UCLA wildfire RL, Stanford Urology, CogArc and supporting research artifacts |
+| [usaco-kaggle](https://github.com/aaryansamanta/usaco-kaggle) | Kaggle competition solutions: Biohub, RNA 3D Folding, Kaggriculture, Pokémon TCG |
+| [advanced-ai-curriculum](https://github.com/aaryansamanta/advanced-ai-curriculum) | Applied ML, AI internship and data-science capstones |
+| [GitHub profile](https://github.com/aaryansamanta) | Other public repositories |
 
 ---
 
-## 🧬 Project deep dives
+## 🧭 Research integrity & project status
 
-### 1️⃣ Quantum-Inspired Hybrid GA + GNN Ensemble — *IEEE AIAM 2025*
-
-<table>
-<tr><td width="65%" valign="top">
-
-First high-school-led paper hybridizing a **quantum-inspired genetic algorithm (QIHGA)** — qubit-encoded
-chromosomes with quantum-rotation gates — with a **Graph Neural Network** for multimodal classification,
-fused through a learned late-fusion layer and explained via **SHAP**.
-
-| Model | Accuracy | F1 |
-|---|:-:|:-:|
-| **QIHGA-GNN (ours)** | **0.53** | **0.57** |
-| Random Forest | 0.52 | 0.55 |
-| SVM | 0.49 | 0.52 |
-
-</td><td width="35%" valign="top">
-
-**📌 At a glance**
-- IEEE Xplore, AIAM-6203
-- 📄 [Paper repo →](ieee-aiam-2025-ga-gnn/)
-- 🧪 Full code + synthetic data included
-- ⚖️ MIT-licensed code
-
-</td></tr>
-</table>
-
-### 2️⃣ Natural Genetic Variation & Mitochondrial Resilience in *C. elegans* — *IJHSR 2026*
-
-<table>
-<tr><td width="65%" valign="top">
-
-Asks why wild strains **CX11314** and **EG4725** resist mitochondrial dysfunction better than the
-standard lab strain N2. Combines **CaeNDR** population variant data (540 isotypes), **Ensembl VEP**
-consequence calling, dN/dS selection tests, **GEO RNA-seq** (609 samples), and a neural-net expression
-predictor (Spearman **ρ = 0.959**) across six conserved mito quality-control genes
-(`drp-1`, `fzo-1`, `eat-3`, `pink-1`, `pdr-1`, `atfs-1`).
-
-</td><td width="35%" valign="top">
-
-**📌 At a glance**
-- DOI: [10.36838/IJHSR816.1](https://doi.org/10.36838/IJHSR816.1)
-- 🎓 UCSB SRA 2025 Capstone (Track 5)
-- 📄 [Paper repo →](ijhsr-2026-celegans-mito-resilience/)
-- 🧬 Proposed CRISPR-Cas9 HDR follow-up
-
-</td></tr>
-</table>
-
-### 3️⃣ Functional Imaging of Pelvic Floor Muscles — *Stanford Medicine*
-
-<table>
-<tr><td width="65%" valign="top">
-
-Mentored biomedical-imaging project turning **perineal ultrasound** (5.5 MHz probe, 23 subjects) into
-displacement → velocity → acceleration curves across three physiological states: voluntary contraction
-("The Knack"), Valsalva, and cough. Preliminary finding: **voluntary contraction increases urethral
-support**, with **no significant caudal displacement on cough**.
-
-</td><td width="35%" valign="top">
-
-**📌 At a glance**
-- 🧑‍⚕️ Mentor: Dr. Christos E. Constantinou (Prof. Emeritus, Stanford Urology)
-- 🟡 Status: preliminary, not yet published
-- 📄 [Project repo →](stanford-urology-2026/)
-- 🔒 Clinical data — no license granted, all rights reserved
-
-</td></tr>
-</table>
-
-### 4️⃣ InfernoTactics — Fire-Relative RL for Wildfire Response — *UCLA COSMOS 2026*
-
-<table>
-<tr><td width="65%" valign="top">
-
-An actor-critic agent (CNN over a 595×316 terrain grid + MLP over weather/fleet scalars) that dispatches
-firefighting resources using a **fire-relative action space** — so it generalizes to ignition points it
-never trained on. Grounded in real SRTM elevation, OSM buildings/roads, NOAA weather, and the **January
-2025 Palisades Fire**. Over training, mean reward improved **52%** and buildings lost fell **54%**.
-
-</td><td width="35%" valign="top">
-
-**📌 At a glance**
-- 🖥️ Live Cesium 3D demo + FastAPI backend
-- 🎬 No-server replay viewer included
-- 📄 [Project repo →](ucla-cosmos-2026-c1-infernotactics/)
-- ⚠️ Honest limitations documented (synthetic traffic, unsourced constants)
-
-</td></tr>
-</table>
-
-### 5️⃣ When Help Becomes a Hindrance — Biology Diagram Misconceptions — *targeting CBE—LSE*
-
-<table>
-<tr><td width="65%" valign="top">
-
-Examines how **simplified biology diagrams** (static snapshots, single-arrow flows, no variation shown)
-plant systemic misconceptions in students — and tests **redesigned, clarification-enhanced** versions
-against them across a 3-phase study (deconstruct → empirical test → synthesize design guidelines).
-
-</td><td width="35%" valign="top">
-
-**📌 At a glance**
-- 🧪 Instruments + IRB/consent docs drafted
-- 📊 Stats pipeline built & validated on synthetic data
-- 📄 [Project repo →](cbe-diagram-misconceptions/)
-- 🚧 Status: pre-data-collection
-
-</td></tr>
-</table>
-
-### 6️⃣ CogArc — Autonomic Coupling & Emotion Modeling — *Research Prototype, 2026*
-
-<table>
-<tr><td width="65%" valign="top">
-
-Can the **relationships among autonomic physiological signals** reveal emotional valence beyond what any single signal can show? CogArc explores this research question through physiological time-series representations and a proposed **graph-attention** approach. The repository contains a **working interactive HTML/CSS/JavaScript V7 prototype**, developed primarily by Aaryan Samanta as the modeling member of a six-person research team.
-
-The research plan calls for public-dataset evaluation using **WESAD and CASE**, with **DEAP reserved for held-out testing**, plus simpler baselines and ablations. These evaluations are **planned, not completed or validated results**. Any future volunteer study requires appropriate approval before data collection.
-
-</td><td width="35%" valign="top">
-
-**📌 At a glance**
-- 🖥️ [Live interactive demo — cogarc.ai](https://cogarc.ai/)
-- 💻 [Prototype code & README](cogarc/)
-- 🧠 Physiological coupling × graph-based modeling
-- 🧪 **Status:** interactive prototype; model validation pending
-- 👨‍💻 **Primary prototype developer:** Aaryan Samanta
-
-</td></tr>
-</table>
-
----
-
-## 📖 Citations
-
-```bibtex
-@inproceedings{samanta2025qihga,
-  author    = {Samanta, Aaryan},
-  title     = {Quantum-Inspired Hybrid Genetic Algorithm and Graph Neural Network
-               Ensemble for Multimodal Classification},
-  booktitle = {2025 7th International Conference on Artificial Intelligence and
-               Advanced Manufacturing (AIAM)},
-  year      = {2025},
-  publisher = {IEEE}
-}
-
-@article{samanta2026celegans,
-  author  = {Samanta, Aaryan and Mandal, Mansi and Meeran, Mohammed Yasar},
-  title   = {Natural Genetic Variation in Mitochondrial Health-Regulating Genes in the
-             C. elegans Strains CX11314 and EG4725 Leads to Increased Mitochondrial Resilience},
-  journal = {International Journal of High School Research},
-  year    = {2026},
-  doi     = {10.36838/IJHSR816.1}
-}
-```
-
-Each publication folder also ships its own `CITATION.cff` / full `.bib` file for direct reuse.
-
----
-
-## ⚖️ License & data use
-
-- Code within `ieee-aiam-2025-ga-gnn/` and `ijhsr-2026-celegans-mito-resilience/` is released under **MIT** — see each project's `LICENSE`.
-- Published articles are © their respective venues (IEEE / Terra Science and Education) and are **not** covered by the MIT license.
-- `stanford-urology-2026/` contains **mentor-owned clinical data**; no license is granted — see [`docs/data-and-privacy.md`](stanford-urology-2026/docs/data-and-privacy.md).
-- `cbe-diagram-misconceptions/` license is **TBD** pending public release.
-- `ucla-cosmos-2026-c1-infernotactics/` third-party terrain/GLB assets retain their original licenses.
-- `cogarc/` is a research prototype; consult its own README and any license file before reusing code or research materials.
+- **Authorship:** Some projects are collaborative. A repository or demo does not imply that every component was independently written by one person; consult each project’s contribution notes.
+- **CogArc:** The interactive browser prototype exists; planned WESAD/CASE/DEAP evaluations and physiological validation are not presented as completed findings.
+- **IEEE AIAM:** The publicly linked XGBoost/SHAP implementation should not be described as proof of a fully implemented GA–GNN system without corresponding code and results.
+- **Biomedical projects:** Educational classifiers are not medical devices; clinical datasets may be restricted.
+- **Demonstrations:** Static GitHub Pages demonstrations may show simulation playback, figures or interfaces rather than running the complete Python pipeline in-browser.
+- **Reproducibility:** Refer to the source repositories for dependencies, datasets, licensing and any reproducibility limitations.
 
 ---
 
 <div align="center">
 
-### 🙏 Acknowledgments
+**Explore the work, test the demos, inspect the methods.**
 
-UC Santa Barbara Summer Research Academies · Stanford University School of Medicine (Dr. Christos E. Constantinou) · UCLA COSMOS Program · IEEE AIAM 2025 Committee · IJHSR Editorial Board · CaeNDR · Ensembl · WormBase · NCBI GEO
+[GitHub profile](https://github.com/aaryansamanta) · [Google Scholar](https://scholar.google.com/citations?user=TboJyScAAAAJ)
 
-<br>
-
-<sub>Made with 🔬 curiosity, 🧬 late nights, and way too much coffee-adjacent tea · Updated 2026</sub>
+<sub>Portfolio prepared for technical review · Updated November 2026</sub>
 
 </div>
