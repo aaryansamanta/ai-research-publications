@@ -13,10 +13,6 @@
 
 </div>
 
-<img src="assets/bio-motion.gif" alt="Animated computational biology visualization" width="100%">
-<img src="assets/agents-motion.gif" alt="Animated network and intelligent systems visualization" width="100%">
-<img src="assets/impact-motion.gif" alt="Animated education and social-impact visualization" width="100%">
-
 ## 🚀 Projects — explore a demo, then inspect the code
 
 **14 projects · One directory · Two direct links per project.** The order emphasizes externally evaluated work, research depth, and hands-on demonstration. It is not an official ranking of universities or research venues.
