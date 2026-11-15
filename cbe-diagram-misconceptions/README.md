@@ -42,7 +42,7 @@ cbe-diagram-misconceptions/
 │   ├── pre_post_assessment.md       # Phase 2 pre/post factual + misconception-probing items
 │   └── drawing_task.md              # Draw-to-explain task + scoring rubric
 ├── data/
-│   └── synthetic/               # FAKE placeholder data for testing the analysis pipeline only
+│   └── synthetic/               # Synthetic data for testing the analysis pipeline only
 │       ├── README.md
 │       ├── generate_synthetic_data.py
 │       └── synthetic_pilot_data.csv
@@ -116,7 +116,7 @@ Full reference list is in the manuscript. Key sources include:
 
 - [x] Draft Phase 1 misconception survey (`instruments/misconception_survey.md`)
 - [x] Draft Phase 2 pre/post assessment + drawing task (`instruments/`)
-- [x] Build analysis pipeline against synthetic placeholder data (`analysis/`, `data/synthetic/`)
+- [x] Build analysis pipeline against synthetic test data (`analysis/`, `data/synthetic/`)
 - [x] Draft consent/assent templates + IRB checklist (`docs/`)
 - [ ] Finalize 2–3 target diagram types from literature scan + pilot the survey with real students
 - [ ] Get school administration + mentor/IRB sign-off (see `docs/irb_checklist.md`)
@@ -128,7 +128,7 @@ Full reference list is in the manuscript. Key sources include:
 
 ```bash
 pip install -r analysis/requirements.txt
-cd data/synthetic && python3 generate_synthetic_data.py   # regenerate placeholder data if needed
+cd data/synthetic && python3 generate_synthetic_data.py   # regenerate synthetic test data if needed
 cd ../../analysis && python3 analyze_pilot.py               # runs chi-square + t-test/Mann-Whitney per topic
 ```
 
