@@ -1,0 +1,20 @@
+INFO:     Started server process [55791]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+[relative_v10] N_EPISODES=2000 LEARNING_RATE=0.0001 AUX_TARGET_LOSS_COEFF=0.05 STATUS_EVERY=20 EVAL_EVERY=50 RUN_TAG=relative_v8 CHECKPOINT_EVERY=2 MAX_DISPATCH_SLOTS=10 TRACE_EVERY=0 PROGRESS_ENABLED=True PROGRESS_START=1 PROGRESS_WINDOW=50
+[startup] Initializing InfernoEnv (Dijkstra routing)...
+[InfernoEnv] Loading + preparing road routing graph from /Users/lin/Library/CloudStorage/GoogleDrive-leolin1625@gmail.com/My Drive/VS Code/InfernoTactics/infernotactics/data/roads.graphml ...
+[startup] InfernoEnv ready in 1.1s
+[startup] Loading checkpoint: /Users/lin/Library/CloudStorage/GoogleDrive-leolin1625@gmail.com/My Drive/VS Code/InfernoTactics/infernotactics/models/checkpoints_relative_v10_multi_dispatch_100/latest.pt
+[startup] Model loaded, strict=True passed
+[startup] Computing zone geometry, coverage, delays...
+[startup] Fetching ALERTCalifornia cameras for coverage...
+[startup] Built 81 camera FOV polygons.
+[startup] Computing dense pixel coverage grid (50x50)...
+[startup] Built 81 camera FOV polygons.
+[startup] Zone 18: delay=1, coverage=1.0, ground_reachable=True
+[startup] Zone 31: delay=4, coverage=0.7
+[startup] Zone 16: delay=2, coverage=0.9
+[startup] Ready.
+INFO:     127.0.0.1:65102 - "GET /simulate?scenario=unmitigated&ig_lat=34.079&ig_lon=-118.559 HTTP/1.1" 200 OK
