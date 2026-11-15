@@ -1,155 +1,136 @@
 <div align="center">
 
-  <img src="banner.png" alt="Quantum-Inspired Hybrid GA-GNN Ensemble" width="100%">
+<img src="asset/research-banner.gif" width="100%" alt="Animated banner for the quantum-inspired GA–GNN research repository" />
 
-  <br><br>
+# Quantum-Inspired Hybrid Genetic Algorithm & Graph Neural Network Ensemble
 
-  <img src="https://img.shields.io/badge/IEEE-2025-blue?style=for-the-badge&logo=ieee" alt="IEEE">
-  <img src="https://img.shields.io/badge/AIAM-2025-FF6B00?style=for-the-badge" alt="AIAM 2025">
-  <img src="https://img.shields.io/badge/Accepted-✓-22C55E?style=for-the-badge" alt="Accepted">
-  <img src="https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge" alt="MIT License">
+### Multimodal Classification · Research · Source Code · Experiments
 
-  <h1>Quantum-Inspired Hybrid Genetic Algorithm<br>& Graph Neural Network Ensemble<br>for Multimodal Classification</h1>
+**Aaryan Samanta** · Legend College Preparatory · Cupertino, California
 
-  <p><strong>Lead Author:</strong> Aaryan Samanta • Legend College Preparatory, Cupertino, CA</p>
-  <p><strong>Corresponding author:</strong> aaryan.samanta@gmail.com</p>
+[![Paper](https://img.shields.io/badge/IEEE-Paper-00629B?style=flat-square)](https://doi.org/10.1109/AUTEEE67053.2025.11322272) [![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=flat-square)](code/) [![Tests](https://img.shields.io/badge/Tests-Pytest-3EAF7C?style=flat-square)](code/tests/) [![License](https://img.shields.io/badge/Code-MIT-555?style=flat-square)](LICENSE)
 
-  <p>
-    <a href="https://ieeexplore.ieee.org/abstract/document/11322272"><strong>📄 IEEE Xplore Paper</strong></a>
-     • 
-    <a href="https://github.com/aaryansamanta/ai-publications/blob/main/ieee-aiam-2025-ga-gnn/docs/acceptance_certificate.pdf"><strong>Acceptance Certificate</strong></a>
-     • 
-    <a href="https://github.com/aaryansamanta/ai-publications/blob/main/ieee-aiam-2025-ga-gnn/docs/ieee_copyright.pdf"><strong>IEEE Copyright</strong></a>
-  </p>
+**[Read the paper](paper/paper.pdf)** · **[Explore the source code](code/)** · **[View research figures](#research-figures)** · **[Run an experiment](#run-your-own-experiment)**
 
 </div>
 
 ---
 
-## 🌟 What Makes This Work Special
+## The research question
 
-- First high-school-led paper to hybridize **quantum-inspired genetic algorithms** with **Graph Neural Networks** for multimodal classification
-- Novel qubit-based feature selection + GNN relational learning + learned late fusion
-- Interpretable via SHAP + surrogate fitness for fast evolutionary search
-- Accepted & published in **IEEE AIAM 2025** (AIAM-6203)
+**Can feature selection and relational learning work together to improve classification of heterogeneous, high-dimensional data?**
 
-## Abstract
+This project explores a hybrid approach: a **quantum-inspired genetic algorithm (QIHGA)** searches feature subsets and model settings, while **graph neural networks (GNNs)** learn relationships among selected features. A learned fusion layer combines modality-level predictions. The paper also discusses interpretability and robustness analysis.
 
-High-dimensional, heterogeneous datasets are hard to classify well because of complex feature interactions and mixed data structures. This work proposes **QIHGA** — a quantum-inspired hybrid genetic algorithm — combined with a **graph neural network (GNN)** inside a multimodal ensemble framework.
+## At a glance
 
-- **QIHGA** uses qubit-based representation and superposition-style mechanisms to search feature/parameter spaces more effectively than classical genetic algorithms, improving feature selection and model tuning.
-- The **GNN module** builds graph representations of the data to capture relationships among features or samples, learning structured embeddings that traditional models miss.
-- A **fusion layer** combines the optimized feature subsets with the GNN embeddings to produce the final classification output.
+| Research component | What it does | Where to explore |
+|:--|:--|:--|
+| Quantum-inspired search | Encodes feature-selection choices using probabilistic amplitudes and evolutionary updates | [`code/aiam_gnn/qihga.py`](code/aiam_gnn/qihga.py) |
+| Graph learning | Constructs feature graphs and trains GCN or GAT encoders | [`code/aiam_gnn/graph_model.py`](code/aiam_gnn/graph_model.py) |
+| Multimodal fusion | Learns weights to combine predictions across modalities | [`code/aiam_gnn/graph_model.py`](code/aiam_gnn/graph_model.py) |
+| Evaluation | Compares with random forest, SVM and logistic regression on a held-out test split | [`code/aiam_gnn/cli.py`](code/aiam_gnn/cli.py) |
+| Interpretation | Optionally estimates feature attributions and noise sensitivity for a fresh run | [`code/README.md`](code/README.md) |
 
-Experiments show the hybrid model outperforms standard machine learning classifiers on accuracy and robustness, while remaining interpretable — feature selection highlights influential variables and the graph structure reveals relational importance.
+## How the approach fits together
 
-**Keywords:** Quantum-inspired optimization · Graph neural networks · Multimodal data fusion · Evolutionary algorithms · Ensemble learning · Classification
-
-## 📊 Key Results (Test Set)
-
-| Model                  | Accuracy | Precision | Recall | F1    |
-|------------------------|----------|-----------|--------|-------|
-| **QIHGA-GNN (Ours)**   | **0.53** | **0.51**  | **0.64**| **0.57** |
-| Random Forest          | 0.52     | 0.56      | 0.54   | 0.55  |
-| SVM                    | 0.49     | 0.50      | 0.52   | 0.52  |
-| Logistic Regression    | 0.34     | 0.48      | 0.44   | 0.47  |
-
-Modest but consistent gains over strong baselines on synthetic multimodal biomedical data.
-
-## 🚀 Core Innovations
-
-1. **QIHGA** – Qubit-encoded chromosomes + quantum rotation gates for superior exploration in high-dimensional feature spaces
-2. **Per-modality GNN encoders** – Sample graphs + feature graphs with GCN/GAT
-3. **Learned late fusion** – Convex combination with simplex weights
-4. **SHAP interpretability** + surrogate fitness for 10× faster evolution
-
-## Repository Structure
-
+```mermaid
+flowchart LR
+    A[Multimodal feature table] --> B[Train-only preprocessing]
+    B --> C[Quantum-inspired feature and hyperparameter search]
+    C --> D[Per-modality feature graphs]
+    D --> E[GCN / GAT encoders]
+    E --> F[Learned late fusion]
+    F --> G[Held-out predictions and metrics]
+    G --> H[Optional attribution and sensitivity analysis]
 ```
+
+The diagram summarizes the QIHGA–GNN research workflow.
+
+## Research figures
+
+<div align="center">
+
+**Research framework**
+
+<img src="asset/Figure%201%20%20Research%20framework..png" width="88%" alt="Figure 1: research framework from the supplied manuscript assets" />
+
+**Performance comparison**
+
+<img src="asset/Figure%202%20Performance%20Comparison.png" width="75%" alt="Figure 2: performance comparison from supplied paper assets" />
+
+</div>
+
+<details>
+<summary><strong>More figures — interpretability and sensitivity</strong></summary>
+
+| Feature attribution | Dependence | Sensitivity |
+|:--:|:--:|:--:|
+| ![SHAP summary](asset/Figure%203%20SHAP%20Summary%20Plot.png) | ![SHAP dependence](asset/Figure%204%20SHAP%20Dependence%20Plot.png) | ![Sensitivity](asset/Figure%205%20Sensitivity%20Analysis.png) |
+
+*Research figures accompanying the manuscript.*
+
+</details>
+
+## Run your own experiment
+
+The code supports **Python 3.10+**, CSV/TSV/XLSX input, binary labels, and at least two user-defined feature modalities. It does not automatically infer modality groups from the bundled spreadsheet.
+
+```bash
+# From repository root
+python -m pip install -e "./code[test]"
+python -m pytest -q code/tests
+
+# Inspect command-line arguments
+python -m aiam_gnn --help
+```
+
+Create a JSON file mapping each modality to its feature columns, using [`code/configs/modalities.example.json`](code/configs/modalities.example.json) as a template. Then run, for example:
+
+```bash
+aiam-gnn \
+  --input path/to/your_data.csv \
+  --label target \
+  --positive 1 \
+  --modalities path/to/modalities.json \
+  --encoder gcn \
+  --seed 42 \
+  --output results
+```
+
+The command creates a new results directory containing `metrics.json`, `run.json`, `test_predictions.csv`, and `weights.pt`. Add `--explain` for attribution and sensitivity CSV files. Replace the example paths and label with the appropriate columns in your dataset. See the [implementation guide](code/README.md) for assumptions, splits, and output definitions.
+
+## Repository map
+
+```text
 ieee-aiam-2025-ga-gnn/
-├── README.md.txt              # This file (rename to README.md on GitHub)
-├── banner.png                 # Repo banner
-├── paper/                     # Publication + proof of acceptance
-│   ├── paper.tex
-│   ├── paper.md
-│   ├── paper.bib
-│   ├── paper.pdf              # Official AIAM version
-│   ├── arXIV.pdf              # arXiv version
-│   ├── paper.docx
-│   ├── paper_ieee_copyright.pdf
-│   ├── paper_reference.pdf
-│   └── acceptance_certificate.pdf
-├── code/                      # Full implementation (QIHGA + GNN + fusion)
-│   ├── aiaam-core code.py     # QIHGA + GNN ensemble, metrics, SHAP plots
-│   ├── aiam-code.xlsx
-│   └── requirements.txt
-├── data/                      # Synthetic dataset used for experiments
-│   └── aiam-data.xlsx
-├── asset/                     # Figures referenced in the paper
-│   ├── Figure 1  Research framework..png
-│   ├── Figure 2 Performance Comparison.png
-│   ├── Figure 3 SHAP Summary Plot.png
-│   ├── Figure 4 SHAP Dependence Plot.png
-│   └── Figure 5 Sensitivity Analysis.png
-└── docs/                      # Acceptance certificate + IEEE copyright transfer
-    ├── **Important** IEEE AIAM Acceptance Certificate
-    └── **Important** IEEE AIAM Paper.pdf
+├── README.md                 Research story, links, quick start
+├── banner.png                Original static banner
+├── asset/                    Original paper figures + animated banner
+├── paper/                    Manuscript, LaTeX, BibTeX, PDF, publication artifacts
+├── docs/                     Non-duplicate supporting documentation
+├── data/                     Bundled dataset (aiam-data.xlsx)
+├── code/                     Installable Python research project
+│   ├── aiam_gnn/             Graph models, search, CLI
+│   ├── configs/              Example modality mapping
+│   ├── tests/                Automated tests
+│   ├── experiment.ipynb      Notebook entry point
+│   ├── run_experiment.py     CLI launcher
+│   ├── pyproject.toml        Package metadata
+│   ├── requirements.txt      Dependencies
+│   └── README.md             Methods and experiment guide
+├── .github/workflows/        Continuous integration
+└── LICENSE                   MIT license for original repository code
 ```
 
-> On GitHub, rename `README.md.txt` → `README.md` so it renders as the repo landing page.
+## Publication & citation
 
-## Figures
+**Aaryan Samanta.** *Quantum-Inspired Hybrid Genetic Algorithm and Graph Neural Network Ensemble for Multimodal Classification.* IEEE conference paper (2025).
 
-| | |
-|---|---|
-| ![Framework](asset/Figure%201%20%20Research%20framework..png) **Fig. 1** — Research framework | ![Performance](asset/Figure%202%20Performance%20Comparison.png) **Fig. 2** — Performance comparison |
-| ![SHAP summary](asset/Figure%203%20SHAP%20Summary%20Plot.png) **Fig. 3** — SHAP summary plot | ![SHAP dependence](asset/Figure%204%20SHAP%20Dependence%20Plot.png) **Fig. 4** — SHAP dependence plot |
-| ![Sensitivity](asset/Figure%205%20Sensitivity%20Analysis.png) **Fig. 5** — Sensitivity analysis | |
+**DOI:** [10.1109/AUTEEE67053.2025.11322272](https://doi.org/10.1109/AUTEEE67053.2025.11322272)
 
-## Getting Started
+For formal citations, use the bibliographic record associated with the linked DOI.
 
-### Requirements
+---
 
-```
-numpy
-pandas
-matplotlib
-seaborn
-shap
-scikit-learn
-xgboost
-```
-
-Install with:
-
-```bash
-pip install -r code/requirements.txt
-```
-
-### Running the code
-
-The core script (`code/aiaam-core code.py`) trains a classifier on `data/aiam-data.xlsx`, computes accuracy/precision/recall/F1, and generates the SHAP and sensitivity figures used in the paper.
-
-```bash
-python "code/aiaam-core code.py"
-```
-
-> Note: the script currently reads its input path from a local `Desktop` folder — update `data_path` at the top of the script to point at `data/aiam-data.xlsx` before running it from a fresh clone.
-
-## 📖 Citation
-
-```bibtex
-@inproceedings{samanta2025qihga,
-  title     = {Quantum-Inspired Hybrid Genetic Algorithm and Graph Neural Network Ensemble for Multimodal Classification},
-  author    = {Samanta, Aaryan},
-  booktitle = {2025 7th International Conference on Artificial Intelligence and Advanced Manufacturing (AIAM)},
-  year      = {2025},
-  publisher = {IEEE}
-}
-```
-
-(See `paper/paper.bib` for the full reference file.)
-
-## License
-
-This project is released under the [MIT License](LICENSE).
+<div align="center"><sub>Research by Aaryan Samanta · Research repository · source code, data, experiments, and publication materials.</sub></div>
