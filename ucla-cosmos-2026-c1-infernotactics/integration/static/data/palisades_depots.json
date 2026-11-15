@@ -1,0 +1,33 @@
+[
+  {
+    "station_id": "69",
+    "name": "LAFD Station 69 (Pacific Palisades)",
+    "lat": 34.045058,
+    "lon": -118.5224764,
+    "travel_mode": "road",
+    "roster": {
+      "water_team": 1
+    }
+  },
+  {
+    "station_id": "23",
+    "name": "LAFD Station 23 (Palisades Highlands)",
+    "lat": 34.042272,
+    "lon": -118.5543896,
+    "travel_mode": "road",
+    "roster": {
+      "trench_crew": 1,
+      "rescue_vehicle": 1
+    }
+  },
+  {
+    "station_id": "114",
+    "name": "LAFD Station 114 / Air Operations (Van Nuys Airport)",
+    "lat": 34.2159749,
+    "lon": -118.4941915,
+    "travel_mode": "air_straight_line",
+    "roster": {
+      "helicopter": 5
+    }
+  }
+]

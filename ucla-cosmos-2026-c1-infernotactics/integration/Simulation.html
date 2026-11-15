@@ -1,0 +1,1355 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>InfernoTactics</title>
+  <script src="https://cesium.com/downloads/cesiumjs/releases/1.115/Build/Cesium/Cesium.js"></script>
+  <link href="https://cesium.com/downloads/cesiumjs/releases/1.115/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: rgba(10, 15, 30, 0.85);
+      --bg-blur: blur(16px);
+      --accent: #ff4500;
+      --accent-glow: rgba(255, 69, 0, 0.5);
+      --border: rgba(255, 255, 255, 0.15);
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { 
+      width: 100%; height: 100%; overflow: hidden; 
+      font-family: 'Inter', sans-serif; background: #000; color: var(--text);
+    }
+    
+    #cesiumContainer { position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1; }
+    
+    /* Top Header */
+    #header-bar {
+      position: absolute; top: 16px; left: 50%; transform: translateX(-50%);
+      background: var(--bg-dark); backdrop-filter: var(--bg-blur); -webkit-backdrop-filter: var(--bg-blur);
+      border: 1px solid var(--border); border-radius: 40px;
+      padding: 12px 32px; display: flex; align-items: center; gap: 24px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.6); z-index: 10;
+    }
+    .hud-title { 
+      font-weight: 800; font-size: 1.2rem; color: var(--accent); 
+      letter-spacing: 0.5px; text-shadow: 0 0 16px var(--accent-glow);
+      text-transform: uppercase;
+    }
+    
+    /* Playback Controls */
+    .controls { display: flex; align-items: center; gap: 12px; }
+    .btn {
+      background: rgba(255,255,255,0.1); border: 1px solid var(--border);
+      color: var(--text); padding: 8px 16px; border-radius: 20px;
+      font-weight: 600; font-size: 0.9rem; cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .btn:hover:not(:disabled) { 
+      background: rgba(255,255,255,0.2); transform: translateY(-2px); 
+    }
+    .btn.primary { 
+      background: var(--accent); border-color: var(--accent); color: #fff; 
+      box-shadow: 0 4px 15px var(--accent-glow);
+    }
+    .btn.primary:hover:not(:disabled) { 
+      background: #ff571a; box-shadow: 0 6px 20px var(--accent-glow); 
+    }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    
+    #top-right-controls { position: absolute; top: 16px; right: 24px; z-index: 10; display: flex; gap: 12px; }
+    
+    /* Left Panel - Dashboard */
+    #dashboard {
+      position: absolute; top: 80px; left: 24px; bottom: 24px; width: 340px;
+      display: flex; flex-direction: column; gap: 16px; z-index: 10;
+      pointer-events: none;
+      overflow-y: auto;
+      padding-right: 8px; /* Room for scrollbar */
+    }
+    #dashboard::-webkit-scrollbar { width: 4px; }
+    #dashboard::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 4px; }
+    
+    .panel {
+      background: var(--bg-dark); backdrop-filter: var(--bg-blur); -webkit-backdrop-filter: var(--bg-blur);
+      border: 1px solid var(--border); border-radius: 16px; padding: 20px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5); pointer-events: auto;
+      flex-shrink: 0; /* Prevent squishing so it scrolls instead */
+    }
+    .panel h3 { 
+      font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;
+      color: var(--text-muted); margin-bottom: 12px; border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+    }
+    
+    /* Metrics */
+    .metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .metric { display: flex; flex-direction: column; }
+    .metric .label { font-size: 0.75rem; color: var(--text-muted); }
+    .metric .val { font-family: 'JetBrains Mono', monospace; font-size: 1.25rem; font-weight: 700; }
+    .metric .val.danger { color: #ef4444; }
+    .metric .val.success { color: #10b981; }
+    
+    /* Readiness */
+    .readiness { display: flex; flex-direction: column; gap: 8px; }
+    .ready-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; }
+    .ready-bar-bg { width: 120px; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; }
+    .ready-bar { height: 100%; background: #38bdf8; transition: width 0.3s; }
+    
+    /* Policy Panel */
+    #policy-log { flex: 1; overflow-y: auto; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; }
+    .log-entry { margin-bottom: 6px; padding-bottom: 6px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .log-entry:last-child { border-bottom: none; }
+    .log-time { color: #fbbf24; margin-right: 8px; }
+    .log-action { color: #38bdf8; }
+    .log-zone { color: #c084fc; }
+    
+    /* Center Delay Banner */
+    #delay-banner {
+      position: absolute; top: 100px; left: 50%; transform: translateX(-50%) scale(0.9);
+      background: rgba(239, 68, 68, 0.9); backdrop-filter: blur(8px);
+      border: 2px solid #f87171; border-radius: 12px; padding: 16px 32px;
+      text-align: center; font-weight: 700; z-index: 20;
+      box-shadow: 0 0 40px rgba(239, 68, 68, 0.6);
+      opacity: 0; pointer-events: none; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    #delay-banner.show { opacity: 1; transform: translateX(-50%) scale(1); }
+    #delay-banner .banner-title { font-size: 1.2rem; letter-spacing: 1px; margin-bottom: 4px; }
+    #delay-banner .banner-desc { font-size: 0.9rem; font-weight: 500; opacity: 0.9; }
+    #delay-banner .banner-countdown { font-family: 'JetBrains Mono', monospace; font-size: 1.5rem; margin-top: 8px; }
+    
+    /* Timeline Progress */
+    #timeline-container {
+      position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+      width: 60%; max-width: 800px; background: var(--bg-dark); backdrop-filter: var(--bg-blur);
+      border: 1px solid var(--border); border-radius: 24px; padding: 12px 24px;
+      display: flex; align-items: center; gap: 16px; z-index: 10;
+    }
+    #time-display { font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; font-weight: 700; width: 60px; }
+    #progress-track {
+      flex: 1; height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px;
+      position: relative; overflow: hidden;
+    }
+    #progress-fill {
+      position: absolute; top: 0; left: 0; height: 100%; width: 0%;
+      background: linear-gradient(90deg, #f59e0b, #ff4500);
+    }
+
+    .palisades-btn {
+      padding: 8px 16px;
+      background: linear-gradient(135deg, #FF4500, #DC143C);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 13px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(255, 69, 0, 0.4);
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .palisades-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 69, 0, 0.6);
+    }
+    
+    /* Footer */
+    #footer {
+      position: absolute; bottom: 8px; right: 24px; font-size: 0.7rem; color: rgba(255,255,255,0.4);
+      z-index: 10; pointer-events: none; text-align: right;
+    }
+    
+    /* Loading Spinner */
+    .spinner {
+      display: inline-block; width: 16px; height: 16px;
+      border: 2px solid rgba(255,255,255,0.3); border-radius: 50%;
+      border-top-color: #fff; animation: spin 1s ease-in-out infinite;
+      display: none;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    
+    /* Help Modal */
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);
+      z-index: 100; display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.3s;
+    }
+    .modal-overlay.show { opacity: 1; pointer-events: auto; }
+    .modal-content {
+      background: var(--bg-dark); border: 1px solid var(--border);
+      border-radius: 16px; padding: 24px; width: 400px; max-width: 90%;
+      box-shadow: 0 16px 32px rgba(0,0,0,0.5);
+      transform: translateY(20px); transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .modal-overlay.show .modal-content { transform: translateY(0); }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px; margin-bottom: 16px; }
+    .modal-header h3 { margin: 0; font-size: 1.2rem; font-weight: 700; color: #ffeb3b; }
+    .btn-close { background: none; border: none; color: white; cursor: pointer; opacity: 0.7; transition: 0.2s; padding: 4px; display: flex; }
+    .btn-close:hover { opacity: 1; background: rgba(255,255,255,0.1); border-radius: 4px; }
+    .modal-body ul { list-style: none; padding: 0; margin: 0; }
+    .modal-body li { margin-bottom: 12px; font-size: 0.95rem; line-height: 1.5; background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; }
+    .modal-body li:last-child { margin-bottom: 0; }
+  </style>
+</head>
+<body>
+
+  <!-- Top Header -->
+  <div id="header-bar">
+    <div class="hud-title">🔥 INFERNOTACTICS</div>
+    <div class="controls">
+      <button id="btn-start" class="btn primary" onclick="startSimulation()">
+        <span>🔥 Run Simulation</span>
+        <div class="spinner" id="btn-spinner"></div>
+      </button>
+    </div>
+  </div>
+  
+  <div id="top-right-controls">
+    <button id="simPalisadesBtn" class="palisades-btn">
+      🔥 Simulate Palisades Fire 2025
+    </button>
+    <button id="btn-home" class="btn" onclick="goHome()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home View
+    </button>
+    <button id="btn-info" class="btn" onclick="showHelp()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+      Help
+    </button>
+  </div>
+
+  <!-- Left Dashboard -->
+  <div id="dashboard">
+    <div class="panel">
+      <h3>Metrics</h3>
+      <div class="metric-grid">
+        <div class="metric">
+          <span class="label">ACTIVE FIRE</span>
+          <span class="val danger" id="val-active">0</span>
+        </div>
+        <div class="metric">
+          <span class="label">BURNED</span>
+          <span class="val" id="val-burned">0</span>
+        </div>
+        <div class="metric">
+          <span class="label">LOST STRUCT.</span>
+          <span class="val danger" id="val-lost">0</span>
+        </div>
+        <div class="metric">
+          <span class="label">CUM. REWARD</span>
+          <span class="val" id="val-reward">0.00</span>
+        </div>
+        <div class="metric">
+          <span class="label">WIND (MPH)</span>
+          <span class="val" id="val-wind">--</span>
+        </div>
+        <div class="metric">
+          <span class="label">CRITIC V(s)</span>
+          <span class="val success" id="val-vs">--</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="panel">
+      <h3>Fleet Readiness</h3>
+      <div class="readiness" id="fleet-readiness">
+        <div class="readiness-grid">
+        <div class="resource-row">
+          <span class="label">WATER TEAM (3/3)</span>
+          <div class="bars"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
+        </div>
+        <div class="resource-row">
+          <span class="label">TRENCH CREW (4/4)</span>
+          <div class="bars"><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
+        </div>
+        <div class="resource-row">
+          <span class="label">RESCUE VEHICLE (3/3)</span>
+          <div class="bars"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
+        </div>
+        <div class="resource-row">
+          <span class="label">HELICOPTER (5/5)</span>
+          <div class="bars"><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
+        </div>
+      </div>
+    </div>
+    </div>
+    
+    <div class="panel">
+      <h3>Fire Status Legend</h3>
+      <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 12px; padding: 0 4px;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="width: 14px; height: 14px; border-radius: 50%; background: #d62728; box-shadow: 0 0 8px #d62728;"></div>
+          <span style="font-size: 0.85rem; letter-spacing: 0.5px; opacity: 0.9;">Active Fire (Blaze)</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="width: 14px; height: 14px; border-radius: 50%; background: #ff7f0e; box-shadow: 0 0 8px #ff7f0e;"></div>
+          <span style="font-size: 0.85rem; letter-spacing: 0.5px; opacity: 0.9;">At Risk (Threat)</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="width: 14px; height: 14px; border-radius: 50%; background: #3a2a20;"></div>
+          <span style="font-size: 0.85rem; letter-spacing: 0.5px; opacity: 0.9;">Burned Out</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="panel" style="flex: 1; display: flex; flex-direction: column;">
+      <h3>Policy Event Log</h3>
+      <div id="policy-log">
+        <!-- populated dynamically -->
+      </div>
+    </div>
+  </div>
+  
+  <!-- Temporary Selection Legend -->
+  <div id="selection-legend" class="panel" style="display: none; position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%); width: 450px; z-index: 100; pointer-events: none;">
+    <h3 style="text-align: center; margin-bottom: 12px; color: #fff;">Sector Response Delay (Documentation Coverage)</h3>
+    <div style="display: flex; flex-direction: column; gap: 4px; padding: 0 20px;">
+      <div style="display: flex; justify-content: space-between;"><span style="color: #ef4444; font-weight: bold;">■ Red (≤ 9 Cams)</span> <span style="color: #ddd;">Max Delay (12hr)</span></div>
+      <div style="display: flex; justify-content: space-between;"><span style="color: #f97316; font-weight: bold;">■ Orange (10 Cams)</span> <span style="color: #ddd;">Long Delay (8hr)</span></div>
+      <div style="display: flex; justify-content: space-between;"><span style="color: #facc15; font-weight: bold;">■ Yellow (11 Cams)</span> <span style="color: #ddd;">Medium Delay (6hr)</span></div>
+      <div style="display: flex; justify-content: space-between;"><span style="color: #22c55e; font-weight: bold;">■ Green (12 Cams)</span> <span style="color: #ddd;">Short Delay (4hr)</span></div>
+      <div style="display: flex; justify-content: space-between;"><span style="color: #3b82f6; font-weight: bold;">■ Blue (13 Cams)</span> <span style="color: #ddd;">Quick Delay (2hr)</span></div>
+      <div style="display: flex; justify-content: space-between;"><span style="color: #a855f7; font-weight: bold;">■ Purple (14+ Cams)</span> <span style="color: #ddd;">Immediate (1hr)</span></div>
+    </div>
+  </div>
+
+  <!-- Delay Banner -->
+  <div id="delay-banner">
+    <div class="banner-title">⚠️ AI HELD BACK</div>
+    <div class="banner-desc" id="delay-desc">Sector 18 has no road access. Nearest response 280s.</div>
+    <div class="banner-countdown">HOLD: <span id="delay-ticks">10</span> TICKS</div>
+  </div>
+
+  <!-- Timeline -->
+  <div id="timeline-container">
+    <div id="time-display">Time: 00:00</div>
+    <div id="progress-track"><div id="progress-fill"></div></div>
+    <div id="tick-display" style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #94a3b8;">T+0</div>
+  </div>
+
+  <div id="footer">
+    Model: latest.pt | Traffic: Synthetic<br>
+    Not for operational use.
+  </div>
+
+  <div id="cesiumContainer"></div>
+
+  <script>
+    // Constants
+    const DURATION_MS = 30000; // 30 seconds exact playback
+
+    let viewer;
+    let worldData = null;
+    let timelineData = null;
+    
+    let zoneShadingPrimitives = [];
+    let isSelectingIgnition = false;
+    let clickHandler = null;
+    let gridBounds = { n: 34.150, s: 34.030, e: -118.440, w: -118.605 }; // Default fallback
+    
+    // Rendering collections
+    let gridPolygons = [];
+    let fireEntities = new Map();
+    let unitEntities = {};
+    const activeFireState = new Map(); // idx -> fire state
+    
+    // Particle System Pool
+    const maxParticles = 50;
+    const particlePool = [];
+    const activeParticles = new Map(); // idx -> particle system
+
+    async function init() {
+      // 1. Fetch /world data
+      try {
+        const res = await fetch('/world?t=' + Date.now());
+        worldData = await res.json();
+      } catch (e) {
+        console.error("Failed to load /world", e);
+        alert("Backend not reachable. Ensure uvicorn is running on port 8000.");
+        return;
+      }
+      
+      // Update footer
+      const f = document.getElementById('footer');
+      f.innerHTML = `Model: ${worldData.meta.checkpoint} | Traffic: ${worldData.meta.traffic_mode}<br>Not for operational use.`;
+
+      // 2. Init Cesium
+      viewer = new Cesium.Viewer('cesiumContainer', {
+        baseLayerPicker: false,
+        timeline: false,
+        animation: false,
+        homeButton: false,
+        navigationHelpButton: false,
+        geocoder: false,
+        sceneModePicker: false,
+        infoBox: false,
+        selectionIndicator: false
+      });
+      
+      // CRITICAL: Particles will NOT animate if the Cesium clock is paused
+      viewer.clock.shouldAnimate = true;
+
+      // Set default camera view immediately to prevent the whole earth from showing up
+      const centerLon = (worldData.grid.corners.nw[1] + worldData.grid.corners.se[1]) / 2;
+      const centerLat = (worldData.grid.corners.nw[0] + worldData.grid.corners.se[0]) / 2;
+      viewer.camera.setView({
+        destination: Cesium.Cartesian3.fromDegrees(centerLon, centerLat - 0.1, 8000),
+        orientation: {
+          heading: Cesium.Math.toRadians(11), // Grid is rotated ~11 deg
+          pitch: Cesium.Math.toRadians(-35),
+          roll: 0
+        }
+      });
+
+      const padding = 0.05; // ~5km padding to ensure rotated grid is not cut off
+      const viewRect = Cesium.Rectangle.fromDegrees(
+        gridBounds.w - padding,
+        gridBounds.s - padding,
+        gridBounds.e + padding,
+        gridBounds.n + padding
+      );
+
+      viewer.scene.globe.showGroundAtmosphere = false;
+      viewer.scene.globe.enableLighting = true;
+      viewer.scene.globe.depthTestAgainstTerrain = true;
+      // Removed cartographicLimitRectangle in favor of clippingPlanes
+      viewer.scene.skyBox.show = false; // Hide stars so buildings outside terrain blend in
+      
+      // Dark visual style
+      viewer.scene.backgroundColor = Cesium.Color.fromCssColorString('#020202');
+
+      // 3. Load 3D Terrain, Buildings, and Imagery
+      try {
+        viewer.imageryLayers.addImageryProvider(new Cesium.UrlTemplateImageryProvider({
+          url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+          maximumLevel: 19,
+          rectangle: viewRect
+        }));
+      } catch(ei) { console.warn('Imagery failed', ei); }
+
+      try {
+        const terrain = Cesium.Terrain.fromWorldTerrain();
+        viewer.scene.setTerrain(terrain);
+        
+        // If terrain fails to load (e.g. invalid Ion token), the globe disappears.
+        terrain.readyPromise.catch(e => {
+          console.error('Terrain failed to load:', e);
+          alert('ERROR: 3D Terrain failed to load. Falling back to a flat 2D map.');
+          viewer.scene.terrainProvider = new Cesium.EllipsoidTerrainProvider();
+        });
+      } catch(et) { console.warn('Terrain failed', et); }
+      
+      try {
+        const bldgs = await Cesium.createOsmBuildingsAsync();
+        bldgs.style = new Cesium.Cesium3DTileStyle({
+            color: "color('white')"
+        });
+        bldgs.maximumScreenSpaceError = 2; // Force high detail
+        bldgs.maximumMemoryUsage = 8192;   // 8GB max memory
+        bldgs.foveatedScreenSpaceError = false; 
+        bldgs.cullWithChildrenBounds = false;
+        bldgs.cullRequestsWhileMoving = false; // Don't cancel network requests when zooming
+        bldgs.skipLevelOfDetail = true; // Skip intermediate LODs
+        viewer.scene.primitives.add(bldgs);
+        
+        // Use exact geometric corners from backend
+        const nw = Cesium.Cartesian3.fromDegrees(-118.62922, 34.11241);
+        const ne = Cesium.Cartesian3.fromDegrees(-118.44000, 34.14986);
+        const sw = Cesium.Cartesian3.fromDegrees(-118.60490, 34.03024);
+        const se = Cesium.Cartesian3.fromDegrees(-118.41587, 34.06766);
+        
+        const centerCartesian = Cesium.Cartesian3.lerp(nw, se, 0.5, new Cesium.Cartesian3());
+        
+        // Strict distances for the rotated rectangle
+        const strictHalfWidth = Cesium.Cartesian3.distance(nw, ne) / 2.0;
+        const strictHalfHeight = Cesium.Cartesian3.distance(nw, sw) / 2.0;
+        
+        // Map extends beyond the grid
+        const mapPlanes = [
+          new Cesium.ClippingPlane(new Cesium.Cartesian3( 1.0,  0.0, 0.0), strictHalfWidth + 3000.0), // West
+          new Cesium.ClippingPlane(new Cesium.Cartesian3(-1.0,  0.0, 0.0), strictHalfWidth + 2000.0), // East 
+          new Cesium.ClippingPlane(new Cesium.Cartesian3( 0.0,  1.0, 0.0), strictHalfHeight + 6000.0), // South (shifted downwards/south)
+          new Cesium.ClippingPlane(new Cesium.Cartesian3( 0.0, -1.0, 0.0), strictHalfHeight + 3000.0)  // North (shifted downwards/south)
+        ];
+        
+        // Buildings are strictly bounded to the 8x4 grid, shrunk by 40 meters
+        // to prevent edge buildings from poking past the green lines due to Earth curvature/projection warping
+        const bldgPlanes = [
+          new Cesium.ClippingPlane(new Cesium.Cartesian3( 1.0,  0.0, 0.0), strictHalfWidth - 40.0),
+          new Cesium.ClippingPlane(new Cesium.Cartesian3(-1.0,  0.0, 0.0), strictHalfWidth - 40.0),
+          new Cesium.ClippingPlane(new Cesium.Cartesian3( 0.0,  1.0, 0.0), strictHalfHeight - 40.0),
+          new Cesium.ClippingPlane(new Cesium.Cartesian3( 0.0, -1.0, 0.0), strictHalfHeight - 40.0)
+        ];
+        
+        let localTransform = Cesium.Transforms.eastNorthUpToFixedFrame(centerCartesian);
+        
+        // Calculate the true geographic rotation angle of the grid (relative to due East)
+        const dLat = 34.14986 - 34.11241;
+        const dLon = -118.44000 - -118.62922;
+        const avgLat = Cesium.Math.toRadians(34.1311);
+        const dx = dLon * Math.cos(avgLat);
+        const dy = dLat;
+        const rotationAngle = Math.atan2(dy, dx);
+        
+        const rotationQuat = Cesium.Quaternion.fromAxisAngle(Cesium.Cartesian3.UNIT_Z, rotationAngle);
+        const rotationMat3 = Cesium.Matrix3.fromQuaternion(rotationQuat);
+        const rotationMat4 = Cesium.Matrix4.fromRotationTranslation(rotationMat3, Cesium.Cartesian3.ZERO);
+        localTransform = Cesium.Matrix4.multiply(localTransform, rotationMat4, new Cesium.Matrix4());
+        
+        const mapClippingCollection = new Cesium.ClippingPlaneCollection({
+          planes: mapPlanes,
+          modelMatrix: localTransform,
+          edgeWidth: 0.0,
+          unionClippingRegions: true
+        });
+        
+        const bldgClippingCollection = new Cesium.ClippingPlaneCollection({
+          planes: bldgPlanes,
+          modelMatrix: localTransform,
+          edgeWidth: 0.0,
+          unionClippingRegions: true
+        });
+        
+        bldgs.clippingPlanes = bldgClippingCollection;
+        viewer.scene.globe.clippingPlanes = mapClippingCollection;
+      } catch(eb) { console.warn('Buildings failed', eb); }
+      
+      // Create local fire particle texture to bypass CORS
+      function getFireImage() {
+        const c = document.createElement('canvas');
+        c.width = 16; c.height = 16;
+        const ctx = c.getContext('2d');
+        const g = ctx.createRadialGradient(8, 8, 0, 8, 8, 8);
+        g.addColorStop(0, "rgba(255, 255, 255, 1)");
+        g.addColorStop(1, "rgba(255, 255, 255, 0)");
+        ctx.fillStyle = g;
+        ctx.fillRect(0, 0, 16, 16);
+        return c.toDataURL();
+      }
+      
+      // Initialize Particle Pool
+      for (let i = 0; i < 50; i++) {
+        const ps = viewer.scene.primitives.add(new Cesium.ParticleSystem({
+          image: getFireImage(),
+          startColor: Cesium.Color.ORANGERED.withAlpha(0.7),
+          endColor: Cesium.Color.DARKSLATEGRAY.withAlpha(0.2),
+          startScale: 1.0,
+          endScale: 4.0,
+          minimumParticleLife: 1.0,
+          maximumParticleLife: 2.0,
+          minimumSpeed: 1.0,
+          maximumSpeed: 4.0,
+          imageSize: new Cesium.Cartesian2(15, 15),
+          emissionRate: 15.0,
+          emitter: new Cesium.ConeEmitter(Cesium.Math.toRadians(30.0)),
+          show: false
+        }));
+        particlePool.push(ps);
+      }
+
+      // 5. Draw Zones
+      drawZones();
+      
+      // 7. Go Home
+      goHome();
+      
+      // Setup initial readiness UI
+      updateReadiness(worldData.meta.roster);
+    }
+
+    function drawZones() {
+      if (!worldData || !worldData.zones) return;
+      
+      worldData.zones.forEach(z => {
+        // z.polygon is array of [lat, lon]
+        const pts = [];
+        z.polygon.forEach(p => { pts.push(p[1], p[0]); }); // lon, lat
+        
+        const outlineColor = Cesium.Color.fromCssColorString("#00ff00").withAlpha(0.9);
+        
+        // Add macro sector outline polyline
+        viewer.entities.add({
+          polyline: {
+            positions: Cesium.Cartesian3.fromDegreesArray([...pts, pts[0], pts[1]]),
+            width: 2.5,
+            material: outlineColor,
+            clampToGround: true,
+            classificationType: Cesium.ClassificationType.TERRAIN
+          }
+        });
+
+        // Add label
+        let text = `S${z.id}`;
+        if (!z.ground_reachable) text += "\n(AIR ONLY)";
+        
+        viewer.entities.add({
+          position: Cesium.Cartesian3.fromDegrees(z.centroid[1], z.centroid[0]),
+          label: {
+            text: text,
+            font: 'bold 16px Inter',
+            fillColor: outlineColor.withAlpha(0.9),
+            style: Cesium.LabelStyle.FILL,
+            verticalOrigin: Cesium.VerticalOrigin.CENTER,
+            horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+            disableDepthTestDistance: Number.POSITIVE_INFINITY, // Show through terrain
+            scaleByDistance: new Cesium.NearFarScalar(1.0e3, 1.0, 2.0e4, 0.3)
+          }
+        });
+      });
+      
+      // Draw dense 50x50 pixel coverage grid if available
+      const pc = worldData.pixel_coverage;
+      if (pc && pc.grid && pc.points) {
+        const instances = [];
+        for (let r = 0; r < pc.rows; r++) {
+          for (let c = 0; c < pc.cols; c++) {
+            const count = pc.grid[r][c];
+            let hexColor = "#ef4444"; // Red (≤ 9)
+            if (count >= 14) hexColor = "#a855f7"; // Purple
+            else if (count === 13) hexColor = "#3b82f6"; // Blue
+            else if (count === 12) hexColor = "#22c55e"; // Green
+            else if (count === 11) hexColor = "#facc15"; // Yellow
+            else if (count === 10) hexColor = "#f97316"; // Orange
+
+            const color = Cesium.Color.fromCssColorString(hexColor).withAlpha(0.40); // Soft alpha for pixel grid
+            
+            const p1 = pc.points[r][c];
+            const p2 = pc.points[r][c+1];
+            const p3 = pc.points[r+1][c+1];
+            const p4 = pc.points[r+1][c];
+            
+            const pts = [
+              p1[0], p1[1],
+              p2[0], p2[1],
+              p3[0], p3[1],
+              p4[0], p4[1]
+            ];
+            
+            instances.push(new Cesium.GeometryInstance({
+              geometry: new Cesium.PolygonGeometry({
+                polygonHierarchy: new Cesium.PolygonHierarchy(Cesium.Cartesian3.fromDegreesArray(pts)),
+                height: 0
+              }),
+              attributes: {
+                color: Cesium.ColorGeometryInstanceAttribute.fromColor(color)
+              }
+            }));
+          }
+        }
+        
+        const shadingPrim = viewer.scene.primitives.add(new Cesium.GroundPrimitive({
+          geometryInstances: instances,
+          appearance: new Cesium.PerInstanceColorAppearance({ closed: true }),
+          show: false // Hide initially until selection mode
+        }));
+        zoneShadingPrimitives.push(shadingPrim);
+      }
+    }
+
+    function goHome() {
+      if (!viewer || !worldData) return;
+      
+      const cw = worldData.grid.corners;
+      const centerLon = (cw.nw[1] + cw.se[1]) / 2;
+      const centerLat = (cw.nw[0] + cw.se[0]) / 2;
+      flyToTarget(centerLat, centerLon, 12000.0, -40.0);
+    }
+
+    function focusOnIgnition(lat, lon) {
+      if (!viewer || lat === undefined || lon === undefined) return;
+      flyToTarget(lat, lon, 7000.0, -40.0);
+    }
+
+    function flyToTarget(lat, lon, range = 7000.0, pitchDeg = -40.0) {
+      if (!viewer || lat === undefined || lon === undefined) return;
+      
+      const carto = Cesium.Cartographic.fromDegrees(lon, lat);
+      const terrainHeight = (viewer.scene.globe.getHeight(carto) || 250.0);
+      const targetCartesian = Cesium.Cartesian3.fromDegrees(lon, lat, terrainHeight);
+
+      const headingRad = Cesium.Math.toRadians(11.0);
+      const pitchRad = Cesium.Math.toRadians(pitchDeg);
+
+      viewer.camera.flyToBoundingSphere(new Cesium.BoundingSphere(targetCartesian, 0.0), {
+        offset: new Cesium.HeadingPitchRange(headingRad, pitchRad, range),
+        duration: 1.5,
+        complete: function() {
+          viewer.camera.lookAtTransform(Cesium.Matrix4.IDENTITY);
+        }
+      });
+    }
+    
+    function updateReadiness(readyDict) {
+      const el = document.getElementById('fleet-readiness');
+      el.innerHTML = '';
+      const total = worldData.meta.roster;
+      
+      for (const [r, count] of Object.entries(readyDict)) {
+        const tot = total[r] || count;
+        const pct = (count / tot) * 100;
+        const name = r.replace('_', ' ').toUpperCase();
+        
+        el.innerHTML += `
+          <div class="ready-row">
+            <span>${name} (${count}/${tot})</span>
+            <div class="ready-bar-bg">
+              <div class="ready-bar" style="width: ${pct}%"></div>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    async function executeSimulation(lat, lon) {
+      const btn = document.getElementById('btn-start');
+      const spinner = document.getElementById('btn-spinner');
+      
+      btn.disabled = true;
+      btn.querySelector('span').textContent = "Running Simulation...";
+      spinner.style.display = "block";
+      
+      try {
+        const url = (lat !== undefined && lon !== undefined) 
+          ? `/simulate?scenario=anchor&ig_lat=${lat}&ig_lon=${lon}`
+          : `/simulate?scenario=anchor`;
+        const res = await fetch(url);
+        timelineData = await res.json();
+        
+        btn.querySelector('span').textContent = "Replay Simulation";
+        btn.disabled = false;
+        playTimeline();
+      } catch (e) {
+        console.error("Simulation failed", e);
+        alert("Simulation failed. Check console.");
+        btn.querySelector('span').textContent = "🔥 Run Simulation";
+        btn.disabled = false;
+      } finally {
+        spinner.style.display = "none";
+      }
+    }
+
+    async function startSimulation() {
+      const btn = document.getElementById('btn-start');
+      const text = btn.querySelector('span').textContent.trim();
+      
+      if (text.includes("Replay")) {
+        playTimeline();
+        return;
+      }
+
+      if (isSelectingIgnition) {
+        // If user clicks the button again during ignition select mode, run simulation with default or last ignition
+        isSelectingIgnition = false;
+        if (clickHandler) clickHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
+        goHome();
+        await executeSimulation(window.lastClickedLat, window.lastClickedLon);
+        return;
+      }
+      
+      // Enter selection mode
+      isSelectingIgnition = true;
+      btn.querySelector('span').textContent = "Click Map";
+      
+      // Switch to overhead view (pseudo-2D) aligned with the grid
+      viewer.camera.flyTo({
+        destination: Cesium.Cartesian3.fromDegrees(-118.5225, 34.0900, 19000.0), // Higher up & perfectly centered
+        orientation: {
+          heading: Cesium.Math.toRadians(-13.4), // Counter-rotate to align grid perfectly horizontal with screen
+          pitch: Cesium.Math.toRadians(-90.0),
+          roll: 0.0
+        },
+        duration: 1.5
+      });
+      
+      // Setup click handler
+      if (!clickHandler) {
+        clickHandler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
+      }
+      
+      clickHandler.setInputAction(async function(click) {
+        if (!isSelectingIgnition) return;
+        
+        // Pick position on globe
+        const ray = viewer.camera.getPickRay(click.position);
+        let position = null;
+        if (ray) position = viewer.scene.globe.pick(ray, viewer.scene);
+        if (!position) return; // clicked sky/off-map
+        
+        isSelectingIgnition = false;
+        clickHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
+        
+        // Hide shading and legend
+        zoneShadingPrimitives.forEach(p => p.show = false);
+        document.getElementById('selection-legend').style.display = "none";
+        
+        // Get Lat Lon
+        const carto = Cesium.Cartographic.fromCartesian(position);
+        const lat = Cesium.Math.toDegrees(carto.latitude);
+        const lon = Cesium.Math.toDegrees(carto.longitude);
+        
+        window.lastClickedLat = lat;
+        window.lastClickedLon = lon;
+        
+        await executeSimulation(lat, lon);
+      }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+    }
+    
+    // --- Playback Engine ---
+    
+    let playbackStartTime = 0;
+    let playbackRAF = null;
+    let lastRenderedTick = -1;
+    
+    function playTimeline() {
+      if (!timelineData || !timelineData.ticks.length) return;
+      
+      if (playbackRAF) cancelAnimationFrame(playbackRAF);
+      
+      // Reset state
+      fireEntities.forEach(e => viewer.entities.remove(e));
+      fireEntities.clear();
+      activeFireState.clear();
+      activeParticles.forEach(ps => {
+        ps.show = false;
+        particlePool.push(ps);
+      });
+      activeParticles.clear();
+      document.getElementById('policy-log').innerHTML = '';
+      Object.values(unitEntities).forEach(e => viewer.entities.remove(e));
+      unitEntities = {};
+      
+      const igStar = viewer.entities.getById('ignition-star');
+      if (igStar) viewer.entities.remove(igStar);
+      if (timelineData && timelineData.scenario && timelineData.scenario.ignition) {
+        // Always use exact ignition coordinates returned by backend episode payload
+        const igLat = timelineData.scenario.ignition.lat;
+        const igLon = timelineData.scenario.ignition.lon;
+        
+        viewer.entities.add({
+          id: 'ignition-star',
+          position: Cesium.Cartesian3.fromDegrees(igLon, igLat),
+          label: {
+            text: '★',
+            font: '24px sans-serif',
+            fillColor: Cesium.Color.YELLOW,
+            outlineColor: Cesium.Color.BLACK,
+            outlineWidth: 3,
+            heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+            disableDepthTestDistance: Number.POSITIVE_INFINITY
+          }
+        });
+        
+        focusOnIgnition(igLat, igLon);
+      }
+      
+      // Load initial fire
+      const initFire = timelineData.initial_fire;
+      initFire.forEach(([idx, state]) => {
+        activeFireState.set(idx, state);
+      });
+      renderFireFull();
+      
+      playbackStartTime = performance.now();
+      lastRenderedTick = -1;
+      
+      // Show/setup banner based on scenario
+      const delayInfo = timelineData.scenario.delay;
+      if (delayInfo.ticks > 0) {
+        const b = document.getElementById('delay-banner');
+        document.getElementById('delay-desc').textContent = delayInfo.reason;
+        // b.classList.add('show'); // User requested to hide AI held back message
+      }
+      
+      playbackRAF = requestAnimationFrame(playbackLoop);
+    }
+    
+    function playbackLoop(now) {
+      const elapsed = now - playbackStartTime;
+      let p = elapsed / DURATION_MS;
+      
+      if (p >= 1.0) {
+        p = 1.0;
+        document.getElementById('btn-start').disabled = false;
+        document.getElementById('delay-banner').classList.remove('show');
+      } else {
+        playbackRAF = requestAnimationFrame(playbackLoop);
+      }
+      
+      const frames = timelineData.ticks.length;
+      const exactFrame = p * (frames - 1);
+      const currentTick = Math.floor(exactFrame);
+      const fraction = exactFrame - currentTick;
+      
+      // Update UI
+      document.getElementById('progress-fill').style.width = `${p * 100}%`;
+      
+      // Apply tick diffs if we advanced
+      if (currentTick > lastRenderedTick) {
+        // Fast forward through any missed ticks
+        for (let t = lastRenderedTick + 1; t <= currentTick; t++) {
+          applyTick(t);
+        }
+        
+        // Check if simulation ended
+        if (currentTick >= timelineData.ticks.length - 1) {
+           const colBurned = Cesium.Color.fromCssColorString('#8B4513').withAlpha(0.85); // SaddleBrown
+           const states = worldData.meta.states;
+           fireEntities.forEach(entity => {
+             if (entity.fireState === states.threat || entity.fireState === states.blaze) {
+               entity.polygon.material = new Cesium.ColorMaterialProperty(colBurned);
+               entity.fireState = states.burned;
+             }
+           });
+        }
+        
+        lastRenderedTick = currentTick;
+      }
+      
+      // Interpolate unit positions for smooth movement
+      if (currentTick < frames) {
+        const td = timelineData.ticks[currentTick];
+        const tdNext = currentTick + 1 < frames ? timelineData.ticks[currentTick + 1] : td;
+        renderUnits(td.units, tdNext.units, fraction);
+      }
+    }
+    
+    function applyTick(tIdx) {
+      const td = timelineData.ticks[tIdx];
+      if (!td) return;
+      
+      // 1. HUD Metrics
+      const totalMinutes = td.t * 2.0; // Assuming 1 tick = 2 mins
+      const h = Math.floor(totalMinutes / 60);
+      const m = Math.floor(totalMinutes % 60);
+      document.getElementById('time-display').textContent = `Time: ${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`;
+      
+      const hrs = (totalMinutes / 60).toFixed(1);
+      document.getElementById('tick-display').textContent = `${hrs} hrs`;
+      document.getElementById('val-active').textContent = td.active;
+      document.getElementById('val-burned').textContent = td.burned;
+      document.getElementById('val-lost').textContent = td.destroyed_total;
+      document.getElementById('val-reward').textContent = td.cum.toFixed(2);
+      document.getElementById('val-wind').textContent = td.wind.toFixed(1);
+      document.getElementById('val-vs').textContent = td.value.toFixed(2);
+      
+      updateReadiness(td.ready);
+      
+      // 2. Banner Logic
+      const b = document.getElementById('delay-banner');
+      if (td.held) {
+        const remaining = timelineData.scenario.delay.ticks - td.t;
+        document.getElementById('delay-ticks').textContent = Math.max(0, remaining);
+      } else {
+        b.classList.remove('show');
+      }
+      
+      // 3. Fire Diff
+      const states = worldData.meta.states;
+      const fireAdd = td.fire.add || [];
+      const fireDel = td.fire.del || [];
+      
+      let changed = false;
+      fireDel.forEach(idx => {
+        // Visual hack: show extinguished fire as burned out instead of leaving a phantom red square
+        activeFireState.set(idx, states.burned);
+        changed = true;
+      });
+      fireAdd.forEach(([idx, state]) => {
+        activeFireState.set(idx, state);
+        changed = true;
+      });
+      
+      if (changed) renderFireFull(); // Or partial update if optimized
+      
+      // 4. Policy Log
+      if (td.actions && td.actions.length > 0) {
+        // Group similar actions
+        const grouped = {};
+        td.actions.forEach(a => {
+          const k = `${a.r} -> ${a.t} (S${a.z})`;
+          grouped[k] = (grouped[k] || 0) + 1;
+        });
+        
+        const logEl = document.getElementById('policy-log');
+        for (const [k, count] of Object.entries(grouped)) {
+          const str = count > 1 ? `${count}x ${k}` : k;
+          logEl.innerHTML = `
+            <div class="log-entry">
+              <span class="log-time">${td.sim_time}</span>
+              <span>${str}</span>
+            </div>
+          ` + logEl.innerHTML; // Prepend
+        }
+        
+        // Keep log bounded
+        while (logEl.children.length > 30) {
+          logEl.removeChild(logEl.lastChild);
+        }
+      }
+    }
+    
+    function renderFireFull() {
+      const meta = worldData.grid;
+      const w = meta.width;
+      const h = meta.height;
+      const cw = meta.corners;
+      
+      const states = worldData.meta.states;
+      const colThreat = Cesium.Color.fromCssColorString('#ff7f0e').withAlpha(0.6);
+      const colBlaze = Cesium.Color.fromCssColorString('#d62728').withAlpha(0.85);
+      const colBurned = Cesium.Color.fromCssColorString('#8B4513').withAlpha(0.85); // SaddleBrown for burned
+      
+      function getCellPoint(u, v) {
+        const latNorth = cw.nw[0] * (1 - u) + cw.ne[0] * u;
+        const lonNorth = cw.nw[1] * (1 - u) + cw.ne[1] * u;
+        const latSouth = cw.sw[0] * (1 - u) + cw.se[0] * u;
+        const lonSouth = cw.sw[1] * (1 - u) + cw.se[1] * u;
+        const lat = latNorth * (1 - v) + latSouth * v;
+        const lon = lonNorth * (1 - v) + lonSouth * v;
+        return [lon, lat]; // exact corners
+      }
+      
+      activeFireState.forEach((state, idx) => {
+        let targetMaterial;
+        if (state === states.threat) {
+          targetMaterial = new Cesium.ColorMaterialProperty(colThreat);
+        } else if (state === states.blaze) {
+          // Pulsing animation for active fire
+          targetMaterial = new Cesium.ColorMaterialProperty(new Cesium.CallbackProperty((time, result) => {
+            const osc = (Math.sin(performance.now() / 150) + 1) / 2; // 0 to 1
+            const alpha = 0.6 + 0.4 * osc; // 0.6 to 1.0
+            return Cesium.Color.fromCssColorString('#d62728').withAlpha(alpha * 0.9);
+          }, false));
+        } else if (state === states.burned) {
+          targetMaterial = new Cesium.ColorMaterialProperty(colBurned);
+        } else return;
+        
+        let entity = fireEntities.get(idx);
+        
+        if (entity) {
+          // If entity exists, update material if state changed
+          if (entity.fireState !== state) {
+            entity.polygon.material = targetMaterial;
+            entity.fireState = state;
+          }
+        } else {
+          // Create new draped polygon entity
+          const row = Math.floor(idx / w);
+          const col = idx % w;
+          
+          const u1 = col / w;
+          const u2 = (col + 1) / w;
+          const v1 = row / h;
+          const v2 = (row + 1) / h;
+          
+          const p1 = getCellPoint(u1, v1); // NW
+          const p2 = getCellPoint(u2, v1); // NE
+          const p3 = getCellPoint(u2, v2); // SE
+          const p4 = getCellPoint(u1, v2); // SW
+          
+          entity = viewer.entities.add({
+            polygon: {
+              hierarchy: Cesium.Cartesian3.fromDegreesArray([...p1, ...p2, ...p3, ...p4]),
+              material: targetMaterial,
+              classificationType: Cesium.ClassificationType.BOTH
+            }
+          });
+          entity.fireState = state;
+          
+          fireEntities.set(idx, entity);
+        }
+        
+        // Particle System logic
+        if (state === states.blaze && !activeParticles.has(idx) && particlePool.length > 0) {
+          const ps = particlePool.pop();
+          activeParticles.set(idx, ps);
+          
+          const row = Math.floor(idx / w);
+          const col = idx % w;
+          const u = (col + 0.5) / w;
+          const v = (row + 0.5) / h;
+          const pCenter = getCellPoint(u, v);
+          
+          const carto = Cesium.Cartographic.fromDegrees(pCenter[0], pCenter[1]);
+          let position;
+          const surfaceNormal = Cesium.Ellipsoid.WGS84.geodeticSurfaceNormalCartographic(carto);
+          const rayDirection = Cesium.Cartesian3.negate(surfaceNormal, new Cesium.Cartesian3());
+          const rayOrigin = Cesium.Cartesian3.fromDegrees(pCenter[0], pCenter[1], 5000.0);
+          const ray = new Cesium.Ray(rayOrigin, rayDirection);
+          
+          const intersection = viewer.scene.globe.pick(ray, viewer.scene);
+          if (intersection) {
+            position = intersection;
+          } else {
+            let terrainHeight = viewer.scene.globe.getHeight(carto);
+            if (terrainHeight === undefined) terrainHeight = 300.0;
+            position = Cesium.Cartesian3.fromDegrees(pCenter[0], pCenter[1], terrainHeight);
+          }
+          
+          ps.modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(position);
+          ps.show = true;
+        } else if (state !== states.blaze && activeParticles.has(idx)) {
+          const ps = activeParticles.get(idx);
+          ps.show = false;
+          particlePool.push(ps);
+          activeParticles.delete(idx);
+        }
+      });
+    }
+    
+    const UNIT_COLORS = {
+      'helicopter': Cesium.Color.AQUA,
+      'water_team': Cesium.Color.DODGERBLUE,
+      'trench_crew': Cesium.Color.ORANGE,
+      'rescue_vehicle': Cesium.Color.LIME
+    };
+    
+    function renderUnits(units, nextUnits, fraction = 0) {
+      if (!units) return;
+      
+      const nextMap = {};
+      if (nextUnits) {
+        nextUnits.forEach(u => nextMap[u.u] = u);
+      }
+      
+      // Track which IDs were seen
+      const seen = new Set();
+      
+      units.forEach(u => {
+        seen.add(u.u);
+        const rtype = u.u.split(':')[0];
+        
+        let lon = u.lon;
+        let lat = u.lat;
+        let alt = u.alt;
+        
+        const nextU = nextMap[u.u];
+        if (nextU) {
+           lon = u.lon + (nextU.lon - u.lon) * fraction;
+           lat = u.lat + (nextU.lat - u.lat) * fraction;
+           alt = u.alt + (nextU.alt - u.alt) * fraction;
+        }
+        
+        if (!unitEntities[u.u]) {
+          const isHeli = rtype === 'helicopter';
+          const uri = isHeli ? '/static/Cesium_Air.glb' : '/static/CesiumMilkTruck.glb';
+            
+          const unitIcons = {
+            helicopter: '🚁',
+            water_team: '🚒',
+            trench_crew: '🚜',
+            rescue_vehicle: '🚑'
+          };
+          const unitColors = {
+            helicopter: Cesium.Color.CYAN,
+            water_team: Cesium.Color.DODGERBLUE,
+            trench_crew: Cesium.Color.LIME,
+            rescue_vehicle: Cesium.Color.ORANGE
+          };
+            
+          // Create entity
+          unitEntities[u.u] = viewer.entities.add({
+            id: u.u,
+            position: new Cesium.CallbackProperty(() => unitEntities[u.u]._currentPosition, false),
+            orientation: new Cesium.CallbackProperty(() => unitEntities[u.u]._currentOrientation, false),
+            label: {
+              text: unitIcons[rtype] || '🚒',
+              font: '22px sans-serif',
+              fillColor: unitColors[rtype] || Cesium.Color.WHITE,
+              outlineColor: Cesium.Color.BLACK,
+              outlineWidth: 3,
+              style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+              pixelOffset: new Cesium.Cartesian2(0, -28),
+              disableDepthTestDistance: Number.POSITIVE_INFINITY
+            },
+            model: {
+              uri: uri,
+              scale: isHeli ? 1.0 : 2.5,
+              minimumPixelSize: 32,
+              maximumScale: 5,
+              runAnimations: true,
+              heightReference: isHeli ? Cesium.HeightReference.RELATIVE_TO_GROUND : Cesium.HeightReference.CLAMP_TO_GROUND
+            },
+            polyline: {
+               show: new Cesium.CallbackProperty(() => unitEntities[u.u]._isWorking, false),
+               positions: new Cesium.CallbackProperty(() => {
+                 const pos = unitEntities[u.u]._currentPosition;
+                 if (!pos) return [Cesium.Cartesian3.ZERO, Cesium.Cartesian3.ZERO];
+                 const carto = Cesium.Cartographic.fromCartesian(pos);
+                 const ground = Cesium.Cartesian3.fromRadians(carto.longitude, carto.latitude, 0);
+                 return [pos, ground];
+               }, false),
+               width: 4,
+               material: new Cesium.PolylineGlowMaterialProperty({
+                 glowPower: 0.5,
+                 color: isHeli ? Cesium.Color.RED : Cesium.Color.CYAN
+               })
+            }
+          });
+          unitEntities[u.u]._currentPosition = Cesium.Cartesian3.fromDegrees(lon, lat, alt);
+          unitEntities[u.u]._currentOrientation = Cesium.Quaternion.IDENTITY;
+          unitEntities[u.u]._isWorking = false;
+          
+          // Add Particle Effects for working units
+          if (rtype === 'water_team') {
+            unitEntities[u.u]._ps = viewer.scene.primitives.add(new Cesium.ParticleSystem({
+              image: getFireImage(), 
+              startColor: Cesium.Color.fromCssColorString('#00BFFF').withAlpha(0.8),
+              endColor: Cesium.Color.fromCssColorString('#E0FFFF').withAlpha(0.2),
+              startScale: 0.5,
+              endScale: 2.0,
+              minimumParticleLife: 0.5,
+              maximumParticleLife: 1.0,
+              minimumSpeed: 5.0,
+              maximumSpeed: 10.0,
+              imageSize: new Cesium.Cartesian2(8, 8),
+              emissionRate: 40.0,
+              emitter: new Cesium.ConeEmitter(Cesium.Math.toRadians(15.0)),
+              show: false
+            }));
+          } else if (rtype === 'helicopter') {
+            unitEntities[u.u]._ps = viewer.scene.primitives.add(new Cesium.ParticleSystem({
+              image: getFireImage(), 
+              startColor: Cesium.Color.fromCssColorString('#FF1493').withAlpha(0.8), // pink/red retardant
+              endColor: Cesium.Color.fromCssColorString('#FF69B4').withAlpha(0.2),
+              startScale: 1.0,
+              endScale: 4.0,
+              minimumParticleLife: 1.0,
+              maximumParticleLife: 2.0,
+              minimumSpeed: 2.0,
+              maximumSpeed: 5.0,
+              imageSize: new Cesium.Cartesian2(12, 12),
+              emissionRate: 60.0,
+              emitter: new Cesium.ConeEmitter(Cesium.Math.toRadians(20.0)),
+              show: false
+            }));
+          }
+        } 
+        
+        const e = unitEntities[u.u];
+        const oldPosCarto = Cesium.Cartographic.fromCartesian(e._currentPosition);
+        const newPos = Cesium.Cartesian3.fromDegrees(lon, lat, alt);
+        
+        if (Math.abs(lon - Cesium.Math.toDegrees(oldPosCarto.longitude)) > 0.000001 || 
+            Math.abs(lat - Cesium.Math.toDegrees(oldPosCarto.latitude)) > 0.000001) {
+            
+            const dLon = lon - Cesium.Math.toDegrees(oldPosCarto.longitude);
+            const dLat = lat - Cesium.Math.toDegrees(oldPosCarto.latitude);
+            const heading = Math.atan2(dLon, dLat); // Cesium uses radians from North (0) towards East (pi/2)
+            const hpr = new Cesium.HeadingPitchRoll(heading, 0, 0);
+            e._currentOrientation = Cesium.Transforms.headingPitchRollQuaternion(newPos, hpr);
+        }
+        e._currentPosition = newPos;
+        
+        // Update styling based on state
+        if (u.s === 'idle') {
+          e.show = false; // Hide idle units at station
+          e._isWorking = false;
+        } else if (u.s === 'work') {
+          e.show = true;
+          e._isWorking = true;
+        } else {
+          e.show = true;
+          e._isWorking = false;
+        }
+        
+        // Update particle system
+        if (e._ps) {
+          if (u.s === 'work') {
+            e._ps.show = true;
+            let matrix = Cesium.Transforms.eastNorthUpToFixedFrame(newPos);
+            if (rtype === 'helicopter') {
+               // Helicopter retardant drops DOWN, so rotate Z axis 180 degrees
+               let rot = Cesium.Matrix3.fromRotationY(Math.PI);
+               let transform = Cesium.Matrix4.fromRotationTranslation(rot, Cesium.Cartesian3.ZERO);
+               matrix = Cesium.Matrix4.multiply(matrix, transform, new Cesium.Matrix4());
+            }
+            e._ps.modelMatrix = matrix;
+          } else {
+            e._ps.show = false;
+          }
+        }
+      });
+      
+      // Remove unseen
+      Object.keys(unitEntities).forEach(id => {
+        if (!seen.has(id)) {
+          if (unitEntities[id]._ps) {
+            viewer.scene.primitives.remove(unitEntities[id]._ps);
+          }
+          viewer.entities.remove(unitEntities[id]);
+          delete unitEntities[id];
+        }
+      });
+    }
+
+    // Start on load
+    window.onload = async function() {
+      if (typeof Cesium === 'undefined') {
+        alert("Failed to load CesiumJS library! The globe will not render. Check your network or adblocker.");
+        return;
+      }
+      
+      // Cesium Tokens
+      Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI2ZGQ0ZjEwNC1jMjlhLTRlNGUtYjllNi0wNDdiYzcxNjkwZDUiLCJpZCI6NDYxNTk3LCJpc3MiOiJodHRwczovL2FwaS5jZXNpdW0uY29tIiwiYXVkIjoidW5kZWZpbmVkX2RlZmF1bHQiLCJpYXQiOjE3ODUyNzI5NjF9.oJ2oHETvVIw69GjOaAxuDiron7whJZf9rx4X3Hm6xNE';
+      Cesium.GoogleMaps.defaultApiKey = 'AIzaSyCNM4xw2KhA-EdRWElXl3OX0_NHxB067jA';
+
+      await init();
+      
+      // Setup Palisades Fire Button
+      document.getElementById('simPalisadesBtn').addEventListener('click', async () => {
+         const pBtn = document.getElementById('simPalisadesBtn');
+         pBtn.innerText = "Simulating AI Response...";
+         pBtn.disabled = true;
+         
+         try {
+           window.lastClickedLat = 34.0725;
+           window.lastClickedLon = -118.5425;
+
+           const resp = await fetch('/simulate?scenario=anchor&ig_lat=34.0725&ig_lon=-118.5425');
+           const data = await resp.json();
+           timelineData = data;
+           
+           pBtn.innerText = "🔥 Simulate Palisades Fire 2025";
+           pBtn.disabled = false;
+           playTimeline();
+         } catch(e) {
+           console.error("Failed to simulate Palisades fire:", e);
+           pBtn.innerText = "🔥 Simulate Palisades Fire 2025";
+           pBtn.disabled = false;
+           alert("Failed to run Palisades Fire simulation. Check console.");
+         }
+      });
+    };
+  </script>
+  <!-- Help Modal -->
+  <div id="help-modal" class="modal-overlay" onclick="if(event.target===this) hideHelp()">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Camera Controls</h3>
+        <button class="btn-close" onclick="hideHelp()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <ul>
+          <li><strong>Pan:</strong> Left Click + Drag</li>
+          <li><strong>Zoom:</strong> Right Click + Drag <em>or</em> Scroll Wheel</li>
+          <li><strong>Tilt / Rotate:</strong> Middle Click + Drag <em>or</em> CTRL + Left Click + Drag</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showHelp() { document.getElementById('help-modal').classList.add('show'); }
+    function hideHelp() { document.getElementById('help-modal').classList.remove('show'); }
+  </script>
+</body>
+</html>
