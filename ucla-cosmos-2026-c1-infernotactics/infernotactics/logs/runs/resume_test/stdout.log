@@ -1,0 +1,26 @@
+[InfernoEnv] Loading + preparing road routing graph from A:\AI\InfernoTactics\infernotactics\data\roads.graphml ...
+[InfernoEnv] Warning: 1/32 zones unreachable from LAFD Station 69 (Pacific Palisades) via the road graph (dispatches routed to this station specifically will be wasted there).
+[InfernoEnv] Warning: 1/32 zones unreachable from LAFD Station 19 (Brentwood) via the road graph (dispatches routed to this station specifically will be wasted there).
+[InfernoEnv] Warning: 1/32 zones unreachable from LAFD Station 23 (Palisades Highlands) via the road graph (dispatches routed to this station specifically will be wasted there).
+[InfernoEnv] Warning: 1/32 zones unreachable from LAFD Station 37 (Westwood / UCLA) via the road graph (dispatches routed to this station specifically will be wasted there).
+[InfernoEnv] Warning: 1/32 zones unreachable from LAFD Station 71 (Bel-Air / Holmby Hills) via the road graph (dispatches routed to this station specifically will be wasted there).
+[InfernoEnv] Warning: 1/32 zones unreachable from LAFD Station 99 (Mulholland Drive) via the road graph (dispatches routed to this station specifically will be wasted there).
+[InfernoEnv] Warning: 1/32 zones unreachable from LAFD Station 109 (Mulholland Drive / Brentwood) via the road graph (dispatches routed to this station specifically will be wasted there).
+
+[TensorFlow DLL Diagnostic] Analyzing: C:\Users\neela\miniconda3\envs\cosmos-venv\Lib\site-packages\tensorflow\python\_pywrap_tensorflow_internal.pyd
+[Error] Failed to load python313.dll: UNKNOWN ERROR (None): Could not find module 'python313.dll' (or one of its dependencies). Try using the full path with constructor syntax.
+[Error] Failed to load _pywrap_tensorflow_common.dll: UNKNOWN ERROR (None): Could not find module '_pywrap_tensorflow_common.dll' (or one of its dependencies). Try using the full path with constructor syntax.
+[relative_v10] device=cpu episodes=5 ignition_pool=94484 run=resume_test start_episode=1
+[relative_v10] progress=A:\AI\InfernoTactics\infernotactics\logs\runs\resume_test\live_status.json live=False window=50
+[relative_v10 @ 1] reward=-353.6 destroyed=0 contained=True policy=-0.659 aux=1.733 entropy=1.733
+[relative_v10 @ 2] reward=-2013.9 destroyed=5 contained=True policy=-65.875 aux=2.354 entropy=2.354
+  eval anchor: reward=-113597.2 destroyed=346.0 containment=0%
+  eval mandeville_canyon: reward=-28640.0 destroyed=61.5 containment=0%
+  eval getty_view_park: reward=-184.3 destroyed=0.0 containment=100%
+[relative_v10 @ 3] reward=-147406.3 destroyed=470 contained=False policy=-108.342 aux=0.970 entropy=0.969
+[relative_v10 @ 4] reward=-1049.7 destroyed=2 contained=True policy=12.404 aux=2.747 entropy=2.747
+  eval anchor: reward=-112071.5 destroyed=343.5 containment=0%
+  eval mandeville_canyon: reward=-30801.1 destroyed=71.5 containment=0%
+  eval getty_view_park: reward=-184.3 destroyed=0.0 containment=100%
+[relative_v10 @ 5] reward=-572.2 destroyed=1 contained=True policy=9.408 aux=2.354 entropy=2.354
+

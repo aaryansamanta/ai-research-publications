@@ -1,0 +1,4 @@
+checkpoint_episode,scenario,ignition_row,ignition_col,evaluation_seed,avg_reward,avg_buildings_destroyed,containment_rate,avg_ticks,dispatch_attempts,successful_dispatches,wasted_dispatches,mean_actions_per_tick,water_team_dispatches,trench_crew_dispatches,rescue_vehicle_dispatches,helicopter_dispatches
+1,anchor,207,222,8200,-103444.60192712584,315.0,0.0,,,,,,,,,
+1,mandeville_canyon,57,371,8200,-30301.873987300765,71.0,0.0,,,,,,,,,
+1,getty_view_park,162,451,8200,-129.67668818172223,0.0,1.0,,,,,,,,,
