@@ -1,0 +1,16 @@
+[InfernoEnv] Loading + preparing road routing graph from A:\AI\InfernoTactics\infernotactics\data\roads.graphml ...
+[InfernoEnv] Warning: 1/32 zones unreachable from LAFD Station 69 (Pacific Palisades) via the road graph (dispatches routed to this station specifically will be wasted there).
+[InfernoEnv] Warning: 1/32 zones unreachable from LAFD Station 19 (Brentwood) via the road graph (dispatches routed to this station specifically will be wasted there).
+[InfernoEnv] Warning: 1/32 zones unreachable from LAFD Station 23 (Palisades Highlands) via the road graph (dispatches routed to this station specifically will be wasted there).
+[InfernoEnv] Warning: 1/32 zones unreachable from LAFD Station 37 (Westwood / UCLA) via the road graph (dispatches routed to this station specifically will be wasted there).
+[InfernoEnv] Warning: 1/32 zones unreachable from LAFD Station 71 (Bel-Air / Holmby Hills) via the road graph (dispatches routed to this station specifically will be wasted there).
+[InfernoEnv] Warning: 1/32 zones unreachable from LAFD Station 99 (Mulholland Drive) via the road graph (dispatches routed to this station specifically will be wasted there).
+[InfernoEnv] Warning: 1/32 zones unreachable from LAFD Station 109 (Mulholland Drive / Brentwood) via the road graph (dispatches routed to this station specifically will be wasted there).
+INFO:     127.0.0.1:58792 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58792 - "GET /static/styles.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61399 - "GET /static/app.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61399 - "GET /api/static/buildings HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58792 - "GET /api/static/roads HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52202 - "GET /api/static/depots HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58792 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:61399 - "POST /api/reset HTTP/1.1" 200 OK
