@@ -56,9 +56,9 @@ For a tracked anatomical landmark **r(t) = [x(t), y(t)]**:
 | What is measured, illustrative or proposed | [Evidence map](research/evidence-map.md) |
 | Literature and privacy | [References](docs/references.md) · [Data & privacy](docs/data-and-privacy.md) |
 
-## Reproducible mathematical demonstration
+## mathematical demonstration
 
-The `code/` directory includes a small **new educational reference implementation** of baseline-relative displacement and finite-difference derivatives, plus unit tests and an explicitly **synthetic** example CSV. It is not represented as the original physician's analysis code.
+The `code/` directory includes a small baseline-relative displacement and finite-difference derivatives, plus unit tests and an explicitly **synthetic** example CSV. It is not represented as the original physician's analysis code.
 
 ```bash
 cd code
