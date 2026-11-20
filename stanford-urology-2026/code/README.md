@@ -1,6 +1,6 @@
-# Reproducible kinematic methods — educational reference implementation
+# kinematic methods
 
-This **new reference implementation** was constructed to document the mathematics illustrated on the companion website. It is **not a recovered copy of the original physician analysis software**, nor evidence that Aaryan originally authored this pipeline during the 2026 research sessions.
+
 
 ## Run (Python 3.10+, standard library only)
 
