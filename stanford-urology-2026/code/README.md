@@ -18,6 +18,3 @@ Input columns: `time_s,x_px,y_px`. The example is **synthetic**. Output includes
 
 For landmark position **r(t) = [x(t), y(t)]**, baseline **r₀**, displacement **Δr(t)=r(t)−r₀**, velocity **v(t)=dr/dt**, and acceleration **a(t)=d²r/dt²**. Unequally spaced interior samples use a three-point quadratic derivative. Boundary samples use one-sided differences. Derivatives amplify tracking noise; filtering, error bars, calibration, reference registration and quality checks are needed before research inference.
 
-## Reproducibility limits
-
-No subject-level measurements, annotation coordinates, raw frames, clinical outcomes, or original analysis scripts were supplied. Consequently this package **cannot reproduce the published presentation figures or calculate participant statistics**. See `../research/measurement-protocol.md`.
