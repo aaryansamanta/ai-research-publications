@@ -76,8 +76,6 @@ The study of pelvic-floor kinematics may illuminate how anatomical support respo
 
 **Educational additions:** Interactive schematic, browser simulations, mathematical reference code, and proposed reproducibility protocol. These should not be mistaken for recovered original analysis or patient measurements.
 
-**Not established by these files:** Original subject-level trajectories, calibration values, a validated patient-specific 3D model, a diagnostic classifier, or an Aaryan-authored peer-reviewed urology publication.
-
 ## Repository navigation
 
 ```text
